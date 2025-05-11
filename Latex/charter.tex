@@ -101,13 +101,17 @@ Se adjunta a esta acta la planificación inicial.
 \section{1. Descripción técnica-conceptual del proyecto a realizar}
 \label{sec:descripcion}
 
+\subsection{Definición del Problema}
+
 En el sector de consumo masivo, especialmente en modelos de negocio \textit{Business-to-Business (B2B)}, estimar el interés potencial entre clientes y productos desempeña un papel crucial en la optimización de estrategias comerciales.  Esta predicción se utiliza para priorizar qué productos sugerir a cada punto de venta en cada ciclo comercial, permitiendo adaptar las recomendaciones a las preferencias y comportamientos reales de cada cliente. En lugar de ofrecer el mismo conjunto de productos a todos los clientes o basarse únicamente en el historial de compra, contar con un score de afinidad posibilita ordenar el portafolio según relevancia, potenciar la venta cruzada y mejorar la eficiencia en el uso del canal digital. Además, brinda al equipo comercial una herramienta concreta para planificar visitas, personalizar ofertas y detectar oportunidades antes no visibles, especialmente en productos nuevos o categorías estratégicas.
 
-La naturaleza dinámica de los ciclos de compra B2B introduce complejidades adicionales. A diferencia de los consumidores finales, cuyos patrones de compra suelen ser más regulares y predecibles, los minoristas ajustan sus pedidos en función de variables como la estacionalidad, las promociones comerciales y el comportamiento fluctuante de sus propios clientes. Esta variabilidad se acentúa cuando analizamos la marcada heterogeneidad entre los distintos puntos de venta: desde pequeños kioscos urbanos con espacio limitado para exhibición hasta grandes supermercados con capacidad para gestionar amplios surtidos. Cada uno presenta necesidades y capacidades logísticas radicalmente diferentes.
+La naturaleza del negocio B2B trae más complejidad. A diferencia de los consumidores finales, cuyos patrones de compra suelen ser más regulares y predecibles, los minoristas ajustan sus pedidos en función de variables como la estacionalidad, las promociones comerciales y el comportamiento fluctuante de sus propios clientes. Esta variabilidad se acentúa cuando analizamos la marcada diversidad entre los distintos puntos de venta: desde pequeños kioscos urbanos con espacio limitado para exhibición hasta grandes supermercados con capacidad para gestionar amplios surtidos. Cada uno presenta necesidades y capacidades logísticas radicalmente diferentes.
 
-Además, la constante rotación e incorporación de nuevos productos en el portafolio genera un escenario de permanente adaptación. En la práctica observamos que aproximadamente el 25\% del catálogo se renueva anualmente. Este desafío es conocido como "\textit{cold start}", la dificultad para recomendar productos sin historial transaccional. Este problema se vuelve aún más desafiante porque, incluso entre los productos que ya tienen historial de ventas, muchos presentan compras muy esporádicas o aisladas. Esto genera un conjunto de datos con poca información por producto, lo que dificulta que los modelos tradicionales puedan aprender patrones consistentes para hacer buenas recomendaciones.
+Además, la constante rotación e incorporación de nuevos productos en el portafolio genera un escenario de permanente adaptación. En la práctica observamos que aproximadamente el 12\% del catálogo se renueva anualmente. Este desafío es conocido como "\textit{cold start}", la dificultad para recomendar productos sin historial transaccional. Este problema se vuelve aún más desafiante porque, incluso entre los productos que ya tienen historial de ventas, muchos presentan compras muy esporádicas o aisladas. Esto genera un conjunto de datos con poca información por producto, lo que dificulta que los modelos tradicionales puedan aprender patrones consistentes para hacer buenas recomendaciones.
 
 Estas particularidades del ecosistema B2B demandan soluciones a medida que trasciendan los enfoques tradicionales de recomendación, incorporando no solo datos transaccionales históricos, sino también información contextual sobre los puntos de venta, señales de comportamiento digital e inteligencia de negocio que permitan capturar las particularidades de cada relación comercial. El desarrollo de este tipo de sistemas permite calcular un score de afinidad entre cada cliente y cada producto del portafolio, reflejando qué tan relevante podría ser ese ítem para ese punto de venta en un momento determinado. Estos scores pueden luego ser ordenados para generar rankings personalizados que sirvan como insumo para la toma de decisiones comerciales, habilitando una estrategia más proactiva y adaptada al comportamiento real de cada cliente.
+
+\subsection{Descripción Funcional}
 
 La solución se organiza en distintos módulos que trabajan de manera integrada para calcular y actualizar, de forma periódica, un nivel de afinidad entre cada cliente y cada producto. El sistema opera de forma cíclica y está compuesto por cinco bloques funcionales que reflejan las etapas clave del proceso. En la figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. 
 
@@ -118,7 +122,7 @@ La solución se organiza en distintos módulos que trabajan de manera integrada 
 \label{fig:diagBloques}
 \end{figure}
 
-En primer lugar, se ingesta y consolidan los datos. La información necesaria para alimentar el modelo será recopilada y unificada. El sistema se alimenta de múltiples fuentes de información para comprender las preferencias de cada cliente. Por un lado, analiza el historial de compras pasado, identificando qué productos han sido más relevantes para cada tipo de negocio. Por otro, incorpora datos de interacciones digitales, como búsquedas frecuentes, productos visualizados o artículos añadidos al carrito sin comprar finalizada. Estos datos se complementan con información clave sobre cada punto de venta, como su ubicación geográfica, tamaño del establecimiento y perfil de clientes finales que atienden. Y, a su vez, datos contextuales del producto, incluyendo su categoría, marca y posición dentro del portafolio. Esta etapa busca construir una base de datos enriquecida que capture la interacción entre clientes y productos desde múltiples dimensiones.
+En primer lugar, se ingesta y consolidan los datos. La información necesaria para alimentar el modelo será recopilada y unificada. El sistema se alimenta de múltiples fuentes para comprender las preferencias de cada cliente. Por un lado, analiza el historial de compras pasado, identificando qué productos han sido más relevantes para cada tipo de negocio. Por otro, incorpora señales de interacciones digitales, como búsquedas frecuentes, productos visualizados o artículos añadidos al carrito sin compra finalizada. Estos registros se complementan con características de cada punto de venta, como su ubicación geográfica, tamaño del establecimiento y perfil de clientes finales que atienden. Y, a su vez, atributos contextuales del producto, incluyendo su categoría, marca y posición dentro del portafolio. Esta etapa busca construir una base enriquecida que capture la interacción entre clientes y productos desde múltiples dimensiones.
 
 Luego, el proceso avanza hacia la construcción de variables predictivas. En esta etapa, los datos crudos se transforman en un conjunto de features numéricos que describen la relación entre cada cliente y cada producto. Estas variables resumen comportamientos como la frecuencia y recencia de interacción, la diversidad de categorías exploradas o la intensidad de actividad en ventanas temporales relevantes. También se incorporan representaciones contextuales, como la popularidad del producto en segmentos similares o el grado de exposición previa del cliente a ese ítem. Este conjunto de features constituye la entrada del modelo de afinidad.
 
@@ -131,12 +135,7 @@ Finalmente, los scores generados se integran en el flujo operativo del negocio, 
 \section{2. Identificación y análisis de los interesados}
 \label{sec:interesados}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
- 
-Es inusual que una misma persona esté en más de un rol, incluso en proyectos chicos. Si se considera que una persona cumple dos o más roles, entonces \textbf{solo dejarla en el rol más importante}. 
-
-Por ejemplo, si una persona es Cliente pero también colabora u orienta, dejarla solo como Cliente. Si una persona es el Responsable, \textbf{no debe ser colocado también como miembro del equipo}.
-
+El proyecto involucra a distintos actores relevantes en su desarrollo, validación y futura aplicación.  El cliente, quien se desempeña como Director del equipo de Data en la \empclientename, es el principal impulsor de la iniciativa y sponsor del proyecto. En particular, se destaca la participación del equipo de Portfolio Strategy como usuario final del sistema, representado por su Product Owner (PO), quien actúa como principal referente funcional articulando entre los requerimientos del negocio y las decisiones técnicas. La responsable directa del desarrollo es la autora de este trabajo, quien llevará adelante el diseño, desarrollo y la implementación de la solución. La siguiente tabla resume estos roles y sus respectivas organizaciones.
 
 \begin{table}[ht]
 %\caption{Identificación de los interesados}
@@ -145,94 +144,90 @@ Por ejemplo, si una persona es Cliente pero también colabora u orienta, dejarla
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
-Auspiciante   &                   &              	&        	\\ \hline
-Cliente       & \clientename      &\empclientename	&        	\\ \hline
-Impulsor      &                   &              	&        	\\ \hline
+% Auspiciante   &                   &              	&        	\\ \hline
+Cliente       & \clientename      &\empclientename	& Gerente del Proyecto       	\\ \hline
+% Impulsor      &                   &              	&        	\\ \hline
 Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
-Colaboradores &                   &              	&        	\\ \hline
+%Colaboradores &                   &              	&        	\\ \hline
 Orientador    & \supname	      & \pertesupname 	& Director del Trabajo Final \\ \hline
-Equipo        & miembro1 \newline 
-				miembro2          &              	&        	\\ \hline
-Opositores    &                   &              	&        	\\ \hline
-Usuario final &                   &              	&        	\\ \hline
+% Equipo        & miembro1 \newline 
+%				miembro2          &              	&        	\\ \hline
+% Opositores    &                   &              	&        	\\ \hline
+Usuario final &  Lic. Micaela Bassan    & \empclientename	&  Product Owner \\ \hline
 \end{tabularx}
 \end{table}
-
-El Director suele ser uno de los orientadores.
-
-No dejar celdas vacías; si no hay nada que poner en una celda colocar un signo ``-''.
-
-No dejar filas vacías; si no hay nada que poner en una fila entonces eliminarla.
-
-Es deseable listar a continuación las principales características de cada interesado.
- 
-Por ejemplo:
-\begin{itemize}
-	\item Orientador: la Dra. Ing. María Gómez es experta en la temática y va a ayudar con la definición de los requerimientos y el desarrollo del firmware del embebido.
-	\item Auspiciante: es riguroso y exigente con la rendición de gastos. Tener mucho cuidado con esto.
-	\item Equipo: Juan Perez, suele pedir licencia porque tiene un familiar con una enfermedad. Planificar considerando esto.
-\end{itemize}
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
 
 \section{3. Propósito del proyecto}
 \label{sec:proposito}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
-¿Por qué se hace el proyecto? ¿Qué se quiere lograr? 
-
-Se recomienda que sea solo un párrafo que continúe con la idea de la frase ``el propósito de este proyecto es...'' (omitir la frase, ya que está en el título de la sección).
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
+La necesidad de este proyecto surge de una limitación en la forma en que actualmente se definen las recomendaciones comerciales y la estrategia comercial. Hoy se priorizan principalmente productos ya comprados, lo que restringe el descubrimiento de nuevas oportunidades y deja sin cobertura buena parte del portafolio. Entendiendo el comportamiento cambiante de los puntos de venta y la alta rotación de catálogo, se vuelve clave contar con una herramienta que anticipe el interés de cada cliente más allá de su historial.  
+En ese marco, el objetivo del proyecto es desarrollar un sistema que permita estimar la relevancia potencial de cada producto para cada punto de venta, generando rankings personalizados que orienten la planificación comercial. La implementación de esta solución permitirá mejorar la precisión de las sugerencias, ampliar la rotación de productos estratégicos y avanzar hacia una gestión más predictiva, escalable y alineada con los objetivos comerciales de la empresa.
 
 \section{4. Alcance del proyecto}
 \label{sec:alcance}
 
-\begin{consigna}{red}
-¿Qué se incluye y que no se incluye en este proyecto?
+El universo sobre el cual se desarrollará esta iniciativa corresponde al conjunto de clientes y productos gestionado por el equipo de Portfolio Strategy en Argentina. Este se limita a clientes activos pertenecientes a los canales de Kioscos, Tradicionales y Autoservicios, bajo el régimen \textit{Off Premise}\footnote{Off Premise refiere a puntos de venta donde el producto es adquirido para consumo fuera del establecimiento.}. La cartera de productos considerada se enfoca exclusivamente en bebidas. Quedan excluidos del alcance los clientes de los canales \textit{On Premise}, Supermercados y Mayoristas, dado que presentan dinámicas comerciales significativamente diferentes y representan una fracción menor del total. Tampoco se contempla el negocio de marketplace, debido a sus particularidades operativas y a su peso relativamente reducido dentro del universo analizado.
 
-Se refiere al trabajo que se va a hacer para entregar el producto o resultado especificado. 
+El desarrollo del proyecto se organiza en una serie de etapas que abarcan desde la exploración inicial del estado del arte hasta la implementación del modelo y su evaluación en entorno real. Estas etapas permiten avanzar de forma iterativa y asegurar la calidad del entregable final, tanto desde el punto de vista técnico como funcional. A continuación, se detallan las principales actividades previstas:
 
-Explicitar todo lo quede comprendido dentro del alcance del proyecto. Por ejemplo:
-
-El proyecto incluye:
 \begin{itemize}
-	\item Ítem 1.
-	\item Ítem 2.
-		\begin{itemize}
-		\item Subítem 1.
-		\item Subítem 2.
-		\item ...
-		\end{itemize}
-	\item ...
-	
+\item Relevamiento de modelos \textit{benchmark} y revisión del estado del arte.
+\item Definición de métricas de éxito del proyecto.
+\item Desarrollo de un modelo \textit{baseline} como punto de comparación inicial.
+\item Formulación de hipótesis orientadoras del enfoque propuesto.
+\item Desarrollo del proceso de \textit{feature engineering}.
+\item Entrenamiento y validación de modelos.
+\item Evaluación de resultados con métricas de recomendación.
+\item Construcción del pipeline de implementación.
+\item Ejecución de pruebas tipo A/B.
+\item Reporte y presentación de resultados.
+\item Registro y disponibilización del modelo final en MLflow.
 \end{itemize}
 
-Explicitar además todo lo que no quede incluido (``El presente proyecto no incluye...'')
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
+Si bien este desarrollo se enmarca en un universo específico de clientes y productos, el enfoque está diseñado de manera modular, con el objetivo de facilitar su adaptación a otros segmentos del negocio en caso de resultar exitoso.
 
 \section{5. Supuestos del proyecto}
 \label{sec:supuestos}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-``Para el desarrollo del presente proyecto se supone que: ...''
-
+Para el desarrollo del presente proyecto se supone que: 
 \begin{itemize}
-	\item Supuesto 1.
-	\item Supuesto 2.
-	\item ...
+	\item Se cuenta con acceso a las fuentes de información necesarias para el desarrollo de la solución. 
+	\item Se dispone con los accesos a recursos cloud y software necesarios para el desarrollo de la solución. 
+	\item El tiempo asignado para completar el proyecto sera suficiente.
+        \item Los colaboradores e interesados clave disponen del tiempo para reuniones de validación y toma de decisiones.
 \end{itemize}
-
-Por ejemplo, se podrían incluir supuestos respecto a disponibilidad de tiempo y recursos humanos y materiales, sobre la factibilidad técnica de distintos aspectos del proyecto, sobre otras cuestiones que sean necesarias para el éxito del proyecto como condiciones macroeconómicas o reglamentarias.
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 \section{6. Product Backlog}
 \label{sec:backlog}
+
+\begin{itemize}
+  \item \textbf{\'{E}pica 1: \textit{Discovery} y entendimiento del problema}
+    \begin{itemize}
+      \item Definición de expectativas del cliente  
+      \item Lectura y análisis del Estado del Arte
+      \item Definición de métricas y KPIs a seguir
+    \end{itemize}
+  \item \textbf{\'{E}pica 2: Desarrollo de ingeniería de atributos}
+    \begin{itemize}
+      \item ETL
+      \item EDA
+      \item FE 
+    \end{itemize}
+  \item \textbf{\'{E}pica 3: Modelado y Evaluación}
+    \begin{itemize}
+      \item Desarrollo de modelo \textit{baseline}
+      \item Desarrollo de modelo \textit{benchmark}
+      \item Evaluación de resultados
+      \item Disponibilización en MLFlow
+    \end{itemize}
+  \item \textbf{\'{E}pica 4: Implementación}
+    \begin{itemize}
+      \item Preparación de \textit{pipeline} de implementación
+      \item A/B Testing
+      \item Seguimiento de salubridad
+      \item Presentación de resultados.
+    \end{itemize}
+\end{itemize}
 
 \begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
@@ -249,25 +244,31 @@ Las historias deben seguir el formato: ``\textit{Como [rol], quiero [tal cosa] p
 Las \'{e}picas deben estructurarse de la siguiente forma:
 
 \begin{itemize}
-  \item \textbf{\'{E}pica 1}
+  \item \textbf{\'{E}pica 1: \textit{Discovery} y entendimiento del problema}
     \begin{itemize}
-      \item HU1
-      \item HU2
+      \item Definición de expectativas del cliente  
+      \item Lectura y análisis del Estado del Arte
+      \item Definición de métricas y KPIs a seguir
     \end{itemize}
-  \item \textbf{\'{E}pica 2}
+  \item \textbf{\'{E}pica 2: Desarrollo de ingeniería de atributos}
     \begin{itemize}
-      \item HU3
-      \item HU4
+      \item ETL
+      \item EDA
+      \item FE 
     \end{itemize}
-  \item \textbf{\'{E}pica 3}
+  \item \textbf{\'{E}pica 3: Modelado y Evaluación}
     \begin{itemize}
-      \item HU5
-      \item HU6
+      \item Desarrollo de modelo \textit{baseline}
+      \item Desarrollo de modelo \textit{benchmark}
+      \item Evaluación de resultados
+      \item Disponibilización en MLFlow
     \end{itemize}
-  \item \textbf{\'{E}pica 4}
+  \item \textbf{\'{E}pica 4: Implementación}
     \begin{itemize}
-      \item HU7
-      \item HU8
+      \item Preparación de \textit{pipeline} de implementación
+      \item A/B Testing
+      \item Seguimiento de salubridad
+      \item Presentación de resultados.
     \end{itemize}
 \end{itemize}
 
