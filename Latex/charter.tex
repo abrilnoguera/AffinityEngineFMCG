@@ -15,13 +15,13 @@
 
 % El nombre del director y co-director, se puede usar el cualquier lugar del documento con el comando \supname y \cosupname y \pertesupname y \pertecosupname
 \director{Ing. Juan Pablo Rodríguez Varela}
-\pertenenciaDirector{pertenencia} 
+\pertenenciaDirector{ITBA} 
 \codirector{} % para que aparezca en la portada se debe descomentar la opción codirector en los parámetros de documentclass
 \pertenenciaCoDirector{FIUBA}
 
 % Nombre del cliente, quien va a aprobar los resultados del proyecto, se puede usar con el comando \clientename y \empclientename
-\cliente{Lautaro Gonzalez}
-\empresaCliente{Empresa lider de consumo masivo}
+\cliente{MSc. Lautaro Gonzalez}
+\empresaCliente{Empresa Líder de Consumo Masivo}
  
 \fechaINICIO{29 de abril de 2025}		%Fecha de inicio de la cursada de GdP \fechaInicioName
 \fechaFINALPlan{17 de junio de 2025} 	%Fecha de final de cursada de GdP
@@ -69,8 +69,6 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 
 \pagebreak
 
-
-
 \section*{Acta de constitución del proyecto}
 \label{sec:acta}
 
@@ -80,9 +78,9 @@ Buenos Aires, \fechaInicioName
 
 \vspace{2cm}
 
-%Presupuesto: Sueldo (Hora Hombre * 600hs) + Clusters + Compu = 
+%Presupuesto: Sueldo (Hora Hombre * 600hs) + Clusters + Compu = $ 13.500.000
 
-Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el diseño, desarrollo e integración de un sistema de recomendación basado en afinidad cliente-producto, que estima el interés potencial de cada cliente por cada producto del portafolio de la empresa. El trabajo tendrá un presupuesto preliminar estimado de 600 horas y un costo estimado de \$ 13.500.000, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
+Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el desarrollo e integración de un sistema de recomendación que estime el interés potencial de cada cliente por los productos del portafolio de la empresa, a partir de señales de comportamiento en su canal digital de ventas. El trabajo tendrá un presupuesto preliminar estimado de 600 horas y un costo estimado de \$ 13.500.000, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
 
 Se adjunta a esta acta la planificación inicial.
 
@@ -103,26 +101,15 @@ Se adjunta a esta acta la planificación inicial.
 \section{1. Descripción técnica-conceptual del proyecto a realizar}
 \label{sec:descripcion}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-El objetivo es que el lector, en una o dos páginas, exponga de qué se trata el proyecto y cuáles son sus desafíos, cuál es la motivación para realizarlo y su importancia.
+En el sector de consumo masivo, especialmente en modelos de negocio \textit{Business-to-Business (B2B)}, estimar el interés potencial entre clientes y productos desempeña un papel crucial en la optimización de estrategias comerciales.  Esta predicción se utiliza para priorizar qué productos sugerir a cada punto de venta en cada ciclo comercial, permitiendo adaptar las recomendaciones a las preferencias y comportamientos reales de cada cliente. En lugar de ofrecer el mismo conjunto de productos a todos los clientes o basarse únicamente en el historial de compra, contar con un score de afinidad posibilita ordenar el portafolio según relevancia, potenciar la venta cruzada y mejorar la eficiencia en el uso del canal digital. Además, brinda al equipo comercial una herramienta concreta para planificar visitas, personalizar ofertas y detectar oportunidades antes no visibles, especialmente en productos nuevos o categorías estratégicas.
 
-Se debe introducir el contexto del proyecto, el estado del arte en la temática, describir la propuesta de valor, cuál es el problema que atiende y cuál es la solución que se propone. Se debe dar una descripción funcional de la solución que incluya un diagrama en bloques.
+La naturaleza dinámica de los ciclos de compra B2B introduce complejidades adicionales. A diferencia de los consumidores finales, cuyos patrones de compra suelen ser más regulares y predecibles, los minoristas ajustan sus pedidos en función de variables como la estacionalidad, las promociones comerciales y el comportamiento fluctuante de sus propios clientes. Esta variabilidad se acentúa cuando analizamos la marcada heterogeneidad entre los distintos puntos de venta: desde pequeños kioscos urbanos con espacio limitado para exhibición hasta grandes supermercados con capacidad para gestionar amplios surtidos. Cada uno presenta necesidades y capacidades logísticas radicalmente diferentes.
 
-Puede ser útil incluir en esta sección la respuesta a alguna de estas preguntas:
+Además, la constante rotación e incorporación de nuevos productos en el portafolio genera un escenario de permanente adaptación. En la práctica observamos que aproximadamente el 25\% del catálogo se renueva anualmente. Este desafío es conocido como "\textit{cold start}", la dificultad para recomendar productos sin historial transaccional. Este problema se vuelve aún más desafiante porque, incluso entre los productos que ya tienen historial de ventas, muchos presentan compras muy esporádicas o aisladas. Esto genera un conjunto de datos con poca información por producto, lo que dificulta que los modelos tradicionales puedan aprender patrones consistentes para hacer buenas recomendaciones.
 
-\begin{itemize}
-	\item ¿Cuál es el contexto del proyecto, es un emprendimiento personal, un proyecto para una empresa, es parte del programa de vinculación con empresas del posgrado?
-	\item ¿Existen o aplican condiciones especiales al proyecto, financiamiento de algún programa público o privado, acuerdos de confidencialidad, acuerdos sobre la propiedad intelectual de los entregables u otros?
-	\item ¿Cómo se compara la solución propuesta con el estado del arte en el campo de aplicación? ¿En qué aspectos destaca?
-	\item ¿Ayuda a la explicación si se incluye un lienzo Canvas del Modelo de Negocio?
-	\item ¿En qué estado del ciclo de vida está la solución que se propone?
-	\item ¿Cuáles son las características del cliente (el adoptante de los entregables del proyecto) qué valora, qué necesita?
-	\item ¿Por dónde pasa la innovación?
-\end{itemize}
+Estas particularidades del ecosistema B2B demandan soluciones a medida que trasciendan los enfoques tradicionales de recomendación, incorporando no solo datos transaccionales históricos, sino también información contextual sobre los puntos de venta, señales de comportamiento digital e inteligencia de negocio que permitan capturar las particularidades de cada relación comercial. El desarrollo de este tipo de sistemas permite calcular un score de afinidad entre cada cliente y cada producto del portafolio, reflejando qué tan relevante podría ser ese ítem para ese punto de venta en un momento determinado. Estos scores pueden luego ser ordenados para generar rankings personalizados que sirvan como insumo para la toma de decisiones comerciales, habilitando una estrategia más proactiva y adaptada al comportamiento real de cada cliente.
 
-La descripción técnica-conceptual \textbf{debe incluir al menos un diagrama en bloques del sistema} y descripción funcional de la solución propuesta.
-
-Las figuras se deben mencionar en el texto ANTES de que aparezcan con una frase como la siguiente: ``En la figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. Se observa que...''.  La regla es que las figuras nunca pueden ir antes de ser mencionadas en el texto, porque sino el lector no entiende por qué de pronto aparece una figura.
+La solución se organiza en distintos módulos que trabajan de manera integrada para calcular y actualizar, de forma periódica, un nivel de afinidad entre cada cliente y cada producto. El sistema opera de forma cíclica y está compuesto por cinco bloques funcionales que reflejan las etapas clave del proceso. En la figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. 
 
 \begin{figure}[htpb]
 \centering 
@@ -131,19 +118,20 @@ Las figuras se deben mencionar en el texto ANTES de que aparezcan con una frase 
 \label{fig:diagBloques}
 \end{figure}
 
-\vspace{25px}
+En primer lugar, se ingesta y consolidan los datos. La información necesaria para alimentar el modelo será recopilada y unificada. El sistema se alimenta de múltiples fuentes de información para comprender las preferencias de cada cliente. Por un lado, analiza el historial de compras pasado, identificando qué productos han sido más relevantes para cada tipo de negocio. Por otro, incorpora datos de interacciones digitales, como búsquedas frecuentes, productos visualizados o artículos añadidos al carrito sin comprar finalizada. Estos datos se complementan con información clave sobre cada punto de venta, como su ubicación geográfica, tamaño del establecimiento y perfil de clientes finales que atienden. Y, a su vez, datos contextuales del producto, incluyendo su categoría, marca y posición dentro del portafolio. Esta etapa busca construir una base de datos enriquecida que capture la interacción entre clientes y productos desde múltiples dimensiones.
 
-El tamaño del texto en TODAS las figuras debe ser adecuado \textbf{para que NO pase lo que ocurre en la figura \ref{fig:diagBloques}}, donde el lector debe esforzarse para poder leer el texto. 
+Luego, el proceso avanza hacia la construcción de variables predictivas. En esta etapa, los datos crudos se transforman en un conjunto de features numéricos que describen la relación entre cada cliente y cada producto. Estas variables resumen comportamientos como la frecuencia y recencia de interacción, la diversidad de categorías exploradas o la intensidad de actividad en ventanas temporales relevantes. También se incorporan representaciones contextuales, como la popularidad del producto en segmentos similares o el grado de exposición previa del cliente a ese ítem. Este conjunto de features constituye la entrada del modelo de afinidad.
 
-Los colores usados en el diagrama deben ser adecuados, tal que ayuden a comprender mejor el diagrama. Se recomienda evitar colores primarios (como rojo, verde o cyan) y usar la gama de colores pastel.
+El tercer componente funcional corresponde al modelo de cálculo del score, que toma las variables generadas y estima un valor continuo de afinidad para cada par cliente-producto. Este score representa una medida relativa de interés y es utilizado para ordenar los productos de acuerdo a su relevancia estimada para cada punto de venta. El modelo se actualiza de forma periódica y está diseñado para adaptarse a la dinámica del negocio, incorporando señales recientes sin perder la estabilidad en el tiempo. Se utilizara el modelo desarrollado que mejores resultados obtenga.
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+Una vez generado el score, se realiza una etapa de evaluación y validación, donde se mide el desempeño del modelo utilizando métricas específicas del ámbito de los sistemas de recomendación. Entre las más relevantes se incluyen el recall@K, la cobertura del portafolio sugerido, la diversidad de los productos recomendados y el MAP@K. Estas métricas permiten monitorear la calidad de las recomendaciones generadas, tanto de forma global como por segmento de cliente, e identificar oportunidades de mejora en la estrategia de personalización.
+
+Finalmente, los scores generados se integran en el flujo operativo del negocio, que organiza los resultados en rankings personalizados para cada cliente. Estos rankings pueden ser consumidos directamente por la aplicación de ventas utilizada por los puntos de venta, o bien por el equipo comercial como insumo para la planificación de sus interacciones. De este modo, el sistema aporta valor tangible al proceso comercial, permitiendo sugerencias más relevantes, focalizadas y consistentes con el comportamiento real de cada cliente.
 
 \section{2. Identificación y análisis de los interesados}
 \label{sec:interesados}
 
 \begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-\textbf{Nota importante:} borrar esto y todas las consignas en color rojo antes de entregar este documento). Esto se hace eliminando el par de comandos que forman el bloque consigna, \verb!\begin{consigna}{red}! y \verb!\end{consigna}{red}! del código. 
  
 Es inusual que una misma persona esté en más de un rol, incluso en proyectos chicos. Si se considera que una persona cumple dos o más roles, entonces \textbf{solo dejarla en el rol más importante}. 
 
@@ -196,7 +184,8 @@ Por ejemplo:
 ¿Por qué se hace el proyecto? ¿Qué se quiere lograr? 
 
 Se recomienda que sea solo un párrafo que continúe con la idea de la frase ``el propósito de este proyecto es...'' (omitir la frase, ya que está en el título de la sección).
-\end{consigna}
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
 
 \section{4. Alcance del proyecto}
 \label{sec:alcance}
@@ -245,6 +234,8 @@ Por ejemplo, se podrían incluir supuestos respecto a disponibilidad de tiempo y
 \section{6. Product Backlog}
 \label{sec:backlog}
 
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
 El Product Backlog debe organizarse en cuatro \textbf{\textit{\'{e}picas}} fundamentales del proyecto. Cada \'{e}pica debe contener al menos dos historias de usuario que describan funcionalidades clave.
 
 El Product Backlog debe permitir interpretar cómo será el proyecto y su funcionalidad. Se deben indicar claramente las prioridades entre las historias de usuario y si hay alguna opcional.
@@ -289,8 +280,13 @@ Las \'{e}picas deben estructurarse de la siguiente forma:
   \item Considerar regulaciones y normas vigentes.
 \end{itemize}
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
+
 \section{7. Criterios de aceptación de historias de usuario}
 \label{sec:criteriosAceptacion}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 Los criterios de aceptación deben establecerse para cada historia de usuario, asegurando que se cumplan las condiciones necesarias para que la funcionalidad sea validada correctamente.
 
@@ -331,7 +327,12 @@ Se estructuran de forma análoga a las \'{e}picas del backlog:
   \item Mínimo 3 criterios por HU.
 \end{itemize}
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
+
 \section{8. Fases de CRISP-DM}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 \begin{enumerate}
   \item \textbf{Comprensión del negocio:} objetivo, valor agregado de IA, métricas de éxito.
@@ -342,8 +343,13 @@ Se estructuran de forma análoga a las \'{e}picas del backlog:
   \item \textbf{Despliegue del modelo (opcional):} tipo de despliegue y herramientas.
 \end{enumerate}
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
+
 \section{9. Desglose del trabajo en tareas}
 \label{sec:wbs}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 A partir de cada HU, descomponer en tareas concretas, técnicas y medibles:
 
@@ -389,9 +395,13 @@ HU2 & Tarea 2 HU2 & 6 h & Alta \\ \hline
   \item Recordar que la calidad del desglose impacta directamente en la calidad de la planificación del proyecto.
 \end{itemize}
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
 
 \section{10. Diagrama de Gantt}
 \label{sec:gantt}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 El diagrama de Gantt debe representar de forma visual y cronológica todas las tareas del proyecto, abarcando aproximadamente 600 horas totales, de las cuales entre 480 y 500 deben destinarse a tareas técnicas (desarrollo, pruebas, implementación) y entre 100 y 120 a tareas no técnicas (planificación, documentación, escritura de memoria y preparación de la defensa).
 
@@ -420,7 +430,12 @@ El diagrama de Gantt debe representar de forma visual y cronológica todas las t
 
 Incluir una imagen legible del diagrama de Gantt. Si es muy ancho, presentar primero la tabla y luego el gráfico de barras.
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
+
 \section{11. Planificación de Sprints}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 Organizar las tareas técnicas del proyecto en sprints de trabajo que permitan distribuir de forma equilibrada la carga horaria total, estimada en 600 horas.
 
@@ -484,8 +499,12 @@ Sprint 6 & Defensa & Preparación exposición & 20 h / 13 SP & Alumno & 0\% \\ \
   \item Considerar un sprint final exclusivo para pruebas, revisión y ajustes antes de la defensa.
 \end{itemize}
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
 
 \section{12. Normativa y cumplimiento de datos (gobernanza)}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 En esta sección se debe analizar si los datos utilizados en el proyecto están sujetos a normativas de protección de datos y privacidad, y en qué condiciones se pueden emplear.
 
@@ -500,11 +519,12 @@ En esta sección se debe analizar si los datos utilizados en el proyecto están 
 
 Este análisis es clave para garantizar el cumplimiento normativo y evitar conflictos legales durante el desarrollo y publicación del proyecto.
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 \section{13. Gestión de riesgos}
 \label{sec:riesgos}
 
-\begin{consigna}{red}
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 a) Identificación de los riesgos (al menos cinco) y estimación de sus consecuencias:
  
 Riesgo 1: detallar el riesgo (riesgo es algo que si ocurre altera los planes previstos de forma negativa)
@@ -569,10 +589,13 @@ Riesgo 2: plan de mitigación (si por el RPN fuera necesario elaborar un plan de
  
 Riesgo 3: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
 
-\end{consigna}
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
 
 \section{14. Sprint Review}
 \label{sec:sprint_review}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 La revisión de sprint (\emph{Sprint Review}) es una práctica fundamental en metodologías ágiles. Consiste en revisar y evaluar lo que se ha completado al finalizar un sprint. En esta instancia, se presentan los avances y se verifica si las funcionalidades cumplen con los criterios de aceptación establecidos. También se identifican entregables parciales y se consideran ajustes si es necesario.
 
@@ -610,8 +633,13 @@ Seleccionar al menos 4 HU del Product Backlog. Para cada una, completar la sigui
 \end{tabular}
 \end{table}
 
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+
+
 \section{15. Sprint Retrospective}    
 \label{sec:sprint_retro}
+
+\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 La retrospectiva de sprint es una práctica orientada a la mejora continua. Al finalizar un sprint, el equipo (o el alumno, si trabaja de forma individual) reflexiona sobre lo que funcionó bien, lo que puede mejorarse y qué acciones concretas pueden implementarse para trabajar mejor en el futuro.
 
@@ -657,7 +685,6 @@ Sprint no técnico - 12 (por ej.: ``Defensa'') & Ensayos orales con feedback & C
 \end{tabular}
 \end{table}
 
-
-
+\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 \end{document}
