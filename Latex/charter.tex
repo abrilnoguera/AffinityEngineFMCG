@@ -5,7 +5,7 @@
 
 
 % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
-\titulo{Diseño e Implementación de Motor de Afinidad para Personalización Comercial B2B en Consumo Masivo} 
+\titulo{Diseño e implementación de motor de afinidad para personalización comercial B2B en consumo masivo} 
 
 % Nombre del posgrado, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \degreename
 \posgrado{Carrera de Especialización en Inteligencia Artificial}
@@ -25,7 +25,7 @@
  
 \fechaINICIO{29 de abril de 2025}		%Fecha de inicio de la cursada de GdP \fechaInicioName
 \fechaFINALPlan{17 de junio de 2025} 	%Fecha de final de cursada de GdP
-\fechaFINALTrabajo{XX de Diciembre de 2025}	%Fecha de defensa pública del trabajo final
+\fechaFINALTrabajo{XX de diciembre de 2025}	%Fecha de defensa pública del trabajo final
 
 
 \begin{document}
@@ -80,7 +80,7 @@ Buenos Aires, \fechaInicioName
 
 %Presupuesto: Sueldo (Hora Hombre * 600hs) + Clusters + Compu = $ 13.500.000
 
-Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el desarrollo e integración de un sistema de recomendación que estime el interés potencial de cada cliente por los productos del portafolio de la empresa, a partir de señales de comportamiento en su canal digital de ventas. El trabajo tendrá un presupuesto preliminar estimado de 600 horas y un costo estimado de \$ 13.500.000, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
+Por medio de la presente se acuerda con la \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el desarrollo e integración de un sistema de recomendación que estime el interés potencial de cada cliente por los productos del portafolio de la empresa, a partir de señales de comportamiento en su canal digital de ventas. El trabajo tendrá un presupuesto preliminar estimado de 600 horas y un costo estimado de \$ 13.500.000, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
 
 Se adjunta a esta acta la planificación inicial.
 
@@ -103,13 +103,13 @@ Se adjunta a esta acta la planificación inicial.
 
 \subsection{Definición del Problema}
 
-En el sector de consumo masivo, especialmente en modelos de negocio \textit{Business-to-Business (B2B)}, estimar el interés potencial entre clientes y productos desempeña un papel crucial en la optimización de estrategias comerciales.  Esta predicción se utiliza para priorizar qué productos sugerir a cada punto de venta en cada ciclo comercial, permitiendo adaptar las recomendaciones a las preferencias y comportamientos reales de cada cliente. En lugar de ofrecer el mismo conjunto de productos a todos los clientes o basarse únicamente en el historial de compra, contar con un score de afinidad posibilita ordenar el portafolio según relevancia, potenciar la venta cruzada y mejorar la eficiencia en el uso del canal digital. Además, brinda al equipo comercial una herramienta concreta para planificar visitas, personalizar ofertas y detectar oportunidades antes no visibles, especialmente en productos nuevos o categorías estratégicas.
+En el sector de consumo masivo, especialmente en modelos de negocio \textit{Business-to-Business (B2B)}, estimar el interés potencial entre clientes y productos desempeña un papel crucial en la optimización de estrategias comerciales.  Esta predicción se utiliza para priorizar qué productos sugerir a cada punto de venta en cada ciclo comercial, permitiendo adaptar las recomendaciones a las preferencias y comportamientos reales de cada cliente. En lugar de ofrecer el mismo conjunto de productos a todos los clientes o basarse únicamente en el historial de compra, contar con una calificación de afinidad posibilita ordenar el portafolio según relevancia, potenciar la venta cruzada y mejorar la eficiencia en el uso del canal digital. Además, brinda al equipo comercial una herramienta concreta para planificar visitas, personalizar ofertas y detectar oportunidades antes no visibles, especialmente en productos nuevos o categorías estratégicas.
 
 La naturaleza del negocio B2B trae más complejidad. A diferencia de los consumidores finales, cuyos patrones de compra suelen ser más regulares y predecibles, los minoristas ajustan sus pedidos en función de variables como la estacionalidad, las promociones comerciales y el comportamiento fluctuante de sus propios clientes. Esta variabilidad se acentúa cuando analizamos la marcada diversidad entre los distintos puntos de venta: desde pequeños kioscos urbanos con espacio limitado para exhibición hasta grandes supermercados con capacidad para gestionar amplios surtidos. Cada uno presenta necesidades y capacidades logísticas radicalmente diferentes.
 
-Además, la constante rotación e incorporación de nuevos productos en el portafolio genera un escenario de permanente adaptación. En la práctica observamos que aproximadamente el 12\% del catálogo se renueva anualmente. Este desafío es conocido como "\textit{cold start}", la dificultad para recomendar productos sin historial transaccional. Este problema se vuelve aún más desafiante porque, incluso entre los productos que ya tienen historial de ventas, muchos presentan compras muy esporádicas o aisladas. Esto genera un conjunto de datos con poca información por producto, lo que dificulta que los modelos tradicionales puedan aprender patrones consistentes para hacer buenas recomendaciones.
+Además, la constante rotación e incorporación de nuevos productos en el portafolio genera un escenario de permanente adaptación. En la práctica se observa que aproximadamente el 12\% del catálogo se renueva anualmente. Este desafío es conocido como "\textit{cold start}", la dificultad para recomendar productos sin historial transaccional. Este problema se vuelve aún más desafiante porque, incluso entre los productos que ya tienen historial de ventas, muchos presentan compras muy esporádicas o aisladas. Esto genera un conjunto de datos con poca información por producto, lo que dificulta que los modelos tradicionales puedan aprender patrones consistentes para hacer buenas recomendaciones.
 
-Estas particularidades del ecosistema B2B demandan soluciones a medida que trasciendan los enfoques tradicionales de recomendación, incorporando no solo datos transaccionales históricos, sino también información contextual sobre los puntos de venta, señales de comportamiento digital e inteligencia de negocio que permitan capturar las particularidades de cada relación comercial. El desarrollo de este tipo de sistemas permite calcular un score de afinidad entre cada cliente y cada producto del portafolio, reflejando qué tan relevante podría ser ese ítem para ese punto de venta en un momento determinado. Estos scores pueden luego ser ordenados para generar rankings personalizados que sirvan como insumo para la toma de decisiones comerciales, habilitando una estrategia más proactiva y adaptada al comportamiento real de cada cliente.
+El ecosistema B2B presenta particularidades que exigen soluciones a medida. Estas deben ir más allá de los enfoques tradicionales de recomendación para incorporar, además de datos transaccionales históricos, información contextual sobre los puntos de venta, señales de comportamiento digital e inteligencia de negocio que permitan capturar las particularidades de cada relación comercial. El desarrollo de este tipo de sistemas permite calcular un \textit{score} de afinidad entre cada cliente y cada producto del portafolio. Esto refleja qué tan relevante podría ser ese ítem para ese punto de venta en un momento determinado. Estas puntuaciones pueden luego ser ordenadas para generar \textit{rankings} personalizados que sirvan como insumo para la toma de decisiones comerciales y habilita una estrategia más proactiva y adaptada al comportamiento real de cada cliente.
 
 \subsection{Descripción Funcional}
 
