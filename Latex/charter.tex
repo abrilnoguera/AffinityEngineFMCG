@@ -23,10 +23,14 @@
 \cliente{MSc. Lautaro Gonzalez}
 \empresaCliente{Empresa Líder de Consumo Masivo}
  
-\fechaINICIO{29 de abril de 2025}		%Fecha de inicio de la cursada de GdP \fechaInicioName
+\fechaINICIO{01 de mayo de 2025}		%Fecha de inicio de la cursada de GdP \fechaInicioName
 \fechaFINALPlan{17 de junio de 2025} 	%Fecha de final de cursada de GdP
-\fechaFINALTrabajo{XX de diciembre de 2025}	%Fecha de defensa pública del trabajo final
+\fechaFINALTrabajo{19 de diciembre de 2025}	%Fecha de defensa pública del trabajo final
 
+% Agrego paquetes
+\usepackage{pgfgantt}
+\usepackage{datetime2}
+\usepackage{xcolor}
 
 \begin{document}
 
@@ -54,11 +58,8 @@
 \rowcolor[HTML]{C0C0C0} 
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
 0      & Creación del documento                                 &\fechaInicioName \\ \hline
-1      & Se completa hasta el punto 5 inclusive                & 13 de Mayo de 2025 \\ \hline
-%2      & Se completa hasta el punto 9 inclusive
-%		  Se puede agregar algo más \newline
-%		  En distintas líneas \newline
-%		  Así                                                    & {día} de {mes} de 202X \\ \hline
+1      & Se completa hasta el punto 5 inclusive                & 13 de mayo de 2025 \\ \hline
+2      & Se completa hasta el punto 9 inclusive                 & 20 de mayo de 2025 \\ \hline
 %3      & Se completa hasta el punto 12 inclusive                & {día} de {mes} de 202X \\ \hline
 %4      & Se completa el plan	                                 & {día} de {mes} de 202X \\ \hline
 
@@ -200,207 +201,436 @@ Para el desarrollo del presente proyecto se supone que:
 \section{6. Product Backlog}
 \label{sec:backlog}
 
+La siguiente sección presenta el Product Backlog del proyecto, estructurado en torno a cuatro épicas principales que agrupan las funcionalidades clave del desarrollo. Cada épica contiene historias de usuario redactadas de forma concisa, con el objetivo de representar las necesidades del sistema desde la perspectiva de los distintos roles involucrados. Las historias incluyen su prioridad relativa, una estimación en Story Points y una breve descripción del propósito funcional. La asignación de Story Points se basa en una evaluación multidimensional que considera dificultad, complejidad e incertidumbre, redondeando el valor total al número superior más próximo dentro de la secuencia de Fibonacci. Este enfoque busca facilitar la planificación de los sprints y asegurar la trazabilidad entre objetivos, funcionalidades y entregables.
+
+\subsection*{\'Epica 1: \textit{Discovery} y entendimiento del problema}
 \begin{itemize}
-  \item \textbf{\'{E}pica 1: \textit{Discovery} y entendimiento del problema}
-    \begin{itemize}
-      \item Definición de expectativas del cliente  
-      \item Lectura y análisis del Estado del Arte
-      \item Definición de métricas y KPIs a seguir
-    \end{itemize}
-  \item \textbf{\'{E}pica 2: Desarrollo de ingeniería de atributos}
-    \begin{itemize}
-      \item ETL
-      \item EDA
-      \item FE 
-    \end{itemize}
-  \item \textbf{\'{E}pica 3: Modelado y Evaluación}
-    \begin{itemize}
-      \item Desarrollo de modelo \textit{baseline}
-      \item Desarrollo de modelo \textit{benchmark}
-      \item Evaluación de resultados
-      \item Disponibilización en MLFlow
-    \end{itemize}
-  \item \textbf{\'{E}pica 4: Implementación}
-    \begin{itemize}
-      \item Preparación de \textit{pipeline} de implementación
-      \item A/B Testing
-      \item Seguimiento de salubridad
-      \item Presentación de resultados.
-    \end{itemize}
+  \item \textbf{Historia:} Como responsable del proyecto, quiero relevar y documentar las expectativas del cliente para alinear el desarrollo con sus objetivos.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 3, \textbf{Justificación:} D:2, C:1, I:2 $\Rightarrow$ Total: 5
+
+  \item \textbf{Historia:} Como analista, quiero revisar el estado del arte para incorporar enfoques relevantes y detectar oportunidades.\\
+  \textbf{Prioridad:} Media, \textbf{Story Points:} 5, \textbf{Justificación:} D:2, C:2, I:3 $\Rightarrow$ Total: 7
+
+  \item \textbf{Historia:} Como responsable del proyecto, quiero definir KPIs y métricas para medir el desempeño de la solución.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 3, \textbf{Justificación:} D:2, C:1, I:2 $\Rightarrow$ Total: 5
 \end{itemize}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
-El Product Backlog debe organizarse en cuatro \textbf{\textit{\'{e}picas}} fundamentales del proyecto. Cada \'{e}pica debe contener al menos dos historias de usuario que describan funcionalidades clave.
-
-El Product Backlog debe permitir interpretar cómo será el proyecto y su funcionalidad. Se deben indicar claramente las prioridades entre las historias de usuario y si hay alguna opcional.
-
-Las historias de usuario deben ser breves, claras y medibles, expresando el rol, la necesidad y el propósito de cada funcionalidad. También deben tener una prioridad definida para facilitar la planificación de los sprints.
-
-Cada historia de usuario debe incluir una ponderación en \textit{Story Points}, un número entero que representa el tama\~no relativo de la historia. El criterio para calcular los Story Points debe indicarse explícitamente.
-
-Las historias deben seguir el formato: ``\textit{Como [rol], quiero [tal cosa] para [tal otra cosa]}''.
-
-Las \'{e}picas deben estructurarse de la siguiente forma:
-
+\subsection*{\'Epica 2: Desarrollo de ingeniería de atributos}
 \begin{itemize}
-  \item \textbf{\'{E}pica 1: \textit{Discovery} y entendimiento del problema}
-    \begin{itemize}
-      \item Definición de expectativas del cliente  
-      \item Lectura y análisis del Estado del Arte
-      \item Definición de métricas y KPIs a seguir
-    \end{itemize}
-  \item \textbf{\'{E}pica 2: Desarrollo de ingeniería de atributos}
-    \begin{itemize}
-      \item ETL
-      \item EDA
-      \item FE 
-    \end{itemize}
-  \item \textbf{\'{E}pica 3: Modelado y Evaluación}
-    \begin{itemize}
-      \item Desarrollo de modelo \textit{baseline}
-      \item Desarrollo de modelo \textit{benchmark}
-      \item Evaluación de resultados
-      \item Disponibilización en MLFlow
-    \end{itemize}
-  \item \textbf{\'{E}pica 4: Implementación}
-    \begin{itemize}
-      \item Preparación de \textit{pipeline} de implementación
-      \item A/B Testing
-      \item Seguimiento de salubridad
-      \item Presentación de resultados.
-    \end{itemize}
+  \item \textbf{Historia:} Como desarrolladora, quiero construir un proceso de extracción, transformación y carga (\textit{ETL}) que asegure calidad y consistencia en los datos.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 5, \textbf{Justificación:} D:3, C:2, I:2 $\Rightarrow$ Total: 7
+
+  \item \textbf{Historia:} Como analista, quiero realizar un análisis exploratorio para entender patrones y relaciones en los datos.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 3, \textbf{Justificación:} D:2, C:2, I:1 $\Rightarrow$ Total: 5
+
+  \item \textbf{Historia:} Como científica de datos, quiero construir variables relevantes para representar el comportamiento de clientes y productos.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 5, \textbf{Justificación:} D:3, C:2, I:2 $\Rightarrow$ Total: 7
 \end{itemize}
 
-\textbf{Reglas para definir historias de usuario:}
+\subsection*{\'Epica 3: Modelado y Evaluación}
 \begin{itemize}
-  \item Ser concisas y claras.
-  \item Expresarlas en términos cuantificables y medibles.
-  \item No dejar margen para interpretaciones ambiguas.
-  \item Indicar claramente su prioridad y si son opcionales.
-  \item Considerar regulaciones y normas vigentes.
+  \item \textbf{Historia:} Como responsable técnica, quiero desarrollar un modelo \textit{baseline} que sirva como comparación inicial.\\
+  \textbf{Prioridad:} Media, \textbf{Story Points:} 3, \textbf{Justificación:} D:2, C:2, I:1 $\Rightarrow$ Total: 5
+
+  \item \textbf{Historia:} Como científica de datos, quiero entrenar un modelo más avanzado para estimar afinidad con mayor precisión.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 5, \textbf{Justificación:} D:3, C:2, I:3 $\Rightarrow$ Total: 8
+
+  \item \textbf{Historia:} Como equipo de proyecto, quiero evaluar el rendimiento del modelo con métricas apropiadas.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 3, \textbf{Justificación:} D:2, C:1, I:2 $\Rightarrow$ Total: 5
+
+  \item \textbf{Historia:} Como desarrolladora, quiero registrar el modelo en MLflow para asegurar su trazabilidad.\\
+  \textbf{Prioridad:} Media, \textbf{Story Points:} 2, \textbf{Justificación:} D:1, C:1, I:1 $\Rightarrow$ Total: 3
 \end{itemize}
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+\subsection*{\'Epica 4: Implementación}
+\begin{itemize}
+  \item \textbf{Historia:} Como responsable técnica, quiero preparar un \textit{pipeline} mensual que automatice la generación de \textit{scores}.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 5, \textbf{Justificación:} D:3, C:2, I:3 $\Rightarrow$ Total: 8
 
+  \item \textbf{Historia:} Como analista de negocio, quiero ejecutar una prueba A/B para comparar el impacto del sistema.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 5, \textbf{Justificación:} D:3, C:2, I:3 $\Rightarrow$ Total: 8
+
+  \item \textbf{Historia:} Como responsable del sistema, quiero monitorear el funcionamiento del modelo para asegurar su estabilidad.\\
+  \textbf{Prioridad:} Media, \textbf{Story Points:} 3, \textbf{Justificación:} D:2, C:2, I:1 $\Rightarrow$ Total: 5
+
+  \item \textbf{Historia:} Como responsable del proyecto, quiero presentar los resultados a los interesados para facilitar su adopción.\\
+  \textbf{Prioridad:} Alta, \textbf{Story Points:} 2, \textbf{Justificación:} D:1, C:1, I:1 $\Rightarrow$ Total: 3
+\end{itemize}
 
 \section{7. Criterios de aceptación de historias de usuario}
 \label{sec:criteriosAceptacion}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+Los criterios de aceptación definen de forma objetiva cuándo una historia de usuario se considera completa y correctamente implementada. Están redactados de manera específica, medible y verificable, con el objetivo de validar que cada funcionalidad cumple con los requerimientos funcionales, técnicos y de presentación.
 
-Los criterios de aceptación deben establecerse para cada historia de usuario, asegurando que se cumplan las condiciones necesarias para que la funcionalidad sea validada correctamente.
-
-Cada historia debe tener criterios medibles, específicos y verificables. Deben permitir validar que se cumple con las necesidades del usuario.
-
-Se estructuran de forma análoga a las \'{e}picas del backlog:
-
+\textbf{\'Epica 1: \textit{Discovery} y entendimiento del problema}
 \begin{itemize}
-  \item \textbf{\'{E}pica 1}
-    \begin{itemize}
-      \item Criterios de aceptación HU1
-      \item Criterios de aceptación HU2
-    \end{itemize}
-  \item \textbf{\'{E}pica 2}
-    \begin{itemize}
-      \item Criterios de aceptación HU3
-      \item Criterios de aceptación HU4
-    \end{itemize}
-  \item \textbf{\'{E}pica 3}
-    \begin{itemize}
-      \item Criterios de aceptación HU5
-      \item Criterios de aceptación HU6
-    \end{itemize}
-  \item \textbf{\'{E}pica 4}
-    \begin{itemize}
-      \item Criterios de aceptación HU7
-      \item Criterios de aceptación HU8
-    \end{itemize}
+  \item HU1: Expectativas del cliente definidas
+  \begin{itemize}
+    \item Se entrega un documento con los objetivos y necesidades del cliente validados por el sponsor.
+    \item El documento se revisa en una reunión de validación.
+  \end{itemize}
+  \item HU2: Estado del arte analizado
+  \begin{itemize}
+    \item Se entrega un informe con mínimo tres enfoques de referencia.
+    \item El análisis incluye fortalezas y debilidades por enfoque.
+    \item El PO valida la aplicabilidad a este caso.
+  \end{itemize}
+  \item HU3: Métricas definidas
+  \begin{itemize}
+    \item Se definen al menos tres métricas clave (recall, MAP, cobertura).
+    \item Se documenta su forma de cálculo.
+    \item Se aprueban en conjunto con el equipo técnico.
+  \end{itemize}
 \end{itemize}
 
-\textbf{Reglas para definir criterios de aceptación:}
+\textbf{\'Epica 2: Desarrollo de ingenier\'ia de atributos}
 \begin{itemize}
-  \item Medibles y verificables.
-  \item Especificar cuándo una historia se considera completada.
-  \item Incluir condiciones específicas.
-  \item No ambiguos.
-  \item Probables de testear funcional o técnicamente.
-  \item Mínimo 3 criterios por HU.
+  \item HU4: Proceso ETL construido
+  \begin{itemize}
+    \item El pipeline carga correctamente datos de todas las fuentes requeridas.
+    \item El código pasa controles básicos de calidad.
+    \item Se valida consistencia con una muestra aleatoria de registros.
+  \end{itemize}
+  \item HU5: EDA realizado
+  \begin{itemize}
+    \item Se entrega notebook con análisis descriptivo de las principales variables.
+    \item Se identifican valores faltantes, atípicos y distribuciones.
+    \item Los hallazgos se documentan y discuten en revisión técnica.
+  \end{itemize}
+  \item HU6: Atributos generados
+  \begin{itemize}
+    \item Se construyen al menos 10 variables relevantes para el modelo.
+    \item Se justifica cada atributo en función de comportamiento cliente-producto.
+    \item Se validan estadísticas básicas y cobertura para cada \textit{feature}.
+  \end{itemize}
 \end{itemize}
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+\textbf{\'Epica 3: Modelado y Evaluación}
+\begin{itemize}
+  \item HU7: Modelo baseline disponible
+  \begin{itemize}
+    \item Se entrena un modelo sencillo como punto de referencia.
+    \item El código está documentado y versionado.
+    \item Se reportan las métricas definidas en la sección anterior.
+  \end{itemize}
+  \item HU8: Modelo benchmark entrenado
+  \begin{itemize}
+    \item El modelo final obtiene mejora en al menos 2 métricas frente al baseline.
+    \item El pipeline de entrenamiento es reproducible.
+    \item Se valida su comportamiento en distintos segmentos de cliente.
+  \end{itemize}
+  \item HU9: Evaluación completada
+  \begin{itemize}
+    \item Se presentan los resultados completos por métrica y segmento.
+    \item Se identifican debilidades del modelo y posibles mejoras.
+    \item Se valida el cumplimiento de los objetivos del proyecto.
+  \end{itemize}
+  \item HU10: Registro en MLflow
+  \begin{itemize}
+    \item El modelo se encuentra registrado con nombre, fecha, parámetros y métricas.
+    \item Se puede reproducir y reutilizar desde el entorno técnico.
+    \item Su versión queda asociada al entregable final.
+  \end{itemize}
+\end{itemize}
 
+\textbf{\'Epica 4: Implementación}
+\begin{itemize}
+  \item HU11: Pipeline de producción
+  \begin{itemize}
+    \item El proceso mensual corre sin errores y genera resultados válidos.
+    \item El output se integra al flujo operativo existente.
+    \item Se documenta el proceso completo.
+  \end{itemize}
+  \item HU12: A/B Testing ejecutado
+  \begin{itemize}
+    \item Se define correctamente el grupo de control y tratamiento.
+    \item Se mide el impacto de forma cuantitativa.
+    \item El análisis es presentado con visualizaciones claras.
+  \end{itemize}
+  \item HU13: Seguimiento de salubridad
+  \begin{itemize}
+    \item Se implementa un control automático de métricas clave.
+    \item Se definen alertas en caso de desviaciones significativas.
+    \item El equipo puede monitorear mensualmente los resultados.
+  \end{itemize}
+  \item HU14: Presentación final
+  \begin{itemize}
+    \item Se elabora una presentación con objetivos, resultados y próximos pasos.
+    \item Se presenta al equipo de datos y al PO.
+    \item Se entrega junto con el entregable técnico final.
+  \end{itemize}
+\end{itemize}
 
 \section{8. Fases de CRISP-DM}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+El desarrollo del presente proyecto se estructura siguiendo la metodología CRISP-DM  \textit{(Cross Industry Standard Process for Data Mining)}, ampliamente utilizada en proyectos de ciencia de datos por su enfoque iterativo, modular y orientado al negocio. Esta metodología permite alinear los objetivos técnicos con las necesidades estratégicas, estructurando el trabajo en fases que abarcan desde la comprensión del problema hasta la evaluación del modelo y su eventual implementación. A continuación, se detallan las principales etapas de CRISP-DM aplicadas a este caso.
 
 \begin{enumerate}
-  \item \textbf{Comprensión del negocio:} objetivo, valor agregado de IA, métricas de éxito.
-  \item \textbf{Comprensión de los datos:} tipo, origen, cantidad, calidad.
-  \item \textbf{Preparación de los datos:} características clave, transformaciones necesarias.
-  \item \textbf{Modelado:} tipo de problema, algoritmos posibles.
-  \item \textbf{Evaluación del modelo:} métricas de rendimiento.
-  \item \textbf{Despliegue del modelo (opcional):} tipo de despliegue y herramientas.
+\item \textbf{Comprensión del negocio:}
+El objetivo del proyecto es desarrollar un sistema que permita estimar la relevancia potencial de cada producto para cada punto de venta, con el fin de generar rankings personalizados que orienten las recomendaciones comerciales. El valor agregado de aplicar inteligencia artificial en este contexto radica en mejorar la precisión de las sugerencias, aumentar la cobertura del portafolio y optimizar la eficiencia del canal digital B2B. Las métricas de éxito incluyen recall@K, cobertura, MAP@K y diversidad de recomendaciones.
+
+\item \textbf{Comprensión de los datos:}
+Los datos utilizados provienen de fuentes internas de la empresa e incluyen información transaccional, eventos digitales de la aplicación de ventas (visualizaciones, carritos, búsquedas) y atributos contextuales de productos y puntos de venta. La base de datos abarca clientes activos de los canales Kioscos, Tradicionales y Autoservicios bajo régimen Off Premise, y se enfoca en productos del portafolio de bebidas. Se realizará un análisis exploratorio para evaluar la calidad, consistencia y completitud de los datos.
+
+\item \textbf{Preparación de los datos:}
+Esta etapa incluye la construcción de un pipeline de ETL que permita integrar y transformar los datos en una estructura analítica adecuada. Se generarán variables que capturen comportamiento histórico, exposición a productos, patrones de navegación y similitud con otros puntos de venta. La ingeniería de atributos buscará representar de manera compacta la relación cliente-producto con el objetivo de alimentar los modelos de predicción de afinidad.
+
+\item \textbf{Modelado:}
+Se abordará un problema de recomendación basado en afinidad, utilizando técnicas de aprendizaje supervisado y de filtrado colaborativo, entre otras. Se explorarán algoritmos como modelos de regresión regularizada, matrices de factorización, y eventualmente modelos de ranking o aprendizaje profundo, dependiendo del rendimiento alcanzado por las alternativas más simples.
+
+\item \textbf{Evaluación del modelo:}
+El desempeño de los modelos será evaluado utilizando métricas propias del dominio de sistemas de recomendación, tales como recall@K, MAP@K, cobertura del portafolio sugerido y diversidad. La validación se realizará tanto de forma global como segmentada por tipo de cliente o categoría de producto. Los resultados serán comparados contra un modelo baseline y validados junto al equipo funcional.
+
+\item \textbf{Despliegue del modelo:}
+En caso de ser validado, el modelo se integrará al sistema de recomendaciones mensuales de la empresa a través de un pipeline automatizado. Los \textit{scores} generados se disponibilizarán en tablas de resultados que alimentan tanto la aplicación de ventas como las herramientas internas del equipo de Portfolio Strategy. El modelo será registrado y versionado en MLflow para facilitar su mantenimiento y evolución.
 \end{enumerate}
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
 
 \section{9. Desglose del trabajo en tareas}
 \label{sec:wbs}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+A partir de cada historia de usuario definida en el Product Backlog, se identifican tareas técnicas específicas, medibles y con duración estimada entre 2 y 8 horas. Estas tareas permiten una planificación más precisa del proyecto y constituyen la base para la definición de los sprints y del cronograma general. Las tareas están priorizadas según su impacto funcional y su necesidad para cumplir los criterios de aceptación asociados.
 
-A partir de cada HU, descomponer en tareas concretas, técnicas y medibles:
-
-\begin{itemize}
-  \item Duración estimada: entre 2 y 8 h. Evitar tareas genéricas.
-  \item Si una tarea excede 8 h, dividirla.
-  \item Indicar prioridad relativa (Alta, Media, Baja).
-\end{itemize}
-
-\begin{table}[htpb]
-\centering
-\begin{tabularx}{\linewidth}{@{}|X|X|c|c|@{}}
+\begin{longtable}{|p{2cm}|p{10cm}|c|c|}
 \hline
 \rowcolor[HTML]{C0C0C0}
 Historia de usuario & Tarea técnica & Estimación & Prioridad \\ \hline
-HU1 & Tarea 1 HU1 & 6 h & Alta \\ \hline
-HU1 & Tarea 2 HU1 & 8 h & Alta \\ \hline
-HU2 & Tarea 1 HU2 & 5 h & Media \\ \hline
-HU2 & Tarea 2 HU2 & 6 h & Alta \\ \hline
-... & ... & ... & ... \\ \hline
-\end{tabularx}
-\end{table}
+\endfirsthead
 
-\textbf{Criterios para estimar tiempos:}
-\begin{itemize}
-  \item Considerar dificultad, complejidad técnica y grado de incertidumbre de cada tarea.
-  \item Evitar subestimar el esfuerzo requerido. Si una tarea supera las 8 h, dividirla en subtareas.
-  \item Basar la estimación en la experiencia propia o en referencias de tareas similares.
-\end{itemize}
+\hline
+\rowcolor[HTML]{C0C0C0}
+Historia de usuario & Tarea técnica & Estimación & Prioridad \\ \hline
+\endhead
 
-\textbf{Sobre la prioridad:}
-\begin{itemize}
-  \item Asignar una prioridad relativa (Alta, Media o Baja) según la relevancia funcional de la tarea y su impacto en los entregables.
-  \item Priorizar tareas que estén vinculadas a criterios de aceptación de las HU o que sean necesarias para desbloquear otras.
-  \item Incluir tareas opcionales solo si están bien justificadas.
-\end{itemize}
+HU1 & Realizar entrevista con el sponsor para levantar requerimientos & 6 h & Alta \\ \hline
+HU1 & Documentar las expectativas en un acta validada por el PO & 4 h & Alta \\ \hline
+HU1 & Iterar feedback recibido con cliente funcional & 6 h & Alta \\ \hline
+HU2 & Investigar al menos tres enfoques aplicados a problemas similares & 8 h & Media \\ \hline
+HU2 & Elaborar un informe comparativo con ventajas y limitaciones & 6 h & Alta \\ \hline
+HU2 & Reunión de alineación técnica para definir el benchmark inicial & 3 h & Media \\ \hline
+HU3 & Seleccionar métricas relevantes junto al equipo técnico & 6 h & Alta \\ \hline
+HU3 & Documentar la definición y el cálculo de cada KPI & 6 h & Alta \\ \hline
+HU4 & Relevar fuentes de datos & 8 h & Alta \\ \hline
+HU4 & Diseñar pipeline de ingestión desde cada fuente & 8 h & Alta \\ \hline
+HU4 & Implementar transformación de datos  & 7 h & Alta \\ \hline
+HU4 & Control de calidad de los datos & 6 h & Alta \\ \hline
+HU4 & Testear integridad y consistencia de los datos ingresados & 6 h & Alta \\ \hline
+HU5 & Explorar variables claves: frecuencias, correlaciones & 8 h & Alta \\ \hline
+HU5 & Detectar y tratar valores extremos y nulos & 7 h & Alta \\ \hline
+HU5 & Presentar hallazgos del EDA en una revisión técnica & 6 h & Media \\ \hline
+HU6 & Diseñar features de comportamiento transaccional (frecuencia, recencia) & 6 h & Alta \\ \hline
+HU6 & Diseñar features de interacción digital (vistas, carritos, búsquedas) & 6 h & Alta \\ \hline
+HU6 & Diseñar features contextuales (popularidad, segmentación) & 6 h & Alta \\ \hline
+HU6 & Diseñar features agregadas por producto y segmento geográfico & 6 h & Alta \\ \hline
+HU6 & Diseñar atributos específicos para mitigar cold start de productos & 6 h & Alta \\ \hline
+HU6 & Validar el impacto de los atributos de cold start en modelos previos & 6 h & Alta \\ \hline
+HU6 & Desarrollar embeddings para representar clientes y productos & 7 h & Alta \\ \hline
+HU6 & Aplicar técnicas de reducción de dimensionalidad (PCA/TSNE) & 6 h & Media \\ \hline
+HU6 & Validar robustez de features ante cambios temporales & 6 h & Alta \\ \hline
+HU6 & Documentar estructura modular para futuras extensiones & 5 h & Media \\ \hline
+HU6 & Evaluar cobertura y correlación de atributos construidos & 6 h & Alta \\ \hline
+HU6 & Analizar la importancia de cada feature en modelos preliminares & 6 h & Alta \\ \hline
+HU6 & Documentar lógica de construcción de features para uso futuro & 5 h & Media \\ \hline
+HU6 & Validar features construidas con feedback del negocio & 6 h & Alta \\ \hline
+HU7 & Implementar modelo baseline (top-n por frecuencia) & 8 h & Media \\ \hline
+HU7 & Evaluar performance del modelo baseline con métricas & 6 h & Media \\ \hline
+HU8 & Implementar matriz de factorización con ALS & 8 h & Alta \\ \hline
+HU8 & Evaluar el modelo ALS con recall@K, MAP@K, cobertura & 6 h & Alta \\ \hline
+HU8 & Iterar ALS con feedback funcional & 6 h & Alta \\ \hline
+HU8 & Implementar modelo de regresión regularizada & 8 h & Alta \\ \hline
+HU8 & Evaluar el modelo de regresión con métricas estándar & 6 h & Alta \\ \hline
+HU8 & Iterar regresión con feedback funcional & 6 h & Alta \\ \hline
+HU8 & Implementar modelo basado en ranking (LightFM o XGBoostRanker) & 8 h & Alta \\ \hline
+HU8 & Evaluar modelo de ranking con enfoque por segmento & 6 h & Alta \\ \hline
+HU8 & Iterar modelo de ranking con feedback funcional & 6 h & Alta \\ \hline
+HU8 & Implementar modelo basado en autoencoders o deep learning & 8 h & Alta \\ \hline
+HU8 & Evaluar desempeño del modelo deep learning en recall/diversidad & 6 h & Alta \\ \hline
+HU8 & Iterar modelo deep learning con usuarios técnicos & 6 h & Alta \\ \hline
+HU8 & Implementar validación cruzada estratificada por clúster & 8 h & Alta \\ \hline
+HU8 & Analizar varianza de métricas entre folds & 6 h & Alta \\ \hline
+HU8 & Documentar configuración de cross-validation en detalle & 4 h & Media \\ \hline
+HU8 & Comparar estabilidad de modelos entre splits temporales & 6 h & Alta \\ \hline
+HU8 & Comparar resultados por segmento de cliente & 8 h & Alta \\ \hline
+HU8 & Ajustar hiperparámetros y seleccionar mejor modelo & 8 h & Alta \\ \hline
+HU8 & Analizar sensibilidad del modelo ante cambios en features clave & 6 h & Media \\ \hline
+HU8 & Evaluar desempeño de modelos en escenario de cold start & 6 h & Alta \\ \hline
+HU8 & Comparar desempeño de cold start entre modelos supervisados y no supervisados & 6 h & Alta \\ \hline
+HU8 & Evaluar escalabilidad y tiempos de inferencia de cada modelo & 6 h & Media \\ \hline
+HU8 & Iterar benchmark final con líderes de datos & 8 h & Alta \\ \hline
+HU8 & Explicar modelo con SHAP o LIME & 6 h & Alta \\ \hline
+HU9 & Evaluar desempeño del modelo según KPIs definidos & 6 h & Alta \\ \hline
+HU9 & Analizar resultados por grupo de clientes y tipo de producto & 6 h & Media \\ \hline
+HU9 & Visualizar cobertura y recall de productos sin historial & 6 h & Alta \\ \hline
+HU9 & Incorporar análisis de cold start en el informe final & 4 h & Alta \\ \hline
+HU9 & Validar resultados con usuarios funcionales del negocio & 6 h & Alta \\ \hline
+HU9 & Redactar informe de hallazgos con visualizaciones por métrica & 8 h & Media \\ \hline
+HU9 & Incorporar observaciones del equipo comercial & 5 h & Media \\ \hline
+HU9 & Generar visualizaciones de resultados por clúster & 8 h & Alta \\ \hline
+HU9 & Simular escenarios comerciales con el modelo & 8 h & Alta \\ \hline
+HU9 & Documentar supuestos técnicos y restricciones del modelo & 8 h & Media \\ \hline
+HU9 & Crear manual funcional para usuarios comerciales & 8 h & Alta \\ \hline
+HU9 & Diseñar y testear checklist de control de calidad & 6 h & Media \\ \hline
+HU9 & Simular fallos controlados y validar manejo de errores & 6 h & Media \\ \hline
+HU10 & Crear \textit{script} automatizado de validación post-entrenamiento & 8 h & Alta \\ \hline
+HU10 & Implementar sistema de logging y auditoría del modelo & 8 h & Alta \\ \hline
+HU10 & Diseñar arquitectura escalable multi-región para el scoring & 8 h & Alta \\ \hline
+HU10 & Simular volumen mensual esperado en diferentes países & 6 h & Alta \\ \hline
+HU10 & Definir protocolo de replicación y backup de resultados & 5 h & Alta \\ \hline
+HU10 & Implementar pruebas de stress en pipeline de predicción & 6 h & Alta \\ \hline
+HU10 & Evaluar compatibilidad con infraestructura cloud externa & 6 h & Alta \\ \hline
+HU10 & Documentar arquitectura general del sistema de scoring & 8 h & Alta \\ \hline
+HU11 & Diseñar esquema de versionado y mantenimiento del pipeline & 8 h & Alta \\ \hline
+HU11 & Simular escenarios de actualización mensual y fallback & 6 h & Alta \\ \hline
+HU11 & Documentar protocolo de \textit{rollback} ante fallos en producción & 8 h & Alta \\ \hline
+HU12 & Presentar resultados de prueba A/B a stakeholders comerciales & 6 h & Alta \\ \hline
+HU12 & Iterar recomendaciones tras A/B test con validación comercial & 6 h & Alta \\ \hline
+HU13 & Realizar pruebas de carga y performance del dashboard & 6 h & Media \\ \hline
+HU13 & Documentar cómo mantener y extender el dashboard & 4 h & Media \\ \hline
+HU13 & Redactar instructivo para detección de outliers en monitoreo & 4 h & Media \\ \hline
+HU14 & Preparar presentación final con feedback técnico y funcional & 8 h & Alta \\ \hline
+HU14 & Ajustar narrativa y visualizaciones de resultados finales & 8 h & Alta \\ \hline
+HU14 & Validar entregables con dirección de estrategia comercial & 4 h & Alta \\ \hline
+HU14 & Consolidar documentación técnica y funcional final & 8 h & Alta \\ \hline
 
-\textbf{Recomendaciones generales:}
-\begin{itemize}
-  \item Incluir al menos dos tareas por historia de usuario.
-  \item El total estimado debe ser coherente con la planificación global de unas 600 horas (la cantidad de horas sugeridas para un trabajo de posgrado).
-  \item Este desglose se utilizará en las secciones siguientes para armar el diagrama de Gantt (sección 10) y la planificación de sprints (sección 11).
-  \item Recordar que la calidad del desglose impacta directamente en la calidad de la planificación del proyecto.
-\end{itemize}
+\end{longtable}
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
+El presente desglose contempla un total de 572 horas de trabajo. Esta estimación contempla el desarrollo técnico completo del sistema de recomendación, desde la definición del problema hasta la evaluación y entrega de resultados. Se considera adecuada para el alcance y profundidad del proyecto, y compatible con los lineamientos establecidos para trabajos de esta naturaleza.
 
 \section{10. Diagrama de Gantt}
 \label{sec:gantt}
+
+\begin{ganttchart}[
+    hgrid,
+    vgrid,
+    time slot format=isodate,
+    x unit=0.3cm,
+    y unit title=0.3cm,
+    y unit chart=0.3cm,
+    bar height=0.3,
+    bar label font=\scriptsize,
+    bar label node/.append style={align=left,text width=9cm},
+    group label font=\bfseries\small,
+    calendar week text={\currentweek}
+]{2025-05-01}{2025-11-30}
+
+\gantttitlecalendar{year, month=name} \\
+\ganttgroup[bar/.append style={fill=gray!40}]{HU1}{2025-05-01}{2025-05-07} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU1.1 - Entrevista con sponsor}{2025-05-01}{2025-05-02} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU1.2 - Acta validada PO}{2025-05-05}{2025-05-05} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU1.3 - Iterar feedback cliente}{2025-05-06}{2025-05-07} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU2}{2025-05-08}{2025-05-14} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU2.1 - Investigar enfoques}{2025-05-08}{2025-05-09} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU2.2 - Informe comparativo}{2025-05-12}{2025-05-13} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU2.3 - Alineación técnica}{2025-05-14}{2025-05-14} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU3}{2025-05-16}{2025-05-20} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU3.1 - Seleccionar métricas}{2025-05-15}{2025-05-16} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU3.2 - Documentar KPIs}{2025-05-19}{2025-05-20} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU4}{2025-05-21}{2025-06-03} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU4.1 - Relevar fuentes datos}{2025-05-21}{2025-05-22} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU4.2 - Pipeline ingestión}{2025-05-23}{2025-05-26} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU4.3 - Transformación de datos}{2025-05-27}{2025-05-28} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU4.4 - Control calidad datos}{2025-05-29}{2025-05-30} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU4.5 - Testeo consistencia}{2025-06-02}{2025-06-03} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU5}{2025-06-04}{2025-06-11} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU5.1 - Explorar variables}{2025-06-04}{2025-06-05} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU5.2 - Tratar outliers/nulos}{2025-06-06}{2025-06-09} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU5.3 - Presentar hallazgos}{2025-06-10}{2025-06-11} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU6}{2025-06-12}{2025-07-17} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.1 - Features transaccionales}{2025-06-12}{2025-06-13} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.2 - Features digitales}{2025-06-16}{2025-06-17} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.3 - Features contextuales}{2025-06-18}{2025-06-19} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.4 - Features por segmento}{2025-06-20}{2025-06-23} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.5 - Cold start productos}{2025-06-24}{2025-06-25} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.6 - Validar cold start}{2025-06-26}{2025-06-27} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.7 - Embeddings clientes/productos}{2025-06-30}{2025-07-01} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.8 - Reducción dimensionalidad}{2025-07-02}{2025-07-03} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.9 - Validar robustez temporal}{2025-07-04}{2025-07-07} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.10 - Modularidad futura}{2025-07-08}{2025-07-08} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.11 - Cobertura y correlación}{2025-07-09}{2025-07-10} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.12 - Importancia en modelos}{2025-07-11}{2025-07-14} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.13 - Documentar lógica FE}{2025-07-15}{2025-07-15} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU6.14 - Validar FE con negocio}{2025-07-16}{2025-07-17} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU7}{2025-07-18}{2025-07-23} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU7.1 - Modelo baseline}{2025-07-18}{2025-07-21} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU7.2 - Evaluar baseline}{2025-07-22}{2025-07-23} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU8}{2025-07-24}{2025-09-26} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.1 - ALS}{2025-07-24}{2025-07-25} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.2 - Evaluar ALS}{2025-07-28}{2025-07-29} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.3 - Feedback ALS}{2025-07-30}{2025-07-31} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.4 - Regresión}{2025-08-01}{2025-08-04} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.5 - Evaluar regresión}{2025-08-05}{2025-08-06} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.6 - Feedback regresión}{2025-08-07}{2025-08-08} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.7 - Ranking}{2025-08-11}{2025-08-12} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.8 - Evaluar ranking}{2025-08-13}{2025-08-14} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.9 - Feedback ranking}{2025-08-15}{2025-08-18} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.10 - Deep learning}{2025-08-19}{2025-08-20} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.11 - Evaluar deep learning}{2025-08-21}{2025-08-22} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.12 - Feedback deep learning}{2025-08-25}{2025-08-26} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.13 - Validación cruzada}{2025-08-27}{2025-08-28} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.14 - Varianza folds}{2025-08-29}{2025-09-01} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.15 - Doc cross-validation}{2025-09-02}{2025-09-02} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.16 - Estabilidad temporal}{2025-09-03}{2025-09-04} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.17 - Resultados por segmento}{2025-09-05}{2025-09-08} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.18 - Ajustar hiperparámetros}{2025-09-09}{2025-09-10} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.19 - Sensibilidad por features}{2025-09-11}{2025-09-12} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.20 - Cold start performance}{2025-09-15}{2025-09-16} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.21 - Comparar modelos cold start}{2025-09-17}{2025-09-18} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.22 - Escalabilidad modelos}{2025-09-19}{2025-09-22} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.23 - Benchmark final}{2025-09-23}{2025-09-24} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU8.24 - Explicabilidad}{2025-09-25}{2025-09-26} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU9}{2025-09-29}{2025-10-30} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.1 - Evaluar KPIs definidos}{2025-09-29}{2025-09-30} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.2 - Analizar resultados por cliente y producto}{2025-10-01}{2025-10-02} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.3 - Visualizar recall en cold start}{2025-10-03}{2025-10-06} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.4 - Incluir análisis cold start en informe}{2025-10-07}{2025-10-07} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.5 - Validar resultados con negocio}{2025-10-08}{2025-10-09} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.6 - Informe con visualizaciones por métrica}{2025-10-10}{2025-10-13} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.7 - Incorporar feedback comercial}{2025-10-14}{2025-10-14} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.8 - Visualización por clúster}{2025-10-15}{2025-10-16} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.9 - Simular escenarios comerciales}{2025-10-17}{2025-10-20} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.10 - Documentar supuestos técnicos}{2025-10-21}{2025-10-22} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.11 - Manual funcional comercial}{2025-10-23}{2025-10-24} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.12 - Checklist de control de calidad}{2025-10-27}{2025-10-28} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU9.13 - Simular fallos y validar errores}{2025-10-29}{2025-10-30} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU10}{2025-10-31}{2025-11-20} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.1 - Script validación post-entrenamiento}{2025-10-31}{2025-11-03} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.2 - Sistema de logging y auditoría}{2025-11-04}{2025-11-05} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.3 - Arquitectura escalable multiregión}{2025-11-06}{2025-11-07} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.4 - Simulación volumen mensual países}{2025-11-10}{2025-11-11} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.5 - Protocolo de backup y replicación}{2025-11-12}{2025-11-12} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.6 - Pruebas de stress en predicción}{2025-11-13}{2025-11-14} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.7 - Evaluar infraestructura cloud}{2025-11-17}{2025-11-18} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU10.8 - Documentar arquitectura scoring}{2025-11-19}{2025-11-20} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU11}{2025-11-21}{2025-11-28} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU11.1 - Versionado y mantenimiento del pipeline}{2025-11-21}{2025-11-24} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU11.2 - Escenarios actualización mensual}{2025-11-25}{2025-11-26} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU11.3 - Protocolo de rollback}{2025-11-27}{2025-11-28} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU12}{2025-12-01}{2025-12-04} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU12.1.1 - Presentar resultados A/B}{2025-12-01}{2025-12-02} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU12.2.1 - Iterar recomendaciones A/B}{2025-12-03}{2025-12-04} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU13}{2025-12-05}{2025-12-10} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU13.1 - Pruebas de carga del dashboard}{2025-12-05}{2025-12-08} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU13.2 - Mantenimiento del dashboard}{2025-12-09}{2025-12-09} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU13.3 - Instructivo detección outliers}{2025-12-10}{2025-12-10} \\
+
+\ganttgroup[bar/.append style={fill=gray!40}]{HU14}{2025-12-11}{2025-12-19} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU14.1 - Preparar presentación final}{2025-12-11}{2025-12-12} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU14.2 - Ajustar narrativa final}{2025-12-15}{2025-12-16} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU14.3 - Validar entregables con estrategia}{2025-12-17}{2025-12-17} \\
+\ganttbar[bar/.append style={fill=blue!50}]{HU14.4 - Documentación final completa}{2025-12-18}{2025-12-19} \\
+\end{ganttchart}
+
 
 \begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
