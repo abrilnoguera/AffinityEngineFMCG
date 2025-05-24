@@ -264,18 +264,18 @@ Los criterios de aceptación definen de forma objetiva cuándo una historia de u
 
 \textbf{\'Epica 1: \textit{Discovery} y entendimiento del problema}
 \begin{itemize}
-  \item HU1: Expectativas del cliente definidas
+  \item HU1: Definir expectativas del cliente
   \begin{itemize}
     \item Se entrega un documento con los objetivos y necesidades del cliente validados por el sponsor.
     \item El documento se revisa en una reunión de validación.
   \end{itemize}
-  \item HU2: Estado del arte analizado
+  \item HU2: Analizar estado del arte
   \begin{itemize}
     \item Se entrega un informe con mínimo tres enfoques de referencia.
     \item El análisis incluye fortalezas y debilidades por enfoque.
     \item El PO valida la aplicabilidad a este caso.
   \end{itemize}
-  \item HU3: Métricas definidas
+  \item HU3: Definir métricas
   \begin{itemize}
     \item Se definen al menos tres métricas clave (recall, MAP, cobertura).
     \item Se documenta su forma de cálculo.
@@ -285,19 +285,19 @@ Los criterios de aceptación definen de forma objetiva cuándo una historia de u
 
 \textbf{\'Epica 2: Desarrollo de ingenier\'ia de atributos}
 \begin{itemize}
-  \item HU4: Proceso ETL construido
+  \item HU4: Construir proceso ETL
   \begin{itemize}
     \item El pipeline carga correctamente datos de todas las fuentes requeridas.
     \item El código pasa controles básicos de calidad.
     \item Se valida consistencia con una muestra aleatoria de registros.
   \end{itemize}
-  \item HU5: EDA realizado
+  \item HU5: Realizar EDA
   \begin{itemize}
     \item Se entrega notebook con análisis descriptivo de las principales variables.
     \item Se identifican valores faltantes, atípicos y distribuciones.
     \item Los hallazgos se documentan y discuten en revisión técnica.
   \end{itemize}
-  \item HU6: Atributos generados
+  \item HU6: Generar atributos
   \begin{itemize}
     \item Se construyen al menos 10 variables relevantes para el modelo.
     \item Se justifica cada atributo en función de comportamiento cliente-producto.
@@ -307,19 +307,19 @@ Los criterios de aceptación definen de forma objetiva cuándo una historia de u
 
 \textbf{\'Epica 3: Modelado y Evaluación}
 \begin{itemize}
-  \item HU7: Modelo baseline disponible
+  \item HU7: Desarrollar modelo baseline
   \begin{itemize}
     \item Se entrena un modelo sencillo como punto de referencia.
     \item El código está documentado y versionado.
     \item Se reportan las métricas definidas en la sección anterior.
   \end{itemize}
-  \item HU8: Modelo benchmark entrenado
+  \item HU8: Desarrollar modelos benchmark
   \begin{itemize}
     \item El modelo final obtiene mejora en al menos 2 métricas frente al baseline.
     \item El pipeline de entrenamiento es reproducible.
     \item Se valida su comportamiento en distintos segmentos de cliente.
   \end{itemize}
-  \item HU9: Evaluación completada
+  \item HU9: Evaluación completa
   \begin{itemize}
     \item Se presentan los resultados completos por métrica y segmento.
     \item Se identifican debilidades del modelo y posibles mejoras.
@@ -341,7 +341,7 @@ Los criterios de aceptación definen de forma objetiva cuándo una historia de u
     \item El output se integra al flujo operativo existente.
     \item Se documenta el proceso completo.
   \end{itemize}
-  \item HU12: A/B Testing ejecutado
+  \item HU12: A/B Testing
   \begin{itemize}
     \item Se define correctamente el grupo de control y tratamiento.
     \item Se mide el impacto de forma cuantitativa.
@@ -388,7 +388,7 @@ En caso de ser validado, el modelo se integrará al sistema de recomendaciones m
 \section{9. Desglose del trabajo en tareas}
 \label{sec:wbs}
 
-A partir de cada historia de usuario definida en el Product Backlog, se identifican tareas técnicas específicas, medibles y con duración estimada entre 2 y 8 horas. Estas tareas permiten una planificación más precisa del proyecto y constituyen la base para la definición de los sprints y del cronograma general. Las tareas están priorizadas según su impacto funcional y su necesidad para cumplir los criterios de aceptación asociados.
+A partir de cada historia de usuario definida en el Product Backlog, se identifican tareas técnicas específicas y medibles. Estas tareas permiten una planificación más precisa del proyecto y constituyen la base para la definición de los sprints y del cronograma general. Las tareas están priorizadas según su impacto funcional y su necesidad para cumplir los criterios de aceptación asociados.
 
 \begin{longtable}{|p{2cm}|p{10cm}|c|c|}
 \hline
@@ -401,235 +401,241 @@ Historia de usuario & Tarea técnica & Estimación & Prioridad \\ \hline
 Historia de usuario & Tarea técnica & Estimación & Prioridad \\ \hline
 \endhead
 
-HU1 & Realizar entrevista con el sponsor para levantar requerimientos & 6 h & Alta \\ \hline
-HU1 & Documentar las expectativas en un acta validada por el PO & 4 h & Alta \\ \hline
-HU1 & Iterar feedback recibido con cliente funcional & 6 h & Alta \\ \hline
-HU2 & Investigar al menos tres enfoques aplicados a problemas similares & 8 h & Media \\ \hline
-HU2 & Elaborar un informe comparativo con ventajas y limitaciones & 6 h & Alta \\ \hline
-HU2 & Reunión de alineación técnica para definir el benchmark inicial & 3 h & Media \\ \hline
-HU3 & Seleccionar métricas relevantes junto al equipo técnico & 6 h & Alta \\ \hline
-HU3 & Documentar la definición y el cálculo de cada KPI & 6 h & Alta \\ \hline
-HU4 & Relevar fuentes de datos & 8 h & Alta \\ \hline
-HU4 & Diseñar pipeline de ingestión desde cada fuente & 8 h & Alta \\ \hline
-HU4 & Implementar transformación de datos  & 7 h & Alta \\ \hline
-HU4 & Control de calidad de los datos & 6 h & Alta \\ \hline
-HU4 & Testear integridad y consistencia de los datos ingresados & 6 h & Alta \\ \hline
-HU5 & Explorar variables claves: frecuencias, correlaciones & 8 h & Alta \\ \hline
-HU5 & Detectar y tratar valores extremos y nulos & 7 h & Alta \\ \hline
-HU5 & Presentar hallazgos del EDA en una revisión técnica & 6 h & Media \\ \hline
-HU6 & Diseñar features de comportamiento transaccional (frecuencia, recencia) & 6 h & Alta \\ \hline
-HU6 & Diseñar features de interacción digital (vistas, carritos, búsquedas) & 6 h & Alta \\ \hline
-HU6 & Diseñar features contextuales (popularidad, segmentación) & 6 h & Alta \\ \hline
-HU6 & Diseñar features agregadas por producto y segmento geográfico & 6 h & Alta \\ \hline
-HU6 & Diseñar atributos específicos para mitigar cold start de productos & 6 h & Alta \\ \hline
-HU6 & Validar el impacto de los atributos de cold start en modelos previos & 6 h & Alta \\ \hline
-HU6 & Desarrollar embeddings para representar clientes y productos & 7 h & Alta \\ \hline
-HU6 & Aplicar técnicas de reducción de dimensionalidad (PCA/TSNE) & 6 h & Media \\ \hline
-HU6 & Validar robustez de features ante cambios temporales & 6 h & Alta \\ \hline
-HU6 & Documentar estructura modular para futuras extensiones & 5 h & Media \\ \hline
-HU6 & Evaluar cobertura y correlación de atributos construidos & 6 h & Alta \\ \hline
-HU6 & Analizar la importancia de cada feature en modelos preliminares & 6 h & Alta \\ \hline
-HU6 & Documentar lógica de construcción de features para uso futuro & 5 h & Media \\ \hline
-HU6 & Validar features construidas con feedback del negocio & 6 h & Alta \\ \hline
-HU7 & Implementar modelo baseline (top-n por frecuencia) & 8 h & Media \\ \hline
-HU7 & Evaluar performance del modelo baseline con métricas & 6 h & Media \\ \hline
-HU8 & Implementar matriz de factorización con ALS & 8 h & Alta \\ \hline
-HU8 & Evaluar el modelo ALS con recall@K, MAP@K, cobertura & 6 h & Alta \\ \hline
-HU8 & Iterar ALS con feedback funcional & 6 h & Alta \\ \hline
-HU8 & Implementar modelo de regresión regularizada & 8 h & Alta \\ \hline
-HU8 & Evaluar el modelo de regresión con métricas estándar & 6 h & Alta \\ \hline
-HU8 & Iterar regresión con feedback funcional & 6 h & Alta \\ \hline
-HU8 & Implementar modelo basado en ranking (LightFM o XGBoostRanker) & 8 h & Alta \\ \hline
-HU8 & Evaluar modelo de ranking con enfoque por segmento & 6 h & Alta \\ \hline
-HU8 & Iterar modelo de ranking con feedback funcional & 6 h & Alta \\ \hline
-HU8 & Implementar modelo basado en autoencoders o deep learning & 8 h & Alta \\ \hline
-HU8 & Evaluar desempeño del modelo deep learning en recall/diversidad & 6 h & Alta \\ \hline
-HU8 & Iterar modelo deep learning con usuarios técnicos & 6 h & Alta \\ \hline
-HU8 & Implementar validación cruzada estratificada por clúster & 8 h & Alta \\ \hline
-HU8 & Analizar varianza de métricas entre folds & 6 h & Alta \\ \hline
-HU8 & Documentar configuración de cross-validation en detalle & 4 h & Media \\ \hline
-HU8 & Comparar estabilidad de modelos entre splits temporales & 6 h & Alta \\ \hline
-HU8 & Comparar resultados por segmento de cliente & 8 h & Alta \\ \hline
-HU8 & Ajustar hiperparámetros y seleccionar mejor modelo & 8 h & Alta \\ \hline
-HU8 & Analizar sensibilidad del modelo ante cambios en features clave & 6 h & Media \\ \hline
-HU8 & Evaluar desempeño de modelos en escenario de cold start & 6 h & Alta \\ \hline
-HU8 & Comparar desempeño de cold start entre modelos supervisados y no supervisados & 6 h & Alta \\ \hline
-HU8 & Evaluar escalabilidad y tiempos de inferencia de cada modelo & 6 h & Media \\ \hline
-HU8 & Iterar benchmark final con líderes de datos & 8 h & Alta \\ \hline
-HU8 & Explicar modelo con SHAP o LIME & 6 h & Alta \\ \hline
-HU9 & Evaluar desempeño del modelo según KPIs definidos & 6 h & Alta \\ \hline
-HU9 & Analizar resultados por grupo de clientes y tipo de producto & 6 h & Media \\ \hline
-HU9 & Visualizar cobertura y recall de productos sin historial & 6 h & Alta \\ \hline
-HU9 & Incorporar análisis de cold start en el informe final & 4 h & Alta \\ \hline
-HU9 & Validar resultados con usuarios funcionales del negocio & 6 h & Alta \\ \hline
-HU9 & Redactar informe de hallazgos con visualizaciones por métrica & 8 h & Media \\ \hline
-HU9 & Incorporar observaciones del equipo comercial & 5 h & Media \\ \hline
-HU9 & Generar visualizaciones de resultados por clúster & 8 h & Alta \\ \hline
-HU9 & Simular escenarios comerciales con el modelo & 8 h & Alta \\ \hline
-HU9 & Documentar supuestos técnicos y restricciones del modelo & 8 h & Media \\ \hline
-HU9 & Crear manual funcional para usuarios comerciales & 8 h & Alta \\ \hline
-HU9 & Diseñar y testear checklist de control de calidad & 6 h & Media \\ \hline
-HU9 & Simular fallos controlados y validar manejo de errores & 6 h & Media \\ \hline
-HU10 & Crear \textit{script} automatizado de validación post-entrenamiento & 8 h & Alta \\ \hline
-HU10 & Implementar sistema de logging y auditoría del modelo & 8 h & Alta \\ \hline
-HU10 & Diseñar arquitectura escalable multi-región para el scoring & 8 h & Alta \\ \hline
-HU10 & Simular volumen mensual esperado en diferentes países & 6 h & Alta \\ \hline
-HU10 & Definir protocolo de replicación y backup de resultados & 5 h & Alta \\ \hline
-HU10 & Implementar pruebas de stress en pipeline de predicción & 6 h & Alta \\ \hline
-HU10 & Evaluar compatibilidad con infraestructura cloud externa & 6 h & Alta \\ \hline
-HU10 & Documentar arquitectura general del sistema de scoring & 8 h & Alta \\ \hline
-HU11 & Diseñar esquema de versionado y mantenimiento del pipeline & 8 h & Alta \\ \hline
-HU11 & Simular escenarios de actualización mensual y fallback & 6 h & Alta \\ \hline
-HU11 & Documentar protocolo de \textit{rollback} ante fallos en producción & 8 h & Alta \\ \hline
-HU12 & Presentar resultados de prueba A/B a stakeholders comerciales & 6 h & Alta \\ \hline
-HU12 & Iterar recomendaciones tras A/B test con validación comercial & 6 h & Alta \\ \hline
-HU13 & Realizar pruebas de carga y performance del dashboard & 6 h & Media \\ \hline
-HU13 & Documentar cómo mantener y extender el dashboard & 4 h & Media \\ \hline
-HU13 & Redactar instructivo para detección de outliers en monitoreo & 4 h & Media \\ \hline
-HU14 & Preparar presentación final con feedback técnico y funcional & 8 h & Alta \\ \hline
-HU14 & Ajustar narrativa y visualizaciones de resultados finales & 8 h & Alta \\ \hline
-HU14 & Validar entregables con dirección de estrategia comercial & 4 h & Alta \\ \hline
-HU14 & Consolidar documentación técnica y funcional final & 8 h & Alta \\ \hline
+HU1 & Levantar y documentar requerimientos con el sponsor. & 16 hs & Alta \\ \hline
+
+HU2 & Investigar al menos tres enfoques aplicados a problemas similares & 17 hs & Media \\ \hline
+
+HU3 & Seleccionar métricas relevantes junto al equipo técnico & 12 hs & Alta \\ \hline
+
+HU4 & Diseñar pipeline de ingestión desde cada fuente de datos & 16 hs & Alta \\ \hline
+HU4 & Implementar transformación de datos  & 12 h & Alta \\ \hline
+HU4 & Testear integridad y consistencia de los datos ingresados & 12 hs & Alta \\ \hline
+
+HU5 & Explorar variables claves: frecuencias, correlaciones & 8 hs & Alta \\ \hline
+HU5 & Detectar y tratar valores extremos y nulos & 7 hs & Alta \\ \hline
+HU5 & Presentar hallazgos del EDA en una revisión técnica & 6 hs & Media \\ \hline
+
+HU6 & Diseñar \textit{features} & 30 hs & Alta \\ \hline
+HU6 & Validar el impacto de los atributos de cold start en modelos previos & 6 hs & Alta \\ \hline
+HU6 & Desarrollar embeddings para representar clientes y productos & 7 hs & Alta \\ \hline
+HU6 & Aplicar técnicas de reducción de dimensionalidad (PCA/TSNE) & 6 hs & Media \\ \hline
+HU6 & Validar robustez de \textit{features} ante cambios temporales & 6 hs & Alta \\ \hline
+HU6 & Documentar estructura modular & 5 hs & Media \\ \hline
+HU6 & Evaluar cobertura y correlación de atributos construidos & 6 hs & Alta \\ \hline
+HU6 & Analizar la importancia de cada \textit{feature} en modelos preliminares & 6 hs & Alta \\ \hline
+HU6 & Documentar lógica de construcción de \textit{features} & 5 hs & Media \\ \hline
+HU6 & Validar \textit{features} construidas con \textit{feedback} del negocio & 6 hs & Alta \\ \hline
+
+HU7 & Implementar y evaluar modelo baseline (top-n por frecuencia) & 14 hs & Media \\ \hline
+
+HU8 & Implementar y evaluar matriz de factorización con ALS & 20 hs & Alta \\ \hline
+HU8 & Implementar y evaluar modelo de regresión regularizada & 20 hs & Alta \\ \hline
+HU8 & Implementar y evaluar modelo basado en ranking (LightFM o XGBoostRanker) & 20 hs & Alta \\ \hline
+HU8 & Implementar y evaluar modelo basado en autoencoders o deep learning & 20 hs & Alta \\ \hline
+HU8 & Implementar validación cruzada estratificada por clúster & 8 hs & Alta \\ \hline
+HU8 & Analizar varianza de métricas entre folds & 10 hs & Alta \\ \hline
+HU8 & Comparar estabilidad de modelos entre splits temporales & 6 hs & Alta \\ \hline
+HU8 & Comparar resultados por segmento de cliente & 8 hs & Alta \\ \hline
+HU8 & Ajustar hiperparámetros y seleccionar el mejor modelo & 8 hs & Alta \\ \hline
+HU8 & Analizar sensibilidad del modelo ante cambios en features clave & 6 hs & Media \\ \hline
+HU8 & Evaluar desempeño de modelos en escenario de cold start & 12 hs & Alta \\ \hline
+HU8 & Evaluar escalabilidad y tiempos de inferencia de cada modelo & 6 hs & Media \\ \hline
+HU8 & Explicar modelo con SHAP o LIME & 6 hs & Alta \\ \hline
+HU8 & Validar benchmark final con líderes de datos & 8 hs & Alta \\ \hline
+
+HU9 & Evaluar desempeño del modelo según KPIs definidos & 8 hs & Alta \\ \hline
+HU9 & Analizar resultados por grupo de clientes y tipo de producto & 6 hs & Media \\ \hline
+HU9 & Visualizar cobertura y recall de productos sin historial & 6 hs & Alta \\ \hline
+HU9 & Incorporar análisis de cold start en el informe final & 4 hs & Alta \\ \hline
+HU9 & Validar resultados con usuarios funcionales del negocio & 6 hs & Alta \\ \hline
+HU9 & Redactar informe de hallazgos con visualizaciones por métrica & 13 hs & Media \\ \hline
+HU9 & Generar visualizaciones de resultados por clúster & 8 hs & Alta \\ \hline
+HU9 & Simular escenarios comerciales con el modelo & 8 hs & Alta \\ \hline
+HU9 & Documentar supuestos técnicos y restricciones del modelo & 8 hs & Media \\ \hline
+HU9 & Crear manual funcional para usuarios comerciales & 8 hs & Alta \\ \hline
+HU9 & Diseñar y testear checklist de control de calidad & 8 hs & Media \\ \hline
+HU9 & Simular fallos controlados y validar manejo de errores & 6 hs & Media \\ \hline
+
+HU10 & Crear \textit{script} automatizado de validación post-entrenamiento & 8 hs & Alta \\ \hline
+HU10 & Diseñar arquitectura a alojar en \textit{MlFlow} & 14 hs & Alta \\ \hline
+HU10 & Definir protocolo de replicación y respaldo de resultados & 5 hs & Alta \\ \hline
+HU10 & Implementar pruebas de estrés en \textit{pipeline} de predicción & 6 hs & Alta \\ \hline
+HU10 & Documentar arquitectura general & 14 hs & Alta \\ \hline
+
+HU11 & Automatizar proceso mensual & 8 hs & Alta \\ \hline
+HU11 & Diseñar esquema de versionado y mantenimiento del \textit{pipeline} & 8 hs & Alta \\ \hline
+HU11 & Simular escenarios de actualización mensual y \textit{fallback} & 6 hs & Alta \\ \hline
+
+HU12 & Realizar prueba A/B & 12 hs & Alta \\ \hline
+HU12 & Presentar resultados de prueba A/B a \textit{stakeholders} comerciales & 6 hs & Alta \\ \hline
+
+HU13 & Desarrollar \textit{dashboard} de métricas de salubridad & 10 hs & Media \\ \hline
+HU13 & Documentar tablero de seguimiento de salubridad & 4 hs & Media \\ \hline
+
+HU14 & Preparar presentación final con \textit{feedback} técnico y funcional & 8 hs & Alta \\ \hline
+HU14 & Ajustar narrativa y visualizaciones de resultados finales & 8 hs & Alta \\ \hline
+HU14 & Validar entregables con dirección de estrategia comercial & 4 hs & Alta \\ \hline
+HU14 & Consolidar documentación técnica y funcional final & 8 hs & Alta \\ \hline
 
 \end{longtable}
 
-El presente desglose contempla un total de 572 horas de trabajo. Esta estimación contempla el desarrollo técnico completo del sistema de recomendación, desde la definición del problema hasta la evaluación y entrega de resultados. Se considera adecuada para el alcance y profundidad del proyecto, y compatible con los lineamientos establecidos para trabajos de esta naturaleza.
+El presente desglose contempla un total de 579 horas de trabajo. Esta estimación contempla el desarrollo técnico completo del sistema de recomendación, desde la definición del problema hasta la evaluación y entrega de resultados. Se considera adecuada para el alcance y profundidad del proyecto, y compatible con los lineamientos establecidos para trabajos de esta naturaleza.
 
 \section{10. Diagrama de Gantt}
 \label{sec:gantt}
 
-\begin{ganttchart}[
-    hgrid,
-    vgrid,
-    time slot format=isodate,
-    x unit=0.3cm,
-    y unit title=0.3cm,
-    y unit chart=0.3cm,
-    bar height=0.3,
-    bar label font=\scriptsize,
-    bar label node/.append style={align=left,text width=9cm},
-    group label font=\bfseries\small,
-    calendar week text={\currentweek}
-]{2025-05-01}{2025-11-30}
+% \begin{ganttchart}[
+%     hgrid,
+%     vgrid,
+%     time slot format=isodate,
+%     x unit=0.3cm,
+%     y unit title=0.3cm,
+%     y unit chart=0.3cm,
+%     bar height=0.3,
+%     bar label font=\scriptsize,
+%     bar label node/.append style={align=left,text width=9cm},
+%     group label font=\bfseries\small,
+%     calendar week text={\currentweek}
+% ]{2025-05-01}{2025-11-30}
 
-\gantttitlecalendar{year, month=name} \\
-\ganttgroup[bar/.append style={fill=gray!40}]{HU1}{2025-05-01}{2025-05-07} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU1.1 - Entrevista con sponsor}{2025-05-01}{2025-05-02} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU1.2 - Acta validada PO}{2025-05-05}{2025-05-05} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU1.3 - Iterar feedback cliente}{2025-05-06}{2025-05-07} \\
+% \gantttitlecalendar{year, month=name} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU1}{2025-05-01}{2025-05-07} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU1.1 - Entrevista con sponsor}{2025-05-01}{2025-05-02} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU1.2 - Acta validada PO}{2025-05-05}{2025-05-05} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU1.3 - Iterar feedback cliente}{2025-05-06}{2025-05-07} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU2}{2025-05-08}{2025-05-14} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU2.1 - Investigar enfoques}{2025-05-08}{2025-05-09} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU2.2 - Informe comparativo}{2025-05-12}{2025-05-13} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU2.3 - Alineación técnica}{2025-05-14}{2025-05-14} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU2}{2025-05-08}{2025-05-14} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU2.1 - Investigar enfoques}{2025-05-08}{2025-05-09} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU2.2 - Informe comparativo}{2025-05-12}{2025-05-13} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU2.3 - Alineación técnica}{2025-05-14}{2025-05-14} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU3}{2025-05-16}{2025-05-20} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU3.1 - Seleccionar métricas}{2025-05-15}{2025-05-16} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU3.2 - Documentar KPIs}{2025-05-19}{2025-05-20} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU3}{2025-05-16}{2025-05-20} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU3.1 - Seleccionar métricas}{2025-05-15}{2025-05-16} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU3.2 - Documentar KPIs}{2025-05-19}{2025-05-20} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU4}{2025-05-21}{2025-06-03} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU4.1 - Relevar fuentes datos}{2025-05-21}{2025-05-22} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU4.2 - Pipeline ingestión}{2025-05-23}{2025-05-26} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU4.3 - Transformación de datos}{2025-05-27}{2025-05-28} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU4.4 - Control calidad datos}{2025-05-29}{2025-05-30} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU4.5 - Testeo consistencia}{2025-06-02}{2025-06-03} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU4}{2025-05-21}{2025-06-03} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU4.1 - Relevar fuentes datos}{2025-05-21}{2025-05-22} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU4.2 - Pipeline ingestión}{2025-05-23}{2025-05-26} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU4.3 - Transformación de datos}{2025-05-27}{2025-05-28} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU4.4 - Control calidad datos}{2025-05-29}{2025-05-30} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU4.5 - Testeo consistencia}{2025-06-02}{2025-06-03} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU5}{2025-06-04}{2025-06-11} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU5.1 - Explorar variables}{2025-06-04}{2025-06-05} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU5.2 - Tratar outliers/nulos}{2025-06-06}{2025-06-09} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU5.3 - Presentar hallazgos}{2025-06-10}{2025-06-11} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU5}{2025-06-04}{2025-06-11} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU5.1 - Explorar variables}{2025-06-04}{2025-06-05} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU5.2 - Tratar outliers/nulos}{2025-06-06}{2025-06-09} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU5.3 - Presentar hallazgos}{2025-06-10}{2025-06-11} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU6}{2025-06-12}{2025-07-17} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.1 - Features transaccionales}{2025-06-12}{2025-06-13} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.2 - Features digitales}{2025-06-16}{2025-06-17} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.3 - Features contextuales}{2025-06-18}{2025-06-19} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.4 - Features por segmento}{2025-06-20}{2025-06-23} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.5 - Cold start productos}{2025-06-24}{2025-06-25} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.6 - Validar cold start}{2025-06-26}{2025-06-27} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.7 - Embeddings clientes/productos}{2025-06-30}{2025-07-01} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.8 - Reducción dimensionalidad}{2025-07-02}{2025-07-03} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.9 - Validar robustez temporal}{2025-07-04}{2025-07-07} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.10 - Modularidad futura}{2025-07-08}{2025-07-08} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.11 - Cobertura y correlación}{2025-07-09}{2025-07-10} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.12 - Importancia en modelos}{2025-07-11}{2025-07-14} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.13 - Documentar lógica FE}{2025-07-15}{2025-07-15} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU6.14 - Validar FE con negocio}{2025-07-16}{2025-07-17} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU6}{2025-06-12}{2025-07-17} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.1 - Features transaccionales}{2025-06-12}{2025-06-13} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.2 - Features digitales}{2025-06-16}{2025-06-17} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.3 - Features contextuales}{2025-06-18}{2025-06-19} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.4 - Features por segmento}{2025-06-20}{2025-06-23} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.5 - Cold start productos}{2025-06-24}{2025-06-25} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.6 - Validar cold start}{2025-06-26}{2025-06-27} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.7 - Embeddings clientes/productos}{2025-06-30}{2025-07-01} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.8 - Reducción dimensionalidad}{2025-07-02}{2025-07-03} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.9 - Validar robustez temporal}{2025-07-04}{2025-07-07} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.10 - Modularidad futura}{2025-07-08}{2025-07-08} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.11 - Cobertura y correlación}{2025-07-09}{2025-07-10} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.12 - Importancia en modelos}{2025-07-11}{2025-07-14} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.13 - Documentar lógica FE}{2025-07-15}{2025-07-15} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU6.14 - Validar FE con negocio}{2025-07-16}{2025-07-17} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU7}{2025-07-18}{2025-07-23} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU7.1 - Modelo baseline}{2025-07-18}{2025-07-21} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU7.2 - Evaluar baseline}{2025-07-22}{2025-07-23} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU7}{2025-07-18}{2025-07-23} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU7.1 - Modelo baseline}{2025-07-18}{2025-07-21} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU7.2 - Evaluar baseline}{2025-07-22}{2025-07-23} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU8}{2025-07-24}{2025-09-26} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.1 - ALS}{2025-07-24}{2025-07-25} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.2 - Evaluar ALS}{2025-07-28}{2025-07-29} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.3 - Feedback ALS}{2025-07-30}{2025-07-31} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.4 - Regresión}{2025-08-01}{2025-08-04} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.5 - Evaluar regresión}{2025-08-05}{2025-08-06} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.6 - Feedback regresión}{2025-08-07}{2025-08-08} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.7 - Ranking}{2025-08-11}{2025-08-12} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.8 - Evaluar ranking}{2025-08-13}{2025-08-14} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.9 - Feedback ranking}{2025-08-15}{2025-08-18} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.10 - Deep learning}{2025-08-19}{2025-08-20} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.11 - Evaluar deep learning}{2025-08-21}{2025-08-22} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.12 - Feedback deep learning}{2025-08-25}{2025-08-26} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.13 - Validación cruzada}{2025-08-27}{2025-08-28} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.14 - Varianza folds}{2025-08-29}{2025-09-01} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.15 - Doc cross-validation}{2025-09-02}{2025-09-02} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.16 - Estabilidad temporal}{2025-09-03}{2025-09-04} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.17 - Resultados por segmento}{2025-09-05}{2025-09-08} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.18 - Ajustar hiperparámetros}{2025-09-09}{2025-09-10} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.19 - Sensibilidad por features}{2025-09-11}{2025-09-12} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.20 - Cold start performance}{2025-09-15}{2025-09-16} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.21 - Comparar modelos cold start}{2025-09-17}{2025-09-18} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.22 - Escalabilidad modelos}{2025-09-19}{2025-09-22} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.23 - Benchmark final}{2025-09-23}{2025-09-24} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU8.24 - Explicabilidad}{2025-09-25}{2025-09-26} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU8}{2025-07-24}{2025-09-26} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.1 - ALS}{2025-07-24}{2025-07-25} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.2 - Evaluar ALS}{2025-07-28}{2025-07-29} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.3 - Feedback ALS}{2025-07-30}{2025-07-31} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.4 - Regresión}{2025-08-01}{2025-08-04} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.5 - Evaluar regresión}{2025-08-05}{2025-08-06} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.6 - Feedback regresión}{2025-08-07}{2025-08-08} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.7 - Ranking}{2025-08-11}{2025-08-12} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.8 - Evaluar ranking}{2025-08-13}{2025-08-14} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.9 - Feedback ranking}{2025-08-15}{2025-08-18} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.10 - Deep learning}{2025-08-19}{2025-08-20} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.11 - Evaluar deep learning}{2025-08-21}{2025-08-22} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.12 - Feedback deep learning}{2025-08-25}{2025-08-26} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.13 - Validación cruzada}{2025-08-27}{2025-08-28} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.14 - Varianza folds}{2025-08-29}{2025-09-01} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.15 - Doc cross-validation}{2025-09-02}{2025-09-02} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.16 - Estabilidad temporal}{2025-09-03}{2025-09-04} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.17 - Resultados por segmento}{2025-09-05}{2025-09-08} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.18 - Ajustar hiperparámetros}{2025-09-09}{2025-09-10} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.19 - Sensibilidad por features}{2025-09-11}{2025-09-12} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.20 - Cold start performance}{2025-09-15}{2025-09-16} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.21 - Comparar modelos cold start}{2025-09-17}{2025-09-18} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.22 - Escalabilidad modelos}{2025-09-19}{2025-09-22} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.23 - Benchmark final}{2025-09-23}{2025-09-24} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU8.24 - Explicabilidad}{2025-09-25}{2025-09-26} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU9}{2025-09-29}{2025-10-30} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.1 - Evaluar KPIs definidos}{2025-09-29}{2025-09-30} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.2 - Analizar resultados por cliente y producto}{2025-10-01}{2025-10-02} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.3 - Visualizar recall en cold start}{2025-10-03}{2025-10-06} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.4 - Incluir análisis cold start en informe}{2025-10-07}{2025-10-07} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.5 - Validar resultados con negocio}{2025-10-08}{2025-10-09} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.6 - Informe con visualizaciones por métrica}{2025-10-10}{2025-10-13} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.7 - Incorporar feedback comercial}{2025-10-14}{2025-10-14} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.8 - Visualización por clúster}{2025-10-15}{2025-10-16} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.9 - Simular escenarios comerciales}{2025-10-17}{2025-10-20} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.10 - Documentar supuestos técnicos}{2025-10-21}{2025-10-22} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.11 - Manual funcional comercial}{2025-10-23}{2025-10-24} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.12 - Checklist de control de calidad}{2025-10-27}{2025-10-28} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU9.13 - Simular fallos y validar errores}{2025-10-29}{2025-10-30} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU9}{2025-09-29}{2025-10-30} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.1 - Evaluar KPIs definidos}{2025-09-29}{2025-09-30} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.2 - Analizar resultados por cliente y producto}{2025-10-01}{2025-10-02} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.3 - Visualizar recall en cold start}{2025-10-03}{2025-10-06} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.4 - Incluir análisis cold start en informe}{2025-10-07}{2025-10-07} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.5 - Validar resultados con negocio}{2025-10-08}{2025-10-09} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.6 - Informe con visualizaciones por métrica}{2025-10-10}{2025-10-13} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.7 - Incorporar feedback comercial}{2025-10-14}{2025-10-14} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.8 - Visualización por clúster}{2025-10-15}{2025-10-16} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.9 - Simular escenarios comerciales}{2025-10-17}{2025-10-20} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.10 - Documentar supuestos técnicos}{2025-10-21}{2025-10-22} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.11 - Manual funcional comercial}{2025-10-23}{2025-10-24} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.12 - Checklist de control de calidad}{2025-10-27}{2025-10-28} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU9.13 - Simular fallos y validar errores}{2025-10-29}{2025-10-30} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU10}{2025-10-31}{2025-11-20} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.1 - Script validación post-entrenamiento}{2025-10-31}{2025-11-03} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.2 - Sistema de logging y auditoría}{2025-11-04}{2025-11-05} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.3 - Arquitectura escalable multiregión}{2025-11-06}{2025-11-07} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.4 - Simulación volumen mensual países}{2025-11-10}{2025-11-11} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.5 - Protocolo de backup y replicación}{2025-11-12}{2025-11-12} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.6 - Pruebas de stress en predicción}{2025-11-13}{2025-11-14} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.7 - Evaluar infraestructura cloud}{2025-11-17}{2025-11-18} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU10.8 - Documentar arquitectura scoring}{2025-11-19}{2025-11-20} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU10}{2025-10-31}{2025-11-20} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.1 - Script validación post-entrenamiento}{2025-10-31}{2025-11-03} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.2 - Sistema de logging y auditoría}{2025-11-04}{2025-11-05} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.3 - Arquitectura escalable multiregión}{2025-11-06}{2025-11-07} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.4 - Simulación volumen mensual países}{2025-11-10}{2025-11-11} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.5 - Protocolo de backup y replicación}{2025-11-12}{2025-11-12} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.6 - Pruebas de stress en predicción}{2025-11-13}{2025-11-14} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.7 - Evaluar infraestructura cloud}{2025-11-17}{2025-11-18} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU10.8 - Documentar arquitectura scoring}{2025-11-19}{2025-11-20} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU11}{2025-11-21}{2025-11-28} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU11.1 - Versionado y mantenimiento del pipeline}{2025-11-21}{2025-11-24} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU11.2 - Escenarios actualización mensual}{2025-11-25}{2025-11-26} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU11.3 - Protocolo de rollback}{2025-11-27}{2025-11-28} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU11}{2025-11-21}{2025-11-28} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU11.1 - Versionado y mantenimiento del pipeline}{2025-11-21}{2025-11-24} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU11.2 - Escenarios actualización mensual}{2025-11-25}{2025-11-26} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU11.3 - Protocolo de rollback}{2025-11-27}{2025-11-28} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU12}{2025-12-01}{2025-12-04} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU12.1.1 - Presentar resultados A/B}{2025-12-01}{2025-12-02} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU12.2.1 - Iterar recomendaciones A/B}{2025-12-03}{2025-12-04} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU12}{2025-12-01}{2025-12-04} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU12.1.1 - Presentar resultados A/B}{2025-12-01}{2025-12-02} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU12.2.1 - Iterar recomendaciones A/B}{2025-12-03}{2025-12-04} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU13}{2025-12-05}{2025-12-10} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU13.1 - Pruebas de carga del dashboard}{2025-12-05}{2025-12-08} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU13.2 - Mantenimiento del dashboard}{2025-12-09}{2025-12-09} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU13.3 - Instructivo detección outliers}{2025-12-10}{2025-12-10} \\
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU13}{2025-12-05}{2025-12-10} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU13.1 - Pruebas de carga del dashboard}{2025-12-05}{2025-12-08} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU13.2 - Mantenimiento del dashboard}{2025-12-09}{2025-12-09} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU13.3 - Instructivo detección outliers}{2025-12-10}{2025-12-10} \\
 
-\ganttgroup[bar/.append style={fill=gray!40}]{HU14}{2025-12-11}{2025-12-19} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU14.1 - Preparar presentación final}{2025-12-11}{2025-12-12} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU14.2 - Ajustar narrativa final}{2025-12-15}{2025-12-16} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU14.3 - Validar entregables con estrategia}{2025-12-17}{2025-12-17} \\
-\ganttbar[bar/.append style={fill=blue!50}]{HU14.4 - Documentación final completa}{2025-12-18}{2025-12-19} \\
-\end{ganttchart}
+% \ganttgroup[bar/.append style={fill=gray!40}]{HU14}{2025-12-11}{2025-12-19} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU14.1 - Preparar presentación final}{2025-12-11}{2025-12-12} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU14.2 - Ajustar narrativa final}{2025-12-15}{2025-12-16} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU14.3 - Validar entregables con estrategia}{2025-12-17}{2025-12-17} \\
+% \ganttbar[bar/.append style={fill=blue!50}]{HU14.4 - Documentación final completa}{2025-12-18}{2025-12-19} \\
+% \end{ganttchart}
+
+\begin{landscape}
+\begin{figure}[htpb]
+\centering 
+\includegraphics[height=.95\textheight]{./Figuras/Gantt-1.png}
+\caption{Diagrama de Gantt mayo a julio.} 
+\label{fig:diagGantt}
+\end{figure}
+
+\end{landscape}
+
+\begin{landscape}
+\begin{figure}[htpb]
+\centering 
+\includegraphics[height=.85\textheight]{./Figuras/Gantt-2.png}
+\caption{Diagrama de Gantt julio a septiembre.} 
+\label{fig:diagGantt}
+\end{figure}
+
+\end{landscape}
 
 
 \begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
@@ -660,6 +666,16 @@ El diagrama de Gantt debe representar de forma visual y cronológica todas las t
 \end{itemize}
 
 Incluir una imagen legible del diagrama de Gantt. Si es muy ancho, presentar primero la tabla y luego el gráfico de barras.
+
+\begin{landscape}
+\begin{figure}[htpb]
+\centering 
+\includegraphics[height=.85\textheight]{./Figuras/Gantt-2.png}
+\caption{Ejemplo de diagrama de Gantt (apaisado).} %Modificar este título acorde.
+\label{fig:diagGantt}
+\end{figure}
+
+\end{landscape}
 
 \end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
