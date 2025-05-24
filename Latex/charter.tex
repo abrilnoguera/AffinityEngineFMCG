@@ -484,6 +484,7 @@ El presente desglose contempla un total de 579 horas de trabajo. Esta estimació
 \section{10. Diagrama de Gantt}
 \label{sec:gantt}
 
+A continuación se presenta el diagrama de Gantt del proyecto, que organiza las tareas de forma cronológica, diferenciando entre actividades técnicas y no técnicas. La planificación contempla un total de 600 horas distribuidas en jornadas de 4 horas hábiles, comenzando con la planificación inicial y finalizando con la presentación del trabajo. Se incluyen tareas técnicas de desarrollo y evaluación de modelos, así como tareas de documentación y coordinación. Se muestran primero en formato de tabla y luego como gráfico.
 
 \begin{figure}[htpb]
 \centering 
@@ -492,136 +493,60 @@ El presente desglose contempla un total de 579 horas de trabajo. Esta estimació
 \label{fig:diagGantt}
 \end{figure}
 
-
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
-El diagrama de Gantt debe representar de forma visual y cronológica todas las tareas del proyecto, abarcando aproximadamente 600 horas totales, de las cuales entre 480 y 500 deben destinarse a tareas técnicas (desarrollo, pruebas, implementación) y entre 100 y 120 a tareas no técnicas (planificación, documentación, escritura de memoria y preparación de la defensa).
-
-\textbf{Consignas y recomendaciones:}
-\begin{itemize}
-  \item Incluir tanto tareas técnicas derivadas de las HU como tareas no técnicas generales del proyecto.
-  \item El eje vertical debe listar las tareas y el eje horizontal representar el tiempo en semanas o fechas.
-  \item Utilizar colores diferenciados para distinguir tareas técnicas y no técnicas.
-  \item Las tareas deben estar ordenadas cronológicamente y reflejar todo el ciclo del proyecto.
-  \item Iniciar con la planificación del proyecto (coincidente con el inicio de Gestión de Proyectos) y finalizar con la defensa, próxima a la fecha de cierre del trabajo.
-  \item Configurar el software para mostrar los códigos del desglose de tareas y los nombres junto a cada barra.
-  \item Asegurarse de que la fecha final coincida con la del Acta Constitutiva.
-  \item Evitar tareas genéricas o ambiguas y asegurar una secuencia lógica y realista.
-  \item Las fechas pueden ser aproximadas; ajustar el ancho del diagrama según el texto y el parámetro \texttt{x unit}. Para mejorar la apariencia del diagrama, es necesario ajustar este valor y, quizás, acortar los nombres de las tareas.
-\end{itemize}
-
-\textbf{Herramientas sugeridas:}
-\begin{itemize}
-  \item Planner, GanttProject, Trello + plugins\\
-  \url{https://blog.trello.com/es/diagrama-de-gantt-de-un-proyecto}
-  \item Creately (colaborativa online)\\
-  \url{https://creately.com/diagram/example/ieb3p3ml/LaTeX}
-  \item LaTeX con \texttt{pgfgantt}:\\
-  \url{http://ctan.dcc.uchile.cl/graphics/pgf/contrib/pgfgantt/pgfgantt.pdf}
-\end{itemize}
-
-Incluir una imagen legible del diagrama de Gantt. Si es muy ancho, presentar primero la tabla y luego el gráfico de barras.
-
-\begin{landscape}
-\begin{figure}[htpb]
-\centering 
-\includegraphics[height=.85\textheight]{./Figuras/Gantt-2.png}
-\caption{Ejemplo de diagrama de Gantt (apaisado).} %Modificar este título acorde.
-\label{fig:diagGantt}
-\end{figure}
-
-\end{landscape}
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
-
 \section{11. Planificación de Sprints}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+La planificación de sprints permite organizar de manera incremental las tareas técnicas y no técnicas del proyecto, asegurando una distribución equilibrada de la carga horaria a lo largo del desarrollo. Cada sprint representa una unidad de tiempo orientada a objetivos concretos, facilitando el seguimiento del avance y la entrega continua de resultados parciales.
 
-Organizar las tareas técnicas del proyecto en sprints de trabajo que permitan distribuir de forma equilibrada la carga horaria total, estimada en 600 horas.
+Dado un compromiso de 20 horas semanales, los sprints han sido dimensionados en función de la complejidad de las tareas, sin exceder una duración estimada de 2 a 3 semanas por sprint.
 
-\textbf{Consigna:}
-\begin{itemize}
-  \item Completar una tabla que relacione sprints con HU y tareas técnicas correspondientes.
-  \item Incluir estimación en horas para cada tarea.
-  \item Indicar responsable y porcentaje de avance estimado o completado.
-  \item Contemplar también tareas de planificación, documentación, redacción de memoria y preparación de defensa.
-\end{itemize}
-
-\textbf{Conceptos clave:}
-\begin{itemize}
-  \item Una \'{e}pica es una unidad funcional amplia; una historia de usuario es una funcionalidad concreta; un sprint es una unidad de tiempo donde se ejecutan tareas.
-  \item Las tareas son el nivel más desagregado: permiten estimar tiempos, asignar responsables y monitorear progreso.
-\end{itemize}
-
-\textbf{Duración sugerida:}
-\begin{itemize}
-  \item Para un proyecto de 600 h, se recomienda planificar entre 10 y 12 sprints de aproximadamente 2 semanas cada uno.
-  \item Asignar entre 45 y 50 horas efectivas por sprint a tareas técnicas.
-  \item Reservar 100 a 120 h para actividades no técnicas (planificación, escritura, reuniones, defensa).
-\end{itemize}
-
-\textbf{Importante:}
-\begin{itemize}
-  \item En proyectos individuales, el responsable suele ser el propio autor.
-  \item Aun así, desagregar tareas facilita el seguimiento y mejora continua.
-\end{itemize}
-
-\textbf{Conversión opcional de Story Points a horas:}
-\begin{itemize}
-  \item 1 SP \(\approx\) 2 h como referencia flexible.
-  \item Tener en cuenta aproximaciones tipo Fibonacci.
-\end{itemize}
-
-\begin{table}[htpb]
-\centering
-\caption{Formato sugerido}
-\begin{tabularx}{\linewidth}{@{}|l|l|X|c|l|c|@{}}
+\begin{longtable}{|p{1.3cm}|p{1.3cm}|>{\raggedright\arraybackslash}p{6.5cm}|p{1cm}|>{\raggedright\arraybackslash}p{3.5cm}|p{1cm}|}
+\caption{Planificación de Sprints} \\
 \hline
 \rowcolor[HTML]{C0C0C0}
-Sprint & HU o fase & Tarea & Horas / SP & Responsable & \% Completado \\ \hline
-Sprint 0 & Planificación & Definir alcance y cronograma & 10 h & Alumno & 100\% \\ \hline
-Sprint 0 & Planificación & Reunión con tutor/cliente & 5 h & Alumno & 50\% \\ \hline
-Sprint 0 & Planificación & Ajuste de entregables & 6 h & Alumno & 25\% \\ \hline
-Sprint 1 & HU1 & Tarea 1 HU1 & 6 h / 3 SP & Alumno & 0\% \\ \hline
-Sprint 1 & HU1 & Tarea 2 HU1 & 10 h / 5 SP & Alumno & 0\% \\ \hline
-Sprint 2 & HU2 & Tarea 1 HU2 & 7 h / 5 SP & Alumno & 0\% \\ \hline
-... & ... & ... & ... & ... & ... \\ \hline
-Sprint 5 & Escritura & Redacción memoria & 50 h / 34 SP & Alumno & 0\% \\ \hline
-Sprint 6 & Defensa & Preparación exposición & 20 h / 13 SP & Alumno & 0\% \\ \hline
-\end{tabularx}
-\end{table}
+Sprint & HU o fase & Tarea & Horas & Responsable & \% \\ \hline
+\endfirsthead
 
-\textbf{Recomendaciones:}
-\begin{itemize}
-  \item Verificar que la carga horaria por sprint sea equilibrada.
-  \item Usar sprints de 1 a 3 semanas, acordes al cronograma general.
-  \item Actualizar el \% completado durante el seguimiento del proyecto.
-  \item Considerar un sprint final exclusivo para pruebas, revisión y ajustes antes de la defensa.
-\end{itemize}
+\hline
+\rowcolor[HTML]{C0C0C0}
+Sprint & HU o fase & Tarea & Horas & Responsable & \% \\ \hline
+\endhead
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+Sprint 1 & HU1 & Levantar y documentar requerimientos con el sponsor & 16 h & \authorname & 100\% \\ \hline
+Sprint 2 & HU2 & Investigar y comparar enfoques aplicados a problemas similares & 17 h & \authorname & 100\% \\ \hline
+Sprint 3 & HU3 & Definir y documentar métricas clave del modelo & 12 h & \authorname & 100\% \\ \hline
+Sprint 4 & HU4 & Pipeline de ingestión, transformación y validación de datos & 40 h & \authorname & 0\% \\ \hline
+Sprint 5 & HU5 & Análisis exploratorio y tratamiento de datos & 21 h & \authorname & 0\% \\ \hline
+Sprint 6 & HU6 & Diseño de features y atributos de cold start & 30 h & \authorname & 0\% \\ \hline
+Sprint 7 & HU6 & Validación y documentación de features & 41 h & \authorname & 0\% \\ \hline
+Sprint 8 & HU7 & Implementar y evaluar modelo baseline & 14 h & \authorname & 0\% \\ \hline
+Sprint 9 & HU8 & Modelos ALS y regresión & 40 h & \authorname & 0\% \\ \hline
+Sprint 10 & HU8 & Modelos ranking y deep learning & 40 h & \authorname & 0\% \\ \hline
+Sprint 11 & HU8 & Validación cruzada y sensibilidad del modelo & 40 h & \authorname & 0\% \\ \hline
+Sprint 12 & HU8 & Evaluaciones de cold start y explicabilidad & 38 h & \authorname & 0\% \\ \hline
+Sprint 13 & HU9 & Evaluación, visualización y documentación de resultados & 54 h & \authorname & 0\% \\ \hline
+Sprint 14 & HU10 & Validación post-entrenamiento y arquitectura técnica & 41 h & \authorname & 0\% \\ \hline
+Sprint 15 & HU11 & Automatización y mantenimiento del pipeline & 22 h & \authorname & 0\% \\ \hline
+Sprint 16 & HU12 & Ejecutar y analizar prueba A/B & 18 h & \authorname & 0\% \\ \hline
+Sprint 17 & HU13 & Desarrollo de dashboard y monitoreo de salud & 14 h & \authorname & 0\% \\ \hline
+Sprint 18 & HU14 & Preparar presentación final y documentación entregable & 28 h & \authorname & 0\% \\ \hline
+Sprint 19 & Redacción & Redacción de memoria final & 50 h & \authorname & 0\% \\ \hline
+Sprint 20 & Defensa & Preparación de exposición final & 20 h & \authorname & 0\% \\ \hline
 
+\end{longtable}
 
 \section{12. Normativa y cumplimiento de datos (gobernanza)}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+El proyecto utiliza datos transaccionales anonimizados correspondientes a clientes B2B (kioscos y autoservicios) de una empresa del sector consumo masivo. Estos datos no contienen información personal de individuos, por lo que no están alcanzados por normativas como la Ley 25.326 de Protección de Datos Personales en Argentina en su sentido más estricto. Sin embargo, se trata de datos estratégicos cuyo tratamiento exige ciertas precauciones.
 
-En esta sección se debe analizar si los datos utilizados en el proyecto están sujetos a normativas de protección de datos y privacidad, y en qué condiciones se pueden emplear.
-
-\textbf{Aspectos a considerar:}
 \begin{itemize}
-  \item Evaluar si los datos están regulados por normativas como GDPR, Ley 25.326 de Protección de Datos Personales en Argentina, HIPAA u otras según jurisdicción y temática.
-  \item Determinar si el uso de los datos requiere consentimiento explícito de los usuarios involucrados.
-  \item Indicar si existen restricciones legales, técnicas o contractuales sobre el uso, compartición o publicación de los datos.
-  \item Aclarar si los datos provienen de fuentes licenciadas, de acceso público o bajo algún tipo de autorización especial.
-  \item Analizar la viabilidad del proyecto desde el punto de vista legal y ético, considerando la gobernanza de los datos.
+\item Los datos han sido preprocesados y encriptados para evitar cualquier divulgación de información sensible, tanto a nivel comercial como institucional.
+\item Se acordó no mencionar el nombre de la empresa en ningún entregable del proyecto, con el objetivo de preservar su confidencialidad.
+\item No se requiere consentimiento explícito de usuarios, ya que no se trabaja con datos personales identificables.
+\item Los datos no serán publicados ni compartidos con terceros fuera del contexto académico del proyecto.
+\item Se utilizarán buenas prácticas de gobernanza de datos, tales como el acceso restringido, anonimización de variables sensibles y eliminación de los datos una vez finalizado el trabajo.
 \end{itemize}
 
-Este análisis es clave para garantizar el cumplimiento normativo y evitar conflictos legales durante el desarrollo y publicación del proyecto.
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+El uso de los datos es éticamente responsable y legalmente viable dentro del marco académico. El enfoque aplicado asegura el cumplimiento con los principios de confidencialidad, integridad y uso limitado, respetando los lineamientos acordados con la empresa proveedora de datos.
 
 \section{13. Gestión de riesgos}
 \label{sec:riesgos}
