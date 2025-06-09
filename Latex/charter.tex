@@ -92,7 +92,7 @@ Se adjunta a esta acta la planificación inicial.
 \centering
 \begin{tabular}{ccc}
 \begin{tabular}[c]{@{}c@{}}Dr. Ing. Ariel Lutenberg \\ Director posgrado FIUBA\end{tabular} & \hspace{2cm} & \begin{tabular}[c]{@{}c@{}}\clientename \\ \empclientename \end{tabular} \vspace{2.5cm} \\ 
-\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}} \supname \\ Director del Trabajo Final\end{tabular}} \vspace{2.5cm} \\
+\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}} \supname \\ Director del trabajo final\end{tabular}} \vspace{2.5cm} \\
 \end{tabular}
 \end{table}
 
@@ -146,15 +146,15 @@ El proyecto involucra a distintos actores relevantes en su desarrollo, validaci�
 \rowcolor[HTML]{C0C0C0} 
 Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
 % Auspiciante   &                   &              	&        	\\ \hline
-Cliente       & \clientename      &\empclientename	& Gerente del Proyecto       	\\ \hline
+Cliente       & \clientename      &\empclientename	& Gerente del proyecto       	\\ \hline
 % Impulsor      &                   &              	&        	\\ \hline
 Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
 %Colaboradores &                   &              	&        	\\ \hline
-Orientador    & \supname	      & \pertesupname 	& Director del Trabajo Final \\ \hline
+Orientador    & \supname	      & \pertesupname 	& Director del trabajo final \\ \hline
 % Equipo        & miembro1 \newline 
 %				miembro2          &              	&        	\\ \hline
 % Opositores    &                   &              	&        	\\ \hline
-Usuario final &  Lic. Micaela Bassan    & \empclientename	&  Product Owner \\ \hline
+Usuario final &  Lic. Micaela Bassan    & \empclientename	&  \textit{Product owner} \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -166,7 +166,7 @@ El propósito del proyecto es desarrollar un sistema que estime la relevancia po
 \section{4. Alcance del proyecto}
 \label{sec:alcance}
 
-El universo sobre el que se desarrollará esta iniciativa corresponde al conjunto de clientes y productos gestionado por el equipo de Portfolio Strategy en Argentina. Este se limita a clientes activos pertenecientes a los canales de Kioscos, Tradicionales y Autoservicios, bajo el régimen \textit{Off Premise}\footnote{Off Premise refiere a puntos de venta donde el producto es adquirido para consumo fuera del establecimiento.}. La cartera de productos considerada se enfoca exclusivamente en bebidas. Quedan excluidos del alcance los clientes de los canales \textit{On Premise}, Supermercados y Mayoristas, dado que presentan dinámicas comerciales significativamente diferentes y representan una fracción menor del total. Tampoco se contempla el negocio de marketplace, debido a sus particularidades operativas y a su peso relativamente reducido dentro del universo analizado.
+El universo sobre el que se desarrollará esta iniciativa corresponde al conjunto de clientes y productos gestionado por el equipo de Portfolio Strategy en Argentina. Este se limita a clientes activos pertenecientes a los canales de Kioscos, tradicionales y autoservicios, bajo el régimen \textit{off premise}\footnote{Off premise refiere a puntos de venta donde el producto es adquirido para consumo fuera del establecimiento.}. La cartera de productos considerada se enfoca exclusivamente en bebidas. Quedan excluidos del alcance los clientes de los canales \textit{on premise}, supermercados y mayoristas, dado que presentan dinámicas comerciales significativamente diferentes y representan una fracción menor del total. Tampoco se contempla el negocio de marketplace, debido a sus particularidades operativas y a su peso relativamente reducido dentro del universo analizado.
 
 El desarrollo del proyecto se organiza en una serie de etapas que abarcan desde la exploración inicial del estado del arte hasta la implementación del modelo y su evaluación en entorno real. Estas etapas permiten avanzar de forma iterativa y asegurar la calidad del entregable final, tanto desde el punto de vista técnico como funcional. A continuación, se detallan las principales actividades previstas:
 
@@ -201,7 +201,7 @@ Para el desarrollo del presente proyecto se supone que:
 \section{6. Product Backlog}
 \label{sec:backlog}
 
-La siguiente sección presenta el Product Backlog del proyecto, estructurado en torno a cuatro épicas principales que agrupan las funcionalidades clave del desarrollo. Cada épica contiene historias de usuario redactadas de forma concisa, con el objetivo de representar las necesidades del sistema desde la perspectiva de los distintos roles involucrados. Las historias incluyen su prioridad relativa, una estimación en Story Points y una breve descripción del propósito funcional. La asignación de Story Points se basa en una evaluación multidimensional que considera dificultad, complejidad e incertidumbre, y el valor total se redondea al número superior más próximo dentro de la secuencia de Fibonacci. Este enfoque busca facilitar la planificación de los sprints y asegurar la trazabilidad entre objetivos, funcionalidades y entregables.
+La siguiente sección presenta el Product Backlog del proyecto, estructurado en torno a cuatro épicas principales que agrupan las funcionalidades clave del desarrollo. Cada épica contiene historias de usuario redactadas de forma concisa, con el objetivo de representar las necesidades del sistema desde la perspectiva de los distintos roles involucrados. Las historias incluyen su prioridad relativa, una estimación en Story Points y una breve descripción del propósito funcional. La asignación de Story Points se basa en una evaluación multidimensional que considera dificultad, complejidad e incertidumbre, y el valor total se redondea al número superior más próximo dentro de la secuencia de Fibonacci. Este enfoque busca facilitar la planificación de los sprintse y asegurar la trazabilidad entre objetivos, funcionalidades y entregables.
 
 \subsection*{\'Epica 1: \textit{discovery} y entendimiento del problema}
 \begin{itemize}
@@ -379,7 +379,7 @@ esta etapa incluye la construcción de un \textit{pipeline} de ETL que permita i
 se aborda un problema de recomendación basado en afinidad, con el uso de técnicas de aprendizaje supervisado y filtrado colaborativo, entre otras. Se exploran algoritmos como modelos de regresión regularizada, matrices de factorización y, en caso de que las alternativas más simples no alcancen el rendimiento esperado, se consideran modelos de \textit{ranking} o aprendizaje profundo.
 
 \item \textbf{Evaluación del modelo:}
-el desempeño de los modelos será evaluado utilizando métricas propias del dominio de sistemas de recomendación, tales como recall@K, MAP@K, cobertura del portafolio sugerido y diversidad. La validación se realizará tanto de forma global como segmentada por tipo de cliente o categoría de producto. Los resultados serán comparados contra un modelo \textit{baseline} y validados junto al equipo funcional.
+el desempeño de los modelos será evaluado mediante métricas propias del dominio de sistemas de recomendación, tales como recall@K, MAP@K, cobertura del portafolio sugerido y diversidad. La validación se realizará tanto de forma global como segmentada por tipo de cliente o categoría de producto. Los resultados serán comparados contra un modelo \textit{baseline} y validados junto al equipo funcional.
 
 \item \textbf{Despliegue del modelo:}
 en caso de ser validado, el modelo se integrará al sistema de recomendaciones mensuales de la empresa a través de un \textit{pipeline} automatizado. Los \textit{scores} generados se disponibilizarán en tablas de resultados que alimentan tanto la aplicación de ventas como las herramientas internas del equipo de Portfolio Strategy. El modelo será registrado y versionado en MLflow para facilitar su mantenimiento y evolución.
@@ -488,7 +488,7 @@ El presente desglose contempla un total de 579 horas de trabajo. Esta estimació
 \section{10. Diagrama de Gantt}
 \label{sec:gantt}
 
-A continuación se presenta el diagrama de Gantt del proyecto, que organiza las tareas de forma cronológica, diferenciando entre actividades técnicas y no técnicas. La planificación contempla un total de 600 horas distribuidas en jornadas de 4 horas hábiles, comenzando con la planificación inicial y finalizando con la presentación del trabajo. Se incluyen tareas técnicas de desarrollo y evaluación de modelos, así como tareas de documentación y coordinación. Se muestran primero en formato de tabla y luego como gráfico.
+A continuación se presenta el diagrama de Gantt del proyecto, que organiza las tareas de forma cronológica y se diferencian entre actividades técnicas y no técnicas. La planificación contempla un total de 600 horas distribuidas en jornadas de 4 horas hábiles. Se incluyen tareas técnicas de desarrollo y evaluación de modelos, así como tareas de documentación y coordinación. Se muestran primero en formato de tabla y luego como gráfico.
 
 \begin{figure}[htpb]
 \centering 
@@ -499,7 +499,7 @@ A continuación se presenta el diagrama de Gantt del proyecto, que organiza las 
 
 \section{11. Planificación de Sprints}
 
-La planificación de sprints permite organizar de manera incremental las tareas técnicas y no técnicas del proyecto, asegurando una distribución equilibrada de la carga horaria a lo largo del desarrollo. Cada sprint representa una unidad de tiempo orientada a objetivos concretos, facilitando el seguimiento del avance y la entrega continua de resultados parciales.
+La planificación de sprints permite organizar de manera incremental las tareas técnicas y no técnicas del proyecto. Se asegura una distribución equilibrada de la carga horaria a lo largo del desarrollo. Cada sprint representa una unidad de tiempo orientada a objetivos concretos, facilitando el seguimiento del avance y la entrega continua de resultados parciales.
 
 Dado un compromiso de 20 horas semanales, los sprints han sido dimensionados en función de la complejidad de las tareas, sin exceder una duración estimada de 2 a 3 semanas por sprint.
 
@@ -556,43 +556,43 @@ El uso de los datos es éticamente responsable y legalmente viable dentro del ma
 
 \subsection*{a) Identificación de riesgos y estimación de consecuencias}
 
-\textbf{Riesgo 1: despriorización del proyecto dentro de la organización}
+Riesgo 1: despriorización del proyecto dentro de la organización
 \begin{itemize}
-  \item \textbf{Severidad (S): 7} \\
+  \item Severidad (S): 7 \\
   Si la empresa decide enfocarse en otras iniciativas, puede dificultar la obtención de validaciones y feedback funcional.
-  \item \textbf{Ocurrencia (O): 4} \\
+  \item Ocurrencia (O): 4 \\
   Es una posibilidad si cambian las prioridades del negocio durante los meses de desarrollo.
 \end{itemize}
 
-\textbf{Riesgo 2: complejidad excesiva en la implementación del modelo de ranking o deep learning}
+Riesgo 2: complejidad excesiva en la implementación del modelo de \textit{ranking} o \textit{deep learning}
 \begin{itemize}
-  \item \textbf{Severidad (S): 7} \\
+  \item Severidad (S): 7 \\
   Puede implicar replanificar entregas o reducir alcance técnico.
-  \item \textbf{Ocurrencia (O): 5} \\
+  \item Ocurrencia (O): 5 \\
   Probabilidad media considerando tuning, carga computacional y ajustes necesarios.
 \end{itemize}
 
-\textbf{Riesgo 3: limitaciones computacionales en las instancias de entrenamiento}
+Riesgo 3: limitaciones computacionales en las instancias de entrenamiento
 \begin{itemize}
-  \item \textbf{Severidad (S): 6} \\
+  \item Severidad (S): 6 \\
   Afecta la posibilidad de experimentar con modelos complejos o validar variantes en paralelo.
-  \item \textbf{Ocurrencia (O): 5} \\
+  \item Ocurrencia (O): 5 \\
   Moderada, especialmente si se comparten recursos en la nube.
 \end{itemize}
 
-\textbf{Riesgo 4: retrasos por revisiones internas prolongadas de entregables intermedios}
+Riesgo 4: retrasos por revisiones internas prolongadas de entregables intermedios
 \begin{itemize}
-  \item \textbf{Severidad (S): 6} \\
+  \item Severidad (S): 6 \\
   Puede demorar iteraciones técnicas si no hay disponibilidad del equipo funcional.
-  \item \textbf{Ocurrencia (O): 4} \\
+  \item Ocurrencia (O): 4 \\
   Es frecuente si hay otros proyectos activos en paralelo.
 \end{itemize}
 
-\textbf{Riesgo 5: continuidad laboral del alumno durante el desarrollo}
+Riesgo 5: continuidad laboral del alumno durante el desarrollo
 \begin{itemize}
-  \item \textbf{Severidad (S): 8} \\
+  \item Severidad (S): 8 \\
   Un corte abrupto del vínculo laboral comprometería el acceso a datos o recursos internos.
-  \item \textbf{Ocurrencia (O): 3} \\
+  \item Ocurrencia (O): 3 \\
   Poco probable dado el plan de carrera de la alumna, pero con alto impacto si ocurre.
 \end{itemize}
 
@@ -612,44 +612,50 @@ Continuidad laboral del alumno & 8 & 3 & 24 & 6 & 2 & 12 \\ \hline
 \end{tabularx}
 \end{table}
 
-\textbf{Criterio adoptado:} se aplicarán medidas de mitigación a los riesgos con \textbf{RPN mayores a 25}.
+Criterio adoptado: se aplicarán medidas de mitigación a los riesgos con RPN mayores a 25.
 
 \subsection*{c) Plan de mitigación de los riesgos críticos}
 
-\textbf{Riesgo 1: Despriorización del proyecto}
+Riesgo 1: despriorización del proyecto
 \begin{itemize}
-  \item \textbf{Mitigación:} Acordar hitos intermedios con valor para la organización. Generar entregables parciales útiles aunque el proyecto no finalice completo.
-  \item \textbf{Severidad (S*): 5} \quad \textbf{Ocurrencia (O*): 3}
+  \item Mitigación: acordar hitos intermedios con valor para la organización. Generar entregables parciales útiles aunque el proyecto no finalice completo.
+  \item Severidad (S*): 5 \quad Ocurrencia (O*): 3
 \end{itemize}
 
-\textbf{Riesgo 2: Complejidad del modelo}
+Riesgo 2: complejidad del modelo
 \begin{itemize}
-  \item \textbf{Mitigación:} Realizar pruebas tempranas con subconjuntos y ajustar el alcance si es necesario. Priorizar modelos más interpretables en la primera etapa.
-  \item \textbf{Severidad (S*): 6} \quad \textbf{Ocurrencia (O*): 3}
+  \item Mitigación: realizar pruebas tempranas con subconjuntos y ajustar el alcance si es necesario. Priorizar modelos más interpretables en la primera etapa.
+  \item Severidad (S*): 6 \quad Ocurrencia (O*): 3
 \end{itemize}
 
-\textbf{Riesgo 3: Limitaciones computacionales}
+Riesgo 3: limitaciones computacionales
 \begin{itemize}
-  \item \textbf{Mitigación:} Reservar recursos con antelación, usar particiones y trabajar en notebooks optimizadas.
-  \item \textbf{Severidad (S*): 5} \quad \textbf{Ocurrencia (O*): 3}
+  \item Mitigación: reservar recursos con antelación, usar particiones y trabajar en notebooks optimizadas.
+  \item Severidad (S*): 5 \quad Ocurrencia (O*): 3
 \end{itemize}
 
 \section{14. Sprint Review}
 \label{sec:sprint_review}
 
-La presente sección anticipa cómo se evaluará el cumplimiento de algunas de las funcionalidades más importantes del backlog durante el desarrollo del proyecto. A través de esta planificación preliminar de revisiones, se definen entregables esperados, criterios de aceptación y riesgos asociados para cada historia seleccionada, promoviendo un enfoque ágil centrado en el valor entregado en cada sprint.
+La presente sección anticipa cómo se evaluará el cumplimiento de algunas de las funcionalidades más importantes del \textit{backlog} durante el desarrollo del proyecto. A través de esta planificación preliminar de revisiones, se definen entregables esperados, criterios de aceptación y riesgos asociados para cada historia seleccionada. Se promueve un enfoque ágil centrado en el valor entregado en cada sprint.
 
-\begin{table}[htpb]
-\renewcommand{\arraystretch}{1.5}
-\begin{tabular}{|>{\raggedright\arraybackslash}m{2.3cm}|
-                >{\raggedright\arraybackslash}m{3cm}|
-                >{\raggedright\arraybackslash}m{2.5cm}|
-                >{\raggedright\arraybackslash}m{3.2cm}|
-                >{\raggedright\arraybackslash}m{2.5cm}|}
+\begin{longtable}{|>{\raggedright\arraybackslash}m{2.3cm}|
+                  >{\raggedright\arraybackslash}m{3cm}|
+                  >{\raggedright\arraybackslash}m{2.5cm}|
+                  >{\raggedright\arraybackslash}m{3.2cm}|
+                  >{\raggedright\arraybackslash}m{2.5cm}|}
 \hline
 \rowcolor[HTML]{CCCCCC}
 \textbf{HU seleccionada} & \textbf{Tareas asociadas} & \textbf{Entregable esperado} & \textbf{¿Cómo sabrás que está cumplida?} & \textbf{Observaciones o riesgos} \\
 \hline
+\endfirsthead
+
+\hline
+\rowcolor[HTML]{CCCCCC}
+\textbf{HU seleccionada} & \textbf{Tareas asociadas} & \textbf{Entregable esperado} & \textbf{¿Cómo sabrás que está cumplida?} & \textbf{Observaciones o riesgos} \\
+\hline
+\endhead
+
                          & Levantar requerimientos con el sponsor &                             &                                           &                                     \\ \cline{2-2}
 \multirow{-2}{=}{HU1}    & Documentar expectativas y validar con cliente & \multirow{-2}{=}{Documento de requerimientos validada} & \multirow{-2}{=}{Documento aprobado por el cliente} & \multirow{-2}{=}{Dependencia de disponibilidad del sponsor} \\
 \hline
@@ -662,8 +668,8 @@ La presente sección anticipa cómo se evaluará el cumplimiento de algunas de l
                          & Implementar modelo baseline &                             &                                           &                                     \\ \cline{2-2}
 \multirow{-2}{=}{HU7}    & Evaluar con recall y coverage & \multirow{-2}{=}{Modelo base validado} & \multirow{-2}{=}{Resultados superan umbrales mínimos definidos} & \multirow{-2}{=}{Modelo poco robusto sin comparativos} \\
 \hline
-\end{tabular}
-\end{table}
+
+\end{longtable}
 
 
 \section{15. Sprint Retrospective}    
