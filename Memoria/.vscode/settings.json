@@ -1,0 +1,9 @@
+{
+  "terminal.integrated.env.osx": {
+    "PATH": "/Library/TeX/texbin:${env:PATH}"
+  },
+  "latex-workshop.latex.rootFile.useSubFile": false,
+  "latex-workshop.latex.rootFile.doNotPrompt": true,
+  "latex-workshop.latex.rootFile.external.enabled": true,
+  "latex-workshop.latex.rootFile.external.file": "memorianueva.tex"
+}

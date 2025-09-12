@@ -1,0 +1,39 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Compilar LaTeX (memorianueva.tex)",
+			"type": "shell",
+			"command": "latexmk -pdf memorianueva.tex",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$latexmk"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Limpiar y compilar LaTeX (memorianueva.tex)",
+			"type": "shell",
+			"command": "latexmk -C && latexmk -pdf memorianueva.tex",
+			"args": [],
+			"isBackground": false,
+			"problemMatcher": [
+				"$latexmk"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Limpiar y compilar LaTeX",
+			"type": "shell",
+			"command": "latexmk -C && latexmk -pdf memorianueva.tex",
+			"group": "build",
+			"problemMatcher": [
+				"$latexmk"
+			],
+			"presentation": {
+				"reveal": "always"
+			}
+		}
+	]
+}
