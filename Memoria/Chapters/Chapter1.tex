@@ -5,7 +5,7 @@
 \label{Chapter1} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 \label{IntroGeneral}
 
-Este capítulo tiene como propósito contextualizar el trabajo dentro del ámbito del consumo masivo y, en particular, de los modelos de negocio entre empresas (\textit{B2B}). Se expone la relevancia que adquiere la personalización comercial en este sector y los desafíos que surgen al gestionar un portafolio amplio de productos frente a una base heterogénea de clientes. A partir de esta perspectiva se describe el problema central que motiva el desarrollo de un motor de afinidad y se señalan las limitaciones de los enfoques tradicionales de recomendación en entornos de alta variabilidad y escasez de datos.
+Este capítulo tiene como propósito contextualizar el trabajo dentro del ámbito del consumo masivo y, en particular, de los modelos de negocio entre empresas (B2B). Se expone la relevancia que adquiere la personalización comercial en este sector y los desafíos que surgen al gestionar un portafolio amplio de productos frente a una base heterogénea de clientes. A partir de esta perspectiva se describe el problema central que motiva el desarrollo de un motor de afinidad y se señalan las limitaciones de los enfoques tradicionales de recomendación en entornos de alta variabilidad y escasez de datos.
 
 Asimismo, se realiza una revisión introductoria de los principales sistemas de
 recomendación y de sus alcances en diferentes contextos, donde se destacan las
@@ -61,7 +61,7 @@ La solución propuesta apunta a superar estas limitaciones mediante el desarroll
 
 \section{Estado del arte}
 
-El estado del arte permite ubicar este trabajo dentro de la evolución de los sistemas de recomendación. En esta sección se revisan los principales \textit{benchmarks} en entornos B2C, los aportes de la literatura en contextos B2B y un caso de implementación en Brasil, para finalmente sintetizar los aprendizajes y señalar la brecha que orienta esta propuesta.
+El estado del arte permite ubicar este trabajo dentro de la evolución de los sistemas de recomendación. En esta sección se revisan los principales \textit{benchmarks} en entornos B2C (del inglés, \textit{Business to Customer}), los aportes de la literatura en contextos B2B y un caso de implementación en Brasil, para finalmente sintetizar los aprendizajes y señalar la brecha que orienta esta propuesta.
 
 \subsection{Referencias en sistemas de recomendación}
 
@@ -69,7 +69,7 @@ El campo de los sistemas de recomendación se consolidó en los últimos veinte 
 
 Uno de los puntos de inflexión fue el concurso Netflix Prize \cite{ARTICLE:NetflixPrize}, que impulsó avances en factorización matricial y consolidó métricas de ranking como \textit{recall} y \textit{precision} en el análisis de desempeño. En paralelo, Amazon desarrolló un motor de recomendaciones basado en filtrado colaborativo \textit{item-to-item}, reconocido por su capacidad de escalar en catálogos extensos y mantener robustez frente a grandes volúmenes de transacciones. MovieLens \cite{ARTICLE:MovieLens} se transformó en el dataset académico más utilizado, al servir como estándar para comparar algoritmos y validar resultados de manera consistente. Finalmente, plataformas como Spotify y YouTube llevaron la disciplina hacia modelos secuenciales y de aprendizaje profundo, capaces de personalizar en tiempo real a partir de interacciones en sesiones cortas.
 
-Estos casos muestran cómo los sistemas de recomendación se convirtieron en el núcleo de la personalización digital y establecieron estándares en cuanto a precisión, escalabilidad y diversidad. Al mismo tiempo, reflejan un sesgo hacia contextos de  \textit{Business to Customer (B2C)}, donde las interacciones con consumidores finales son abundantes, explícitas y fácilmente trazables.
+Estos casos muestran cómo los sistemas de recomendación se convirtieron en el núcleo de la personalización digital y establecieron estándares en cuanto a precisión, escalabilidad y diversidad. Al mismo tiempo, reflejan un sesgo hacia contextos de  B2C, donde las interacciones con consumidores finales son abundantes, explícitas y fácilmente trazables.
 
 \subsection{Sistemas de recomendación en B2B}
 
@@ -101,20 +101,20 @@ A modo de síntesis, la tabla \ref{tab:estado_arte} resume las ventajas y desven
 \label{tab:estado_arte}
 \begin{tabularx}{\textwidth}{>{\hsize=0.5\hsize}X >{\hsize=1.25\hsize}X >{\hsize=1.25\hsize}X}
 \toprule
-Enfoque / Caso & Ventajas principales & Desventajas principales \\
+\textbf{Enfoque / Caso} & \textbf{Ventajas principales} & \textbf{Desventajas principales} \\
 \midrule
-Benchmarks \emph{B2C} (Netflix, Amazon, etc.) &
+Benchmarks B2C (Netflix, Amazon, etc.) &
 Alta precisión y escalabilidad. Abundancia de datos y señales digitales. Estándares de evaluación consolidados. &
-Contextos con abundancia de \emph{feedback} explícito/implícito, poco comparables al \emph{B2B}. No consideran objetivos de negocio específicos. \\
-\midrule
-Literatura \emph{B2B} &
+Contextos con abundancia de \textit{feedback} explícito/implícito, poco comparables al B2B. No consideran objetivos de negocio específicos. \\
+% \midrule
+Literatura B2B &
 Reconoce particularidades de clientes empresariales. Identifica beneficios en reducción de costos y fortalecimiento de relaciones. &
-Pocas implementaciones reales. Escasa estandarización de métricas y \emph{datasets}. Desafíos de interpretabilidad y escalabilidad. \\
-\midrule
+Pocas implementaciones reales. Escasa estandarización de métricas y datasets. Desafíos de interpretabilidad y escalabilidad. \\
+% \midrule
 Caso Brasil (BEES) &
 Demostró viabilidad en gran escala. Integró compras e interacciones digitales. Mejora clara frente a procesos manuales. &
 Dependencia fuerte del historial transaccional (arranque en frío). Limitaciones en diversidad y alineación con objetivos estratégicos. \\
-\midrule
+% \midrule
 Brecha en Argentina &
 Oportunidad de adaptar aprendizajes globales y regionales. Potencial de integrar señales contextuales y digitales. Aplicación de técnicas modernas de aprendizaje automático y profundo. &
 Falta de solución probada en el contexto local. Mayor heterogeneidad y escala que en otros países. \\
