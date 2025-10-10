@@ -97,7 +97,7 @@ De esta forma, la integración de datos transaccionales, señales de interacció
 
 % En segundo lugar, se empleó \texttt{MLflow} como herramienta de gestión del ciclo de vida de modelos. A través de esta plataforma se registraron experimentos, parámetros, métricas y versiones de modelos, lo que aseguró trazabilidad y comparabilidad entre distintos enfoques. Asimismo, se utilizaron las funcionalidades de almacenamiento y versionado de artefactos para garantizar la reproducibilidad de resultados y la posibilidad de mantener un repositorio consolidado de modelos entrenados.
 
-% El trabajo también se apoyó en librerías de aprendizaje automático ampliamente utilizadas en la comunidad científica y profesional. Entre ellas se destaca \texttt{MLlib}, utilizada para implementar la factorización matricial con \texttt{ALS}. Asimismo, se empleó \texttt{LightFM} para el desarrollo de modelos híbridos de filtrado colaborativo. Finalmente, se incorporó \texttt{PyTorch} como entorno de \textit{deep learning}, lo que permitió construir arquitecturas más complejas capaces de capturar patrones no lineales en las interacciones cliente–producto. Adicionalmente, se utilizaron librerías de visualización como \texttt{matplotlib} y \texttt{seaborn} para generar representaciones gráficas que complementaron el análisis exploratorio y la evaluación de resultados.
+% El trabajo también se apoyó en bibliotecas de aprendizaje automático ampliamente utilizadas en la comunidad científica y profesional. Entre ellas se destaca \texttt{MLlib}, utilizada para implementar la factorización matricial con \texttt{ALS}. Asimismo, se empleó \texttt{LightFM} para el desarrollo de modelos híbridos de filtrado colaborativo. Finalmente, se incorporó \texttt{PyTorch} como entorno de \textit{deep learning}, lo que permitió construir arquitecturas más complejas capaces de capturar patrones no lineales en las interacciones cliente–producto. Adicionalmente, se utilizaron bibliotecas de visualización como \texttt{matplotlib} y \texttt{seaborn} para generar representaciones gráficas que complementaron el análisis exploratorio y la evaluación de resultados.
 
 % Finalmente, se recurrió a entornos de control de versiones y colaboración, en particular \texttt{GitHub}, lo que permitió organizar el código en repositorios estructurados, registrar cambios de manera sistemática y facilitar la integración de componentes en distintas fases del trabajo.
 
@@ -111,13 +111,13 @@ De esta forma, la integración de datos transaccionales, señales de interacció
 
 % En segundo lugar, los sistemas de gestión del ciclo de vida de modelos (MLOps) permiten registrar experimentos, parámetros, métricas y versiones de modelos. Estas herramientas aseguran trazabilidad, reproducibilidad y comparabilidad entre diferentes enfoques, además de posibilitar el almacenamiento y versionado de artefactos.
 
-% Adicionalmente, se utilizan librerías de aprendizaje automático y profundo que constituyen estándares en la comunidad científica y profesional. Entre ellas se destacan entornos para la implementación de algoritmos clásicos de recomendación, librerías para modelos híbridos y marcos de trabajo de deep learning que permiten capturar patrones complejos en las interacciones entre clientes y productos. Estas soluciones suelen complementarse con librerías de visualización orientadas a generar representaciones gráficas que apoyen el análisis exploratorio y la evaluación de resultados.
+% Adicionalmente, se utilizan bibliotecas de aprendizaje automático y profundo que constituyen estándares en la comunidad científica y profesional. Entre ellas se destacan entornos para la implementación de algoritmos clásicos de recomendación, bibliotecas para modelos híbridos y marcos de trabajo de deep learning que permiten capturar patrones complejos en las interacciones entre clientes y productos. Estas soluciones suelen complementarse con bibliotecas de visualización orientadas a generar representaciones gráficas que apoyen el análisis exploratorio y la evaluación de resultados.
 
 % Finalmente, las plataformas de control de versiones y colaboración cumplen un rol central en la organización del código, el registro de cambios y la integración de componentes en distintas fases del desarrollo. Estas herramientas permiten estructurar repositorios, asegurar calidad en los procesos de desarrollo y facilitar la coordinación entre equipos.
 
-% En conjunto, este ecosistema de plataformas y librerías constituye la base tecnológica sobre la cual se implementan los sistemas de recomendación modernos, garantizando tanto la calidad técnica como la escalabilidad de las soluciones.
+% En conjunto, este ecosistema de plataformas y bibliotecas constituye la base tecnológica sobre la cual se implementan los sistemas de recomendación modernos, garantizando tanto la calidad técnica como la escalabilidad de las soluciones.
 
-El desarrollo de este trabajo se apoyó en un conjunto de herramientas tecnológicas que facilitaron la gestión integral del ciclo de vida del sistema de recomendación. A continuación, se detallan las principales plataformas, librerías y entornos empleados, junto con su función específica en el proceso.
+El desarrollo de este trabajo se apoyó en un conjunto de herramientas tecnológicas que facilitaron la gestión integral del ciclo de vida del sistema de recomendación. A continuación, se detallan las principales plataformas, bibliotecas y entornos empleados, junto con su función específica en el proceso.
 
 \subsection{Plataformas de procesamiento distribuido}
 
@@ -127,13 +127,13 @@ El procesamiento y consolidación de grandes volúmenes de información se llev�
 
 Para la gestión del ciclo de vida de los modelos se empleó MLflow \cite{ARTICLE:MLflow2018}, plataforma que facilita el registro de experimentos, parámetros, métricas y versiones de modelos. Esta herramienta permitió mantener trazabilidad entre las distintas ejecuciones, asegurar comparabilidad de resultados y almacenar los artefactos generados (modelos entrenados y estructuras derivadas). De este modo, se consolidó un repositorio ordenado que garantizó reproducibilidad y control en la experimentación.
 
-\subsection{Librerías de aprendizaje automático y profundo}
+\subsection{bibliotecas de aprendizaje automático y profundo}
 
-En el desarrollo de los modelos se emplearon distintas librerías que constituyen estándares en la comunidad científica y profesional. Se utilizó MLlib para implementar el filtrado colaborativo mediante factorización matricial con el algoritmo Alternating Least Squares (ALS) \cite{ARTICLE:ALS2008}, mientras que LightFM \cite{ARTICLE:LightFM2015} permitió construir un modelo híbrido que combina señales de interacción implícita con atributos de clientes y productos. Adicionalmente, se recurrió a PyTorch como entorno de deep learning para el diseño de arquitecturas neuronales capaces de capturar relaciones no lineales y complejas en los datos. 
+En el desarrollo de los modelos se emplearon distintas bibliotecas que constituyen estándares en la comunidad científica y profesional. Se utilizó MLlib para implementar el filtrado colaborativo mediante factorización matricial con el algoritmo Alternating Least Squares (ALS) \cite{ARTICLE:ALS2008}, mientras que LightFM \cite{ARTICLE:LightFM2015} permitió construir un modelo híbrido que combina señales de interacción implícita con atributos de clientes y productos. Adicionalmente, se recurrió a PyTorch como entorno de deep learning para el diseño de arquitecturas neuronales capaces de capturar relaciones no lineales y complejas en los datos. 
 
-\subsection{Librerías de visualización}
+\subsection{bibliotecas de visualización}
 
-Para el análisis visual y la generación de gráficos se utilizaron librerías como Matplotlib \cite{ARTICLE:Matplotlib2007} y Seaborn \cite{ARTICLE:Seaborn2021}, que facilitaron la representación gráfica tanto de la información explorada como de los resultados obtenidos en las distintas fases del trabajo.
+Para el análisis visual y la generación de gráficos se utilizaron bibliotecas como Matplotlib \cite{ARTICLE:Matplotlib2007} y Seaborn \cite{ARTICLE:Seaborn2021}, que facilitaron la representación gráfica tanto de la información explorada como de los resultados obtenidos en las distintas fases del trabajo.
 
 \subsection{Control de versiones y colaboración}
 
