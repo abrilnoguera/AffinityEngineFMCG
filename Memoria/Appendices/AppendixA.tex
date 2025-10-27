@@ -1,7 +1,80 @@
-% Appendix A
+\chapter{Optimización de pesos por evento y ventana temporal}
+\label{AnexoOptuna}
 
-\chapter{Appendix Title Here} % Main appendix title
+Este anexo documenta los resultados del proceso de optimización bayesiana realizado con \texttt{Optuna}, cuyo objetivo fue estimar los pesos relativos de cada tipo de evento y de cada ventana temporal para la construcción del \textit{score} de preferencia cliente-producto.  
+El procedimiento se orientó a maximizar la métrica \textit{Precision@10} sobre un conjunto de validación temporal, garantizando un balance adecuado entre la relevancia de las señales recientes y la estabilidad de los patrones históricos.
 
-\label{AppendixA} % For referencing this appendix elsewhere, use \ref{AppendixA}
+\section{Estrategia de optimización}
 
-Write your Appendix content here.
+La optimización se ejecutó sobre 100 iteraciones mediante búsqueda bayesiana.  
+En cada \textit{trial} se ajustaron simultáneamente los pesos temporales y los pesos por tipo de evento ($\alpha_{e}$), aplicándolos en la generación del \textit{score} compuesto de afinidad.  
+La métrica de desempeño se calculó utilizando ventanas móviles de seis meses, entrenando con el histórico comprendido entre los meses $N-7$ y $N-2$, y validando la capacidad predictiva sobre el mes $N-1$.
+
+El resultado final mostró un patrón consistente: las señales más recientes (1M) aportan mayor información predictiva que las históricas (6M), y los eventos transaccionales tienden a tener mayor peso que los digitales, especialmente aquellos asociados a recomendaciones personalizadas o a flujos de compra recurrentes.
+
+\section{Pesos óptimos por ventana temporal}
+
+\begin{table}[H]
+\centering
+\caption{Pesos óptimos de las ventanas temporales.}
+\begin{tabular}{lc}
+\toprule
+\textbf{Ventana} & \textbf{Peso} \\
+\midrule
+1 mes (reciente) & 0.3925 \\
+3 meses (intermedia) & 0.4735 \\
+6 meses (larga) & 0.1340 \\
+\bottomrule
+\end{tabular}
+\label{tab:window_weights}
+\end{table}
+
+Los pesos asignan mayor relevancia a los comportamientos más recientes, reflejando la mayor capacidad predictiva de las señales cercanas en el tiempo.
+
+\section{Pesos óptimos por tipo de evento}
+
+\begin{table}[H]
+\centering
+\caption{Pesos óptimos por tipo de evento (\textit{event\_weights}).}
+\begin{tabular}{lc}
+\toprule
+\textbf{Evento} & \textbf{Peso ($\alpha_e$)} \\
+\midrule
+\texttt{BUYER} & 0.2208 \\
+\texttt{ordered\_QUICK\_ORDER} & 0.1170 \\
+\texttt{ordered} & 0.0700 \\
+\texttt{card\_viewed\_QUICK\_ORDER} & 0.1318 \\
+\texttt{card\_viewed\_FORGOTTEN\_ITEMS} & 0.0630 \\
+\texttt{details\_page\_viewed} & 0.0066 \\
+\texttt{card\_viewed\_CROSS\_SELL\_UP\_SELL} & 0.0916 \\
+\texttt{ordered\_CROSS\_SELL\_UP\_SELL} & 0.1882 \\
+\texttt{ordered\_FORGOTTEN\_ITEMS} & 0.2174 \\
+\texttt{ordered\_RECENT\_SEARCHES} & 0.0734 \\
+\texttt{ordered\_CLUB\_B} & 0.1008 \\
+\texttt{ordered\_POPULAR\_SEARCHES} & 0.1896 \\
+\texttt{removed} & 0.1228 \\
+\texttt{card\_viewed\_RECENT\_SEARCHES} & 0.1786 \\
+\texttt{card\_viewed\_POPULAR\_SEARCHES} & 0.2028 \\
+\texttt{card\_viewed} & 0.0132 \\
+\texttt{card\_viewed\_CLUB\_B} & 0.0128 \\
+\bottomrule
+\end{tabular}
+\label{tab:event_weights}
+\end{table}
+
+\section{Análisis e interpretación}
+
+Los pesos reflejan una jerarquía coherente con el proceso de compra en la plataforma BEES: las órdenes efectivas (\texttt{BUYER}, \texttt{ordered\_*}) constituyen las señales más predictivas de recompra, seguidas por las interacciones promocionales y de exposición de producto (\texttt{card\_viewed\_*}).  
+Las categorías vinculadas a mecanismos de recomendación específicos, como \textit{Cross-Sell/Up-Sell} y \textit{Forgotten Items}, presentan una fuerte correlación con la conversión, lo que respalda su priorización en el cálculo del \textit{score} final.  
+
+En contraste, los eventos de exploración (\texttt{details\_page\_viewed}) o de fricción (\texttt{removed}) tienen menor peso, lo que confirma que su valor informativo es limitado cuando se los considera de forma aislada.  
+
+El conjunto de ponderaciones resultante fue utilizado para construir el \textit{score} de preferencia compuesto en la ecuación \ref{eq:preference_score}:
+
+\begin{equation}
+\label{eq:preference_score}
+\text{Score}_{ij} = \sum_{e \in E} \sum_{w \in W} \alpha_e \cdot \beta_w \cdot x_{ij}^{(e,w)}
+\end{equation}
+
+donde $\alpha_e$ representa el peso por tipo de evento y $\beta_w$ el peso temporal.  
+Este valor resume la intensidad y actualidad de las interacciones del cliente $i$ con el producto $j$, constituyendo el insumo principal de la matriz cliente-producto empleada en los modelos de recomendación.

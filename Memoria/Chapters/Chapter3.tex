@@ -98,7 +98,7 @@ Este patrón no solo refuerza la evidencia presentada en las curvas de concentra
 \begin{figure}[htpb]
 	\centering
 	\includegraphics[scale=.65]{./Figures/log_log_plot.png}
-	\caption{\textit{Log–log plot} de la popularidad de productos.}
+	\caption{\textit{Log log plot} de la popularidad de productos.}
 	\label{fig:log_log_plot}
 \end{figure}
 
@@ -140,6 +140,7 @@ Finalmente, se evaluó la tasa de recompra según la combinación de señales ob
 \begin{table}[h]
 	\centering
 	\caption[Tasa de recompra por combinación de señales]{Tasa de recompra según la combinación de señales previas.}
+	\label{tab:tasa_recompra}
 	\begin{tabular}{l c}    
 		\toprule
 		\textbf{Grupo}     & \textbf{Tasa de recompra}\\
@@ -150,7 +151,6 @@ Finalmente, se evaluó la tasa de recompra según la combinación de señales ob
 		Solo interacción & 17{,}64 \% \\
 		\bottomrule
 	\end{tabular}
-	\label{tab:tasa_recompra}
 \end{table}
 
 \subsection{Observaciones preliminares del análisis exploratorio}
@@ -167,75 +167,117 @@ En conjunto, estos hallazgos proporcionan una primera validación de la hipótes
 
 \section{Ingeniería de atributos}
 
-La ingeniería de atributos busca transformar los datos en representaciones que los algoritmos de recomendación puedan utilizar de manera efectiva. Más que un proceso técnico de limpieza o transformación, implica decidir cómo capturar las relaciones entre clientes y productos para que el modelo cuente con señales relevantes al momento de aprender.
+La etapa de ingeniería de atributos constituyó uno de los pilares centrales del desarrollo del motor de afinidad, ya que definió la forma en que las distintas fuentes de datos fueron transformadas en representaciones numéricas útiles para los modelos de recomendación. En esta fase se abordó tanto la construcción de la matriz cliente–producto, que sintetiza las interacciones históricas y digitales entre ambas entidades, como la generación de atributos contextuales que describen las características estructurales de clientes y productos.
 
-En un entorno B2B de consumo masivo, estas decisiones resultan especialmente importantes. La concentración de la demanda en pocos productos, la rotación frecuente del portafolio y la existencia de clientes sin historial son factores que obligan a diseñar atributos que reflejen esa complejidad. Para ello se definieron distintas ventanas temporales de observación, se combinaron transacciones con interacciones digitales y se incorporaron características contextuales que enriquecen la representación final.
+El objetivo fue capturar la complejidad del comportamiento comercial B2B en consumo masivo, donde coexisten puntos de venta con patrones de compra heterogéneos, portafolios con alta rotación y señales digitales de distinta frecuencia e intensidad. Las fuentes de información se integraron en una arquitectura analítica diseñada para producir variables consistentes, interpretables y estables en el tiempo.
 
-También se aplicaron técnicas de agregación, codificación y normalización para equilibrar las variables y evitar que los productos más populares concentren toda la señal. El resultado es una matriz cliente–producto adecuada para algoritmos como ALS o LightFM, capaz de capturar patrones de afinidad y ofrecer recomendaciones más precisas.
+\subsection{Diseño de la matriz cliente–producto}
 
-\subsection{Ventanas temporales de datos}
-Uno de los primeros aspectos a definir en la ingeniería de atributos es la ventana temporal sobre la que se mide el comportamiento de los clientes. La dinámica de compra en el canal B2B de consumo masivo no es homogénea: algunos puntos de venta realizan pedidos de manera semanal, mientras que otros concentran sus compras una vez al mes o incluso con menor frecuencia. Capturar estas diferencias requiere observar la información en distintos horizontes.
+La matriz cliente–producto constituye el núcleo del sistema de recomendación, ya que representa de forma estructurada las interacciones históricas entre los puntos de venta y el portafolio de productos. Su construcción requirió integrar información transaccional y de comportamiento digital proveniente de la aplicación BEES, transformando ambas fuentes en un conjunto de señales cuantificables que reflejan el nivel de interés o afinidad de cada cliente hacia cada producto.
 
-Para este trabajo se construyeron indicadores en tres escalas: corto plazo definido como un mes, mediano plazo correspondiente a tres meses y largo plazo equivalente a seis meses. La ventana de un mes refleja comportamientos inmediatos y ayuda a identificar tendencias recientes, como la adopción de un producto nuevo o la respuesta a una promoción puntual. La ventana de tres meses suaviza la volatilidad y permite reconocer patrones de consumo más estables. Finalmente, la de seis meses ofrece una visión de mayor persistencia, útil para productos de baja rotación o con fuerte estacionalidad.
+\subsubsection{Integración de fuentes y depuración de eventos}
 
-El uso combinado de estas ventanas facilita que el modelo integre señales de distinto alcance temporal \cite{BOOK:Xiang2010, ARTICLE:Koren2010}, lo que equilibra la sensibilidad a cambios recientes con la estabilidad de patrones históricos. Así, un cliente que dejó de comprar un producto en el último mes pero que lo consumía de manera regular en períodos anteriores puede ser identificado de forma diferente a uno que nunca lo incorporó a su portafolio. De esta manera, se evita que las recomendaciones se basen únicamente en la foto más reciente y se logra un balance entre actualidad y consistencia histórica.
+Previo a la selección de los eventos a considerar, se realizó un proceso de depuración destinado a eliminar registros residuales o no representativos. Se excluyeron interacciones que no estuvieran asociadas a un producto específico, así como aquellas que correspondían a acciones rutinarias de navegación en la aplicación y que no implicaban una manifestación de preferencia. Este filtrado fue fundamental para reducir el ruido inherente a las señales digitales, un desafío recurrente en sistemas de recomendación donde la actividad exploratoria o automatizada puede superar a la de compra efectiva \cite{BOOK:Ricci2015, ARTICLE:Zhang2019}.
 
-\subsection{Agregación de características}
+Una vez consolidado el conjunto de eventos válidos, la información se agrupó a nivel mensual por cliente y producto, contabilizando la cantidad de interacciones registradas para cada tipo de evento. Se seleccionaron cuatro categorías principales por su relevancia y consistencia estadística: confirmación de orden (\texttt{ORDERED}), visualización de tarjeta promocional (\texttt{CARD\_VIEWED}), acceso al detalle del producto (\texttt{DETAILS\_PAGE\_VIEWED}) y eliminación del producto del carrito (\texttt{REMOVED}).
 
-Una vez definidas las variables de interés, fue necesario condensar la información en indicadores que representen de manera clara el comportamiento de cada cliente frente a cada producto. En las transacciones se calcularon medidas como el número total de órdenes, el volumen acumulado y la participación relativa de cada producto en el portafolio del cliente \cite{ARTICLE:Adomavicius2005}.
+Los eventos \texttt{ORDERED} y \texttt{CARD\_VIEWED} cuentan además con subtipos que indican el origen de la recomendación. Por ejemplo, búsquedas populares, club de descuentos, \textit{forgotten items}, pedido fácil, compra incremental o búsquedas recientes. Estos subtipos fueron conservados, dado que reflejan distintos mecanismos de exposición y conversión dentro de la aplicación, y demostraron poseer correlaciones diferenciales con el comportamiento de recompra y con las métricas de desempeño predictivo del modelo.
 
-Las interacciones digitales se resumieron en recuentos de eventos significativos, tales como visualizaciones de producto, adiciones o remociones en el carrito y respuestas a promociones. Este tipo de métricas permiten obtener una señal cuantitativa de interés que complementa la evidencia proveniente de las compras efectivas \cite{BOOK:Ricci2015}.
+\subsubsection{Diseño temporal y esquema de ventanas}
 
-Además, se incorporaron características contextuales tanto del lado del cliente como del producto. Para los clientes se consideraron variables como canal comercial, localización geográfica y tamaño del punto de venta. Para los productos, atributos como marca, segmento, envase y rango de precio \cite{BOOK:Aggarwal2016}. Estas propiedades enriquecen la caracterización de cada par cliente–producto y permiten capturar heterogeneidades relevantes para el sistema de recomendación.
+El diseño temporal de la matriz responde a la lógica operativa del sistema: las predicciones del mes $N$ deben generarse durante el mes $N-1$, utilizando únicamente información previa. Por ello, se implementó un esquema de ventanas móviles de seis meses, abarcando el período comprendido entre los meses $N-7$ y $N-2$. Dentro de esa ventana se calcularon tres horizontes de observación —último mes, últimos tres meses y últimos seis meses— con el fin de capturar simultáneamente señales recientes y patrones más estables.
 
-El resultado es un conjunto de variables agregadas que sintetizan de manera equilibrada la información transaccional, digital y contextual, lo que conforma un insumo más robusto y manejable para la construcción de la matriz cliente–producto.
+A diferencia de los modelos supervisados tradicionales, en los sistemas de recomendación basados en \textit{feedback} implícito no resulta necesario realizar una partición explícita entre conjuntos de entrenamiento y prueba dentro de cada ventana temporal. El objetivo no es predecir una etiqueta conocida, sino aprender representaciones latentes que describan la relación entre clientes y productos. En este contexto, el modelo se entrena utilizando la totalidad de la información disponible hasta el mes previo y se evalúa prospectivamente sobre el siguiente período, replicando las condiciones reales de operación del sistema. Este enfoque, ampliamente recomendado en contextos temporales \cite{ARTICLE:Koren2010,BOOK:Aggarwal2016}, evita el uso de divisiones artificiales que fragmenten el histórico, preserva la coherencia causal y permite aprovechar al máximo los datos recientes para lograr una evaluación más realista del comportamiento futuro.
 
-\subsection{Codificación de variables categóricas}
+\subsubsection{Tratamiento y normalizaci\'on de variables}
 
-El conjunto de atributos contextuales incluyó variables de naturaleza categórica, tales como canal comercial, región geográfica, segmento de producto, marca o tipo de envase. Para que estas variables pudieran ser utilizadas en los algoritmos de recomendación fue necesario transformarlas en representaciones numéricas que preservaran su información.
+El conjunto de variables resultante presentaba una alta heterogeneidad en magnitudes, derivada de la coexistencia de clientes con volúmenes de compra muy dispares y productos con distintos niveles de rotación. Esta disparidad podía introducir distorsiones en los cálculos posteriores, en especial en la estimación de distancias y en los procesos de normalización, ya que unos pocos valores extremos tendían a dominar la escala de las variables. Para mitigar este efecto, se aplicó una técnica de \textit{clipping} (\textit{winsorizing}) \cite{BOOK:Aggarwal2015}, que limita los valores por debajo del percentil 1 y por encima del percentil 99, reduciendo la influencia de observaciones atípicas sin alterar la estructura general de los datos. 
 
-En casos de variables con gran número de categorías, como la marca o el punto de venta, se aplicaron criterios de reducción para evitar una explosión dimensional. Las categorías de baja frecuencia se reagruparon en clases residuales, lo que garantizó que la codificación reflejara solo valores con suficiente representación en los datos. Este enfoque reduce la dispersión y mejora la estabilidad del entrenamiento, al tiempo que mantiene la capacidad de capturar patrones relevantes.
+Luego, cada variable fue normalizada dentro del grupo cliente–categoría, de modo que representara el peso relativo de un producto sobre el total de la categoría en el portafolio de ese cliente.  Esta forma de estandarización permite que las variables reflejen proporciones comparables entre clientes de distinto tamaño o comportamiento de compra, evitando que las diferencias absolutas de escala o estacionalidad sesguen las medidas de afinidad. En consecuencia, cada \textit{feature} captura la importancia real del producto en relación con el contexto de consumo del cliente, en lugar de su volumen bruto, lo que mejora la capacidad del modelo para generalizar patrones de preferencia.
 
-La estrategia aplicada fue la indexación de categorías \cite{BOOK:Ricci2015}, que asigna a cada valor un identificador numérico único dentro de su variable. De esta forma, un producto perteneciente a un determinado segmento o una venta registrada en un canal específico quedan representados de manera consistente.
+\subsubsection{Estimación de pesos y generación del score de preferencia}
 
-Se obtuvo un conjunto de variables categóricas estandarizadas y codificadas, listas para integrarse a la matriz cliente–producto junto con las métricas transaccionales y digitales. De esta manera, la representación final no solo incorpora información sobre la intensidad de las interacciones, sino también sobre el contexto en que estas ocurren.
+A partir de estas variables, se definieron pesos específicos para cada tipo de evento y cada ventana temporal, con el fin de obtener un score de preferencia compuesto. La estimación de estos pesos se realizó mediante un proceso de optimización bayesiana con \texttt{Optuna} \cite{ARTICLE:Akiba2019}, maximizando la métrica \textit{Precision@10} sobre un conjunto de validación temporal. Se ejecutaron 100 iteraciones exploratorias, observándose como patrón consistente una mayor ponderación de las señales recientes (1M > 3M > 6M) y una mayor relevancia de los eventos transaccionales respecto de los digitales. Los valores finales de ponderación y los resultados detallados del proceso de optimización se presentan en el apendice \ref{AnexoOptuna}.
 
-\subsection{Tratamiento de valores atípicos}
+\subsubsection{Análisis de la matriz resultante}
 
-El análisis preliminar de los datos reveló la presencia de valores atípicos tanto en las variables transaccionales como en las digitales. Este fenómeno es esperable en un entorno B2B de consumo masivo, donde conviven puntos de venta de muy distinto tamaño y productos con dinámicas de demanda altamente desbalanceadas. Sin un tratamiento adecuado, estos registros extremos podían distorsionar las métricas agregadas y sesgar el aprendizaje de los modelos de recomendación \cite{BOOK:Aggarwal2015}.
+El resultado final fue una matriz cliente–producto donde cada celda representa un puntaje implícito de afinidad, obtenido como la combinación ponderada de todas las interacciones entre el cliente y el producto en los distintos horizontes. Esta estructura, de naturaleza dispersa, constituye la base para los algoritmos colaborativos y sirve como punto de partida para el entrenamiento de modelos como \texttt{ALS} y \texttt{LightFM}. 
 
-En el caso de las transacciones, se observaron clientes con volúmenes de compra extraordinariamente altos en comparación con el resto, muchas veces asociados a distribuidores mayoristas o a operaciones excepcionales. Para mitigar este efecto, se aplicaron reglas de truncamiento que limitaron las observaciones a rangos definidos por percentiles superiores e inferiores, lo que preservó la distribución general sin permitir que unos pocos casos dominaran la representación.
+La matriz resultante comprendió 60{,}2 millones de pares cliente–producto, de los cuales el 13{,}5 \% presentó al menos una interacción registrada, reflejando la típica estructura dispersa de los sistemas de recomendación en entornos de consumo masivo. El score de preferencia exhibió una distribución fuertemente sesgada hacia cero, con un promedio de 0{,}0046 y una desviación estándar de 0{,}0277, lo que indica que la mayoría de las combinaciones poseen niveles de afinidad bajos o nulos. Los percentiles superiores (P90 = 0{,}001; P99 = 0{,}126) confirman que las señales de alta afinidad son poco frecuentes y concentradas en un subconjunto reducido de pares.
 
-En las interacciones digitales, los valores atípicos se manifestaron principalmente en clientes con una actividad anómala, caracterizada por cientos de visualizaciones o clics en periodos muy cortos. Estos registros fueron depurados mediante filtros basados en umbrales máximos por tipo de evento y cliente, lo que aseguró que las métricas reflejaran comportamientos consistentes con el resto de la población.
+Se observó una incidencia de arranque en frío muy acotada: 2{,}981 clientes (1{,}5~\% del total) y un único producto (0{,}54~\% de los ítems) no registraban interacciones en el período de entrenamiento. Este resultado indica una base de datos altamente densa en términos de representatividad de comportamiento, donde casi la totalidad de los clientes y productos posee algún tipo de historial previo. Aun así, la presencia de estos casos justifica la incorporación de componentes basados en contenido dentro del sistema, ya que incluso proporciones pequeñas de usuarios o ítems sin historial pueden impactar en la cobertura global de las recomendaciones \cite{BOOK:Aggarwal2016}.
 
-En el caso de los atributos contextuales, se verificó la existencia de categorías con ocurrencias aisladas o inconsistentes, que fueron unificadas o eliminadas según correspondiera. Este procedimiento redujo la dispersión y permitió consolidar categorías con suficiente representación estadística.
+Al segmentar por comportamiento de compra, los pares con transacción efectiva el proximo mes registraron un score promedio de 0{,}066, muy superior al de aquellos sin compra (0{,}0026), con una correlación de Pearson de 0{,}39 entre ambas variables. Este nivel de asociación, junto con un área bajo la curva ROC (AUC = 0{,}8766), evidencia una sólida capacidad discriminante del score para diferenciar entre pares con y sin compra \cite{BOOK:Ricci2015, ARTICLE:Zhao2022}.
 
-Con estas medidas se logró un conjunto de datos más estable y representativo, en el que las señales predominantes no se ven opacadas por comportamientos excepcionales.
+Un resumen de las métricas descriptivas de la matriz se presenta en la tabla~\ref{tab:metricas_matriz}, donde se evidencia su alta dispersión, baja incidencia de casos en arranque en frío y la fuerte correlación entre el score de preferencia y el comportamiento de compra observado. Estas métricas validan que la matriz sintetiza de forma adecuada la estructura latente de preferencias: preserva la dispersión y heterogeneidad propias del dominio, al tiempo que captura la intensidad relativa de las interacciones cliente–producto y su poder explicativo sobre el comportamiento de compra.
 
-\subsection{Normalización y escalado}
+\begin{table}[h]
+	\centering
+	\caption[Métricas descriptivas de la matriz cliente–producto]{Resumen de métricas descriptivas de la matriz cliente–producto.}
+	\begin{tabular}{l c}    
+		\toprule
+		\textbf{Indicador}     & \textbf{Valor}\\
+		\midrule
+		Total de pares cliente–producto & 60{,}220{,}260 \\
+		Densidad de la matriz (\% de celdas no nulas) & 13{,}50 \% \\
+		Clientes en arranque en frío & 2{,}981 (1{,}50 \%) \\
+		Productos en arranque en frío & 1 (0{,}54 \%) \\
+		Media del score de preferencia & 0{,}0046 \\
+		Desvío estándar del score & 0{,}0277 \\
+		Correlación Buyer–Preference & 0{,}3935 \\
+		Área bajo la curva (AUC) & 0{,}8766 \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:metricas_matriz}
+\end{table}
 
-Las variables construidas a partir de transacciones e interacciones digitales presentaban rangos y magnitudes muy heterogéneos. Mientras que algunas métricas se expresaban en unidades absolutas de volumen o número de órdenes, otras correspondían a recuentos de eventos digitales con una escala mucho menor. Si estas diferencias no se trataban de manera adecuada, existía el riesgo de que los modelos de recomendación priorizaran de forma desproporcionada a las variables de mayor rango numérico, lo que hacía que se perdiera capacidad para capturar señales más sutiles.
+\subsection{Diseño de atributos de cliente y producto}
 
-Para abordar este problema se aplicaron procedimientos de normalización y escalado \cite{BOOK:Aggarwal2016}. En primer lugar, se transformaron los recuentos absolutos en tasas relativas, como la proporción de un producto dentro del portafolio de cada cliente o el peso de una categoría de interacción sobre el total de eventos registrados. Este ajuste permitió comparar clientes con distintos niveles de actividad sin sesgos derivados de su tamaño.
+Además de la matriz de interacciones, el sistema de recomendación incorpora un conjunto de atributos específicos de clientes y productos que permiten modelar afinidades a partir de sus características intrínsecas. Estos atributos complementan las señales implícitas y constituyen la base de los enfoques basados en contenido, aportando contexto y capacidad de generalización en escenarios con poca información transaccional o de arranque en frío \cite{BOOK:Ricci2015,BOOK:Aggarwal2016}.
 
-En segundo lugar, las variables continuas se escalaron a rangos comparables mediante técnicas de estandarización, de forma que cada atributo contribuyera de manera equilibrada al entrenamiento. En particular, se utilizaron transformaciones que preservan la distribución relativa de las observaciones, lo que evita la pérdida de información sobre diferencias significativas entre clientes o productos.
+\subsubsection{Construcción de atributos de cliente}
 
-De esta forma se obtuvo un conjunto de características homogéneas y comparables, con un balance adecuado entre variables. Esto permitió que los algoritmos de recomendación incorporaran de manera conjunta tanto las señales transaccionales como las digitales y contextuales, sin que ninguna dominara de forma artificial sobre el resto.
+Para los puntos de venta se construyó una representación multicomponente que sintetiza distintos aspectos del comportamiento de compra y del perfil operativo. Las variables derivadas se agruparon en torno a seis dimensiones principales: frecuencia de compra, estabilidad temporal, volumen y crecimiento, diversidad de mix, comportamiento de compra y atributos contextuales. En conjunto, estas dimensiones permiten caracterizar tanto la intensidad como la regularidad y la amplitud del consumo de cada cliente.
 
-\subsection{Representación final de cliente-producto}
+La frecuencia de compra se estimó a partir del número de pedidos mensuales, su media y desviación en seis meses, junto con un coeficiente de variación que distingue clientes regulares de aquellos más esporádicos. La estabilidad temporal se midió mediante la variabilidad de las ventas y el volumen transaccionado, incorporando además un indicador binario que identifica clientes estables según su dispersión relativa. El bloque de volumen incluyó métricas acumuladas de ventas y unidades totales, así como el crecimiento del último mes respecto del promedio histórico, utilizado como señal de tendencia reciente. La diversidad del mix se midió a través de la cantidad de marcas, categorías y formatos adquiridos, complementada con un índice de Shannon \cite{ARTICLE:Shannon1948} que resume la concentración de las compras. Por su parte, las variables de comportamiento capturaron la especialización del cliente, por ejemplo, si opera únicamente con cervezas o con bebidas no alcohólicas, la proporción de productos premium en su portafolio, la continuidad de compras en meses consecutivos y la concentración del gasto en las tres principales marcas. Finalmente, las variables contextuales refieren a la geografia y canal, permitiendo diferenciar el comportamiento entre regiones y tipos de punto de venta.
 
-La aplicación conjunta de estas etapas permitió transformar la heterogeneidad de las fuentes originales en un espacio de características consistente y utilizable por los modelos de recomendación. Cada par cliente–producto quedó representado por un vector que combina tres dimensiones complementarias: indicadores transaccionales que capturan la intensidad y estabilidad de las compras, métricas digitales que reflejan señales de interés implícito y atributos contextuales que sitúan la relación dentro de un marco comercial más amplio.  
+Todas las variables numéricas fueron sometidas a un proceso de \textit{clipping} (\textit{winsorizing}) \cite{BOOK:Aggarwal2015} para reducir la influencia de valores atípicos, seguido de una normalización por \textit{z-score} dentro de los grupos definidos por subregión y canal. Este tratamiento permitió mantener la comparabilidad entre clientes de distinta escala y contexto operativo, evitando que los valores extremos afectaran la calibración de los modelos. Posteriormente, las variables continuas fueron discretizadas en tres niveles mediante cuantiles: bajo, medio y alto. Esto facilita su integración en modelos que utilizan representaciones categóricas o embeddings. Las variables categóricas se estandarizaron y completaron con etiquetas neutras, garantizando la consistencia del conjunto final. El resultado fue un vector descriptivo equilibrado y robusto que combina información transaccional, contextual y comportamental de cada cliente.
 
-Las ventanas temporales aportaron una visión multinivel de la dinámica de consumo, las agregaciones resumieron la información en métricas robustas, el tratamiento de valores atípicos redujo la influencia de casos extremos, y la codificación de variables categóricas permitió integrar atributos cualitativos en un formato numérico. Finalmente, la normalización y el escalado homogenizaron magnitudes, lo que garantizó que ninguna señal predomine artificialmente sobre las demás.
+\subsubsection{Construcción de atributos de producto}
 
-De manera simplificada, la representación final de la relación entre el cliente $i$ y el producto $j$ puede expresarse como en \ref{eq:feature_vector} donde $T_{ij}^{(k)}$ corresponde a los indicadores transaccionales calculados en ventanas de $k$ meses, $D_{ij}^{(k)}$ a los indicadores digitales en los mismos horizontes, y $C_i, C_j$ a los atributos contextuales del cliente y del producto respectivamente.  
+El diseño de atributos de producto siguió una lógica análoga. En este caso, las variables reflejan la posición del producto dentro del portafolio, su desempeño comercial y su nivel de adopción en el mercado. Se incorporaron indicadores de volumen y ventas acumuladas, número de pedidos y clientes alcanzados, crecimiento mensual y ticket promedio. La penetración se estimó como la proporción de clientes que adquirieron el producto en el período, mientras que la recurrencia representó la frecuencia media de recompra entre los compradores. También se midieron la diversificación geográfica y de canal y la composición por unidad de negocio (\texttt{CZA} o \texttt{NABS}), junto con atributos estructurales como segmento de marca, tipo de envase y condición de producto premium. Finalmente, se calcularon métricas relativas de desempeño, como la participación del producto dentro de su categoría o su marca, y un índice de diversidad de clientes que resume la dispersión del gasto a través de distintos puntos de venta.
 
-\begin{equation}
-\label{eq:feature_vector}
-X_{ij} = \big[ T_{ij}^{(1)}, T_{ij}^{(3)}, T_{ij}^{(6)}, \; D_{ij}^{(1)}, D_{ij}^{(3)}, D_{ij}^{(6)}, \; C_{i}, C_{j} \big]
-\end{equation}
+El procesamiento estadístico aplicado a los productos replicó la metodología utilizada para los clientes, combinando \textit{winsorizing} para el tratamiento de valores extremos, normalización por \textit{z-score} dentro de cada unidad de negocio y discretización por cuantiles. De esta forma, se obtuvo una representación homogénea que preserva la comparabilidad entre productos de distinta rotación o escala de ventas.
 
-Así se conforma una matriz cliente–producto enriquecida, en la que cada celda refleja no solo la existencia de una interacción, sino también su intensidad, contexto y evolución temporal. Esta representación constituye la base sobre la cual se entrenarán los modelos de recomendación presentados en la sección siguiente.
+\subsubsection{Representatividad de los atributos}
+
+Con el propósito de evaluar la representatividad y calidad de la información contenida en los atributos de cliente y producto, se desarrolló un análisis exploratorio basado en métricas estadísticas y geométricas, en lugar de un modelo predictivo supervisado. Este procedimiento permitió caracterizar la varianza, la correlación con la ocurrencia de compra y la similitud estructural entre entidades, cuantificando así la diversidad informativa y la capacidad discriminante de cada conjunto de variables.
+
+En el caso de los clientes, se analizaron 95 atributos válidos (59 numéricos y 36 categóricos), tras la conversión automática de variables textuales y la indexación de categorías. Las variables con mayor varianza correspondieron a medidas de volumen y frecuencia, como la facturación total, el número de pedidos y el volumen promedio, lo que refleja la amplia heterogeneidad de los puntos de venta. Las correlaciones más elevadas con la variable de compra se observaron en indicadores de continuidad y madurez, tales como la cantidad de meses consecutivos con actividad y la frecuencia de pedidos, con coeficientes próximos a 0{,}32. La similitud coseno promedio entre representaciones de clientes fue de 0{,}9985, indicando una alta consistencia interna en el espacio de atributos y una concentración de la variabilidad en unas pocas dimensiones relevantes.
+
+En los productos se evaluaron 61 atributos (37 numéricos y 24 categóricos), entre los cuales predominaron las métricas de desempeño y alcance comercial. Las variables con mayor varianza fueron las asociadas al volumen total, la facturación y el número de puntos de venta atendidos, mientras que las correlaciones más fuertes con la variable objetivo correspondieron a la penetración de clientes y a la cobertura comercial, con coeficientes superiores a 0{,}84. La similitud coseno promedio fue de 0{,}6449, evidenciando una mayor dispersión relativa respecto de los clientes, coherente con la diversidad estructural del portafolio.
+
+Para complementar el análisis, se exploró la capacidad de las features de cliente y producto para reflejar diferencias inherentes en los datos mediante una reducción de dimensionalidad con Análisis de Componentes Principales (PCA). El objetivo fue observar si las categorías de negocio se separan naturalmente en el espacio de representación. 
+
+En el caso de los clientes, figura \ref{fig:pca_clientes}, la proyección PCA de los puntos de venta muestra una separación visible entre los canales Autoservicio (AS) y Kiosco + Tradicional (K+T). Si bien existe cierto solapamiento, los autoservicios tienden a concentrarse en la parte superior del plano, mientras que los puntos de venta tradicionales se agrupan hacia zonas inferiores. Esto sugiere que las features de cliente capturan patrones de comportamiento diferenciados entre canales.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{pca_clientes.png}
+	\caption[Proyección PCA de clientes por canal comercial]{Proyección PCA de clientes por canal comercial.}
+	\label{fig:pca_clientes}
+\end{figure}
+
+En los productos, figura \ref{fig:pca_productos}, la representación revela grupos bien definidos que corresponden a las divisiones Cerveza (CZA), No Alcohólicas (NABS) y Vinos o Adyacencias (Match). Las categorías se ubican en regiones claramente separadas del plano, lo que indica que las variables de producto describen de manera efectiva diferencias estructurales entre líneas de negocio.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\textwidth]{pca_productos.png}
+	\caption[Proyección PCA de productos por línea de negocio]{Proyección PCA de productos por línea de negocio.}
+	\label{fig:pca_productos}
+\end{figure}
+
+En conjunto, los resultados del PCA demuestran que las features de producto reflejan con claridad la organización natural del portafolio, mientras que las de cliente presentan una diferenciación más moderada pero coherente con los tipos de canal. Ambas representaciones resultan adecuadas para describir la heterogeneidad comercial de la base analizada y aportan una base sólida para su integración en modelos híbridos de recomendación.
 
 %----------------------------------------------------------------------------------------
 
@@ -251,29 +293,168 @@ En conjunto, estos modelos representan una progresión desde métodos clásicos 
 
 \subsection{Filtrado colaborativo con ALS}
 
-El primer modelo desarrollado fue un esquema de filtrado colaborativo mediante factorización matricial con \texttt{ALS} para \textit{feedback} implícito \cite{ARTICLE:ALS2008}. El objetivo fue representar a clientes y productos en un espacio latente de menor dimensión, en el que la afinidad estimada entre ambos pudiera expresarse como una medida de similitud entre sus vectores de representación. Para ello se utilizó la matriz cliente–producto construida en la etapa de ingeniería de atributos, donde cada celda sintetiza la intensidad de interacción entre ambos a partir de señales transaccionales y digitales.
+El primer enfoque desarrollado fue un modelo de filtrado colaborativo basado en factorización matricial mediante el algoritmo \textit{Alternating Least Squares} (ALS) \cite{ARTICLE:Koren2009}. Este método permite descomponer la matriz cliente–producto en dos espacios latentes de menor dimensión, uno para los clientes y otro para los productos, de modo que la afinidad entre ambos se estime como el producto interno de sus vectores representativos. El objetivo es capturar patrones de coocurrencia en las interacciones históricas y proyectarlos hacia combinaciones no observadas, generando así recomendaciones personalizadas a partir del comportamiento colectivo.
 
-El modelo se configuró para trabajar con datos de \textit{feedback} implícito, considerando que la ausencia de interacción no implica una preferencia negativa, sino simplemente falta de evidencia. Este enfoque resulta especialmente adecuado en contextos donde las señales de interés se derivan del comportamiento observado y no de valoraciones explícitas. El entrenamiento se realizó sobre las interacciones agregadas en una ventana de seis meses, lo que permitió capturar patrones de compra más estables y reducir el impacto de la estacionalidad.
+\subsubsection{Configuración del modelo}
 
-Durante el entrenamiento, el algoritmo alterna la optimización de las representaciones latentes de clientes y productos, ponderando cada observación según el nivel de confianza asignado a la interacción. De esta forma, las señales más frecuentes o consistentes tienen mayor influencia en el aprendizaje, mientras que las observaciones esporádicas o débiles aportan con menor peso. El proceso se repite hasta alcanzar la convergencia, resultando en dos conjuntos de vectores que capturan las preferencias subyacentes en los datos.
+En este trabajo se utilizó la variante de ALS para \textit{feedback} implícito, apropiada para contextos donde las señales de preferencia provienen de interacciones observadas en lugar de calificaciones explícitas \cite{ARTICLE:Hu2008}. Bajo este esquema, la ausencia de interacción no se interpreta como una valoración negativa, sino como falta de evidencia. La matriz de entrada corresponde al score de preferencia compuesto descrito en la sección anterior, el cual integra eventos transaccionales y digitales ponderados según su relevancia y temporalidad. Cada celda representa un grado de afinidad implícita entre el cliente y el producto, estimado a partir de seis meses de comportamiento histórico.
 
-Para la calibración del modelo se realizó un proceso de \textit{hyperparameter tuning} orientado a maximizar el área bajo la curva de característica operativa del receptor (ROC-AUC) en un conjunto de validación temporal. Se evaluaron combinaciones de dimensión latente, nivel de regularización, número de iteraciones y parámetro de confianza (\texttt{alpha}), buscando un equilibrio entre capacidad predictiva y eficiencia computacional. La validación se efectuó en ventanas móviles, entrenando sobre los seis meses previos y evaluando sobre el mes siguiente, lo que permitió analizar la estabilidad del desempeño y minimizar el riesgo de sobreajuste.
+El modelo se configuró con un número de factores latentes ajustable (\texttt{rank}), un parámetro de regularización $\lambda$ para controlar el sobreajuste y un parámetro de confianza $\alpha$ que pondera la influencia de las observaciones positivas frente a las ausentes \cite{ARTICLE:Hu2008}. El entrenamiento se realizó iterativamente, alternando la actualización de las matrices de clientes y productos hasta alcanzar convergencia.
 
-Una vez finalizado el entrenamiento, se calcularon los puntajes de afinidad entre cada cliente y producto y se generaron listas \textit{Top-$K$} personalizadas, ordenando los productos de acuerdo con su relevancia estimada. En los casos sin historial previo, como clientes nuevos o productos recientemente incorporados, se aplicaron estrategias de respaldo basadas en la popularidad dentro de cada categoría y en el comportamiento promedio de clientes con perfiles similares. Estas estrategias aseguraron la cobertura total del sistema, garantizando que todos los clientes recibieran recomendaciones coherentes y consistentes con su segmento.
+\subsubsection{Optimización de hiperparámetros}
+
+Para la selección de hiperparámetros se implementó un proceso de optimización bayesiana con \texttt{Optuna} \cite{ARTICLE:Akiba2019}, compuesto por veinte iteraciones orientadas a maximizar la métrica \textit{Precision@5} sobre un conjunto de validación temporal. La búsqueda abarcó los principales parámetros del modelo: dimensión latente (\texttt{rank} $\in [10, 50]$), número máximo de iteraciones (\texttt{maxIter} $\in [5, 20]$), nivel de regularización (\texttt{regParam} $\in [10^{-4}, 10^{-1}]$) y parámetro de confianza (\texttt{alpha} $\in [10^{-2}, 10]$). 
+
+En cada iteración, el modelo fue entrenado sobre las interacciones comprendidas entre los meses $N-7$ y $N-2$, y evaluado sobre el mes $N-1$, reproduciendo el flujo real de generación de recomendaciones. La métrica \textit{Precision@5} se calculó como el promedio, por cliente, de la proporción de productos efectivamente comprados que aparecieron dentro de las primeras posiciones del ranking generado. Este criterio de optimización permitió priorizar la calidad práctica de las recomendaciones, privilegiando la capacidad del modelo para identificar los productos más relevantes en los primeros lugares de la lista.
+
+\subsubsection{Configuración óptima obtenida}
+
+El proceso de optimización permitió identificar la siguiente configuración como la de mejor desempeño general, maximizando la precisión en los primeros resultados sin comprometer la estabilidad del entrenamiento:
+
+\begin{table}[h]
+	\centering
+	\caption[Hiperparámetros óptimos del modelo ALS]{Configuración óptima del modelo de filtrado colaborativo con \texttt{ALS} obtenida mediante optimización bayesiana.}
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Parámetro} & \textbf{Valor óptimo} \\
+		\midrule
+		Dimensión latente (\texttt{rank}) & 26 \\
+		Regularización (\texttt{regParam}) & 0{,}0979 \\
+		Iteraciones máximas (\texttt{maxIter}) & 11 \\
+		Restricción de no negatividad (\texttt{nonnegative}) & False \\
+		Bloques de usuario (\texttt{numUserBlocks}) & 10 \\
+		Bloques de ítem (\texttt{numItemBlocks}) & 10 \\
+		Feedback implícito (\texttt{implicitPrefs}) & True \\
+		Tamaño de bloque (\texttt{blockSize}) & 4096 \\
+		Parámetro de confianza (\texttt{alpha}) & 0{,}5415 \\
+		Intervalo de checkpoint (\texttt{checkpointInterval}) & 10 \\
+		Estrategia de arranque en frío (\texttt{coldStartStrategy}) & \texttt{drop} \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:best_params_als}
+\end{table}
+
+\subsubsection{Resultados y conclusiones}
+
+Los resultados obtenidos mostraron un comportamiento consistente y robusto. El modelo alcanzó una \textit{Precision@10} de 31{,}5 \% y \textit{Recall@10} de 33{,}7 \%, indicando una buena capacidad para priorizar los productos efectivamente comprados en el siguiente período. Se observó además que el ALS tiende a capturar de manera eficiente las relaciones entre clientes con historial suficiente, pero su desempeño disminuye en escenarios de arranque en frío o cuando la matriz presenta elevada dispersión. Por ello, este modelo se adoptó como línea base sobre la cual se construyeron enfoques híbridos más expresivos en las siguientes etapas.
+
+Ell modelo ALS demostró ser una herramienta eficaz para extraer representaciones latentes de afinidad a partir del comportamiento histórico \cite{ARTICLE:Koren2009}. Su estructura matemática simple, estabilidad en entornos de gran escala y adecuación al feedback implícito lo convierten en un componente esencial del pipeline de recomendación desarrollado.
 
 \subsection{Modelo híbrido con LightFM}
 
-El segundo modelo desarrollado fue un enfoque híbrido implementado con la biblioteca \texttt{LightFM} \cite{ARTICLE:LightFM2015}, que combina las ventajas del filtrado colaborativo y de los sistemas basados en contenido dentro de un mismo marco. A diferencia del ALS, que se apoya únicamente en la información implícita proveniente de las interacciones históricas, este modelo incorpora además atributos explícitos de clientes y productos, permitiendo generar recomendaciones incluso en escenarios con historial limitado o inexistente.
+El segundo enfoque explorado fue un modelo \textit{híbrido} basado en la librería \texttt{LightFM} \cite{ARTICLE:LightFM2015}, que combina técnicas de filtrado colaborativo y modelos basados en contenido dentro de un mismo marco de aprendizaje. Este modelo extiende la factorización matricial tradicional al incorporar vectores de características (\textit{feature embeddings}) asociados tanto a los usuarios como a los ítems, permitiendo capturar información contextual incluso para aquellos pares que no poseen interacciones históricas, mitigando así el problema de arranque en frío identificado en la sección anterior.
 
-El principio del modelo consiste en representar tanto a los clientes como a los productos mediante vectores que combinan dos fuentes de información: las interacciones observadas y los atributos que los describen. Estos vectores se entrenan conjuntamente para maximizar la probabilidad de que los pares cliente–producto observados obtengan un puntaje de afinidad mayor que los no observados. De esta manera, el modelo aprende a identificar relaciones latentes entre los rasgos de los clientes y las características de los productos, integrando en un mismo espacio de representación señales colaborativas y de contenido.
+A diferencia del ALS, que aprende representaciones exclusivamente a partir de la matriz de interacciones, LightFM incorpora atributos estructurales de clientes y productos como señales adicionales \cite{ARTICLE:LightFM2015}. En este trabajo, las representaciones de cliente incluyeron variables de frecuencia, estabilidad, volumen, mezcla, comportamiento y contexto, mientras que las de producto comprendieron características de volumen, penetración, composición de canal, segmento, diversidad y desempeño. Cada conjunto de variables fue normalizado, discretizado y codificado antes de su integración al modelo, conforme al pipeline de ingeniería descrito previamente.
 
-En la implementación del trabajo, los atributos de producto incluyeron variables como marca, segmento, envase y rango de precio, mientras que del lado de los clientes se consideraron características como canal comercial y región geográfica. Estas variables fueron codificadas e integradas al modelo como características adicionales, lo que permitió ampliar la información disponible para los casos con baja densidad transaccional.
+El modelo \texttt{LightFM} combina señales colaborativas y de contenido dentro de un espacio latente común, representando tanto a los clientes como a los productos mediante vectores que integran información transaccional y contextual. Su entrenamiento parte de una matriz binaria de interacciones, donde cada par cliente–producto indica la existencia o no de contacto en el período de análisis. Estas interacciones positivas constituyen la evidencia de afinidad sobre la cual el modelo aprende a distinguir entre ítems relevantes y no relevantes para cada usuario.
 
-El modelo se entrenó bajo un esquema de \textit{feedback} implícito utilizando una función de pérdida logística, que penaliza las predicciones incorrectas en función de la distancia entre los puntajes observados y los esperados. Se realizaron pruebas adicionales con la función de pérdida \textit{Bayesian Personalized Ranking} (BPR), aunque se observó una convergencia más estable con la opción logística, manteniendo un desempeño comparable en métricas de ranking.
+A diferencia del enfoque de \texttt{ALS}, que busca ajustar magnitudes continuas de preferencia implícita, \texttt{LightFM} se entrena optimizando una función de pérdida orientada al ordenamiento relativo de los ítems en el ranking. Este tipo de funciones, ampliamente utilizadas en escenarios de \textit{feedback} implícito, penalizan los errores en las primeras posiciones y favorecen que los productos con mayor probabilidad de interacción ocupen los primeros lugares en las recomendaciones.
 
-Los hiperparámetros principales, dimensión latente, tasa de aprendizaje y número de épocas, se ajustaron mediante búsqueda bayesiana, utilizando validación temporal con ventanas deslizantes. La evaluación se centró en maximizar el área bajo la curva ROC-AUC.
+A cada interacción se le asignó además un peso relativo o \textit{sample weight}, que determina su influencia durante el entrenamiento. Estos pesos se derivaron del puntaje de preferencia implícito calculado en la etapa de ingeniería de atributos y se transformaron mediante una función logarítmica que reduce la dispersión entre observaciones extremas. Posteriormente, los valores fueron normalizados alrededor de su media global, de manera que las interacciones más intensas, como compras frecuentes o múltiples eventos asociados al mismo producto, tuvieran mayor impacto que aquellas esporádicas.  
 
-Finalmente, el modelo se aplicó sobre la misma matriz cliente–producto, complementada con los atributos adicionales. Los puntajes generados permitieron ordenar los productos según su relevancia esperada para cada cliente, obteniendo listas \textit{Top-$K$} comparables en estructura y formato a las del modelo anterior. Este enfoque resultó particularmente valioso para mitigar los efectos del arranque en frío y para mejorar la diversidad de las recomendaciones en categorías con baja frecuencia de compra.
+Este esquema permite que el modelo capture no sólo la ocurrencia de una interacción, sino también su intensidad relativa, integrando señales de distinta fuerza en el proceso de aprendizaje. A diferencia de \texttt{ALS}, que optimiza una función cuadrática ponderada buscando reconstruir las magnitudes observadas de preferencia implícita, \texttt{LightFM} utiliza un criterio de aprendizaje orientado al ordenamiento, donde los pesos asignados a cada interacción afectan directamente la probabilidad de que un ítem sea priorizado en el ranking final \cite{ARTICLE:Rendle2009, ARTICLE:LightFM2015}. Esto permite capturar diferencias más finas en la intensidad de las señales, integrando tanto la frecuencia como la relevancia relativa de cada evento dentro del proceso de entrenamiento.
+
+El entrenamiento se llevó a cabo sobre el conjunto de interacciones ponderadas, empleando las matrices de características de usuario y producto generadas en la etapa anterior. El modelo se optimizó durante veinte épocas, utilizando procesamiento paralelo en cuatro hilos, hasta alcanzar estabilidad en la función objetivo. Esta configuración resultó adecuada para equilibrar precisión y eficiencia computacional, sirviendo como base para los distintos ensayos de complejidad incremental desarrollados a continuación.
+
+Con el objetivo de analizar el aporte incremental de las variables contextuales, se realizaron tres configuraciones experimentales con distintos niveles de complejidad en las representaciones de usuario y producto.  
+
+\subsubsection{Test 1 – Modelo base con contexto categórico reducido}
+
+El primer experimento con el modelo \texttt{LightFM} se diseñó como una prueba inicial para evaluar el aporte del contexto estructural más básico sobre la capacidad predictiva del sistema. En esta configuración, se incorporaron únicamente atributos categóricos que describen propiedades intrínsecas de los clientes y productos, sin incluir aún las variables derivadas del comportamiento transaccional historico.
+
+La representación vectorial de cada cliente se construyó a partir de tres campos estructurales: la subregión, el canal de venta y un indicador binario de venta de alcohol. Estas variables permiten capturar diferencias sistemáticas entre tipos de puntos de venta en función de su localización y mix comercial, dos factores que influyen fuertemente en los patrones de compra observados.
+
+Para los productos, se incluyeron seis descriptores fundamentales: la familia de marca, el tipo de empaque, el segmento de marca, la unidad de negocio y el indicador de contenido alcohólico. Estos campos resumen la posición del producto dentro del portafolio y su rol dentro del surtido, aspectos clave para modelar afinidades en un contexto B2B.
+
+Todas las variables se codificaron como entidades categóricas y se proyectaron en el espacio latente del modelo mediante \textit{feature embeddings}. El entrenamiento se realizó utilizando la función de pérdida \texttt{WARP} (\textit{Weighted Approximate-Rank Pairwise}), orientada a optimizar directamente la posición relativa de los productos relevantes dentro del ranking de recomendaciones. Este criterio, ampliamente adoptado en contextos de \textit{feedback} implícito \cite{ARTICLE:Rendle2009}, penaliza de forma más intensa los errores en las primeras posiciones del ranking, favoreciendo la recuperación de ítems con mayor probabilidad de interacción.
+
+Aun con esta configuración reducida, centrada exclusivamente en variables categóricas estáticas, el modelo alcanzó una \textit{Precision@10} de 25{,}3 \% y \textit{Recall@10} de 27{,}1 \%. Esto evidencia que incluso en ausencia de señales históricas, las relaciones estructurales entre clientes y productos contienen información predictiva relevante, capaz de guiar recomendaciones con un nivel competitivo de precisión. Las recomendaciones generadas mostraron coherencia semántica, agrupando puntos de venta del mismo canal con surtidos de características similares en empaque, segmento o tipo de negocio.
+
+En conjunto, este primer ensayo permitió validar la arquitectura híbrida de \texttt{LightFM} en su forma más simple, estableciendo una línea base a partir de la cual se incorporaron progresivamente variables discretizadas y filtros de relevancia en las siguientes configuraciones.
+
+\subsubsection{Test 2 – Modelo con selección explicativa de atributos discretizados}
+
+El segundo experimento extendió la configuración inicial incorporando un conjunto ampliado de atributos categóricos, seleccionados a partir de un proceso sistemático de análisis estadístico y reducción de redundancia. El objetivo fue evaluar si la inclusión de variables discretizadas derivadas del comportamiento histórico y de la estructura de mercado mejoraba la capacidad predictiva del modelo.
+
+Para la selección preliminar de variables se aplicaron pruebas de independencia \textit{Chi-cuadrado} sobre las variables categóricas y coeficientes de correlación de \textit{Spearman} sobre las numéricas, priorizando aquellas con mayor fuerza de asociación con la variable objetivo de compra. Posteriormente, se eliminó la multicolinealidad mediante un umbral de correlación absoluta de $|r| > 0{,}85$, preservando únicamente las variables más representativas y no redundantes. Este procedimiento permitió conformar un subconjunto interpretativo de atributos explicativos que combinan señales de estabilidad, volumen y diversidad, sin introducir ruido ni sobreajuste.
+
+En el caso de los clientes, se agregaron descriptores de estabilidad temporal y madurez, como la consistencia de ventas y la cantidad de meses consecutivos con actividad; medidas de especialización, como los indicadores binarios de exclusividad por unidad de negocio y variables de estructura del portafolio, incluyendo la diversidad de marcas, el número de categorías y el ticket promedio. También se incorporaron proporciones asociadas a segmentos específicos, como la participación de cervezas premium y de bebidas sin alcohol dentro del mix de cada cliente.
+
+En el caso de los productos, se sumaron atributos relacionados con su desempeño y alcance, tales como la penetración de clientes, el volumen total vendido, la diversidad de clientes y la proporción de ventas dentro de la unidad de negocio cervecera. Todas las variables numéricas fueron previamente discretizadas en tres cuantiles (\textit{low, medium} y \textit{high}), asegurando comparabilidad y robustez frente a escalas heterogéneas.
+
+El modelo se entrenó bajo la misma configuración general, utilizando la función de pérdida \texttt{WARP}. La métrica \textit{Precision@10} de 26{,}1 \% y el \textit{Recall@10} de 27{,}8 \%, mejorando significativamente el desempeño del modelo base.
+
+El análisis cualitativo de las recomendaciones reveló una mayor capacidad de segmentación: los clientes con comportamiento estable y surtido diverso recibieron sugerencias más alineadas con su perfil, mientras que los puntos de venta especializados tendieron a recibir productos consistentes con su unidad de negocio principal. Este resultado confirma el valor de las señales discretizadas y explicativas en la construcción de representaciones híbridas, fortaleciendo la capacidad del modelo para capturar patrones de preferencia más finos sin comprometer la generalización.
+
+\subsubsection{Test 3 – Análisis y depuración de representaciones latentes}
+
+El tercer experimento tuvo como objetivo evaluar la calidad de las representaciones aprendidas por el modelo \texttt{LightFM} y depurar el conjunto de atributos en función de su contribución efectiva al espacio de embeddings. A diferencia de los ensayos anteriores, en esta etapa se analizaron directamente las propiedades geométricas de los vectores generados durante el entrenamiento, empleando métricas de norma, cohesión y separación para cuantificar la estructura latente subyacente.
+
+Se diseñó un pipeline específico de evaluación de embeddings, capaz de extraer los vectores de usuario y producto almacenados en los artefactos del modelo, calcular estadísticas de dispersión y estimar su coherencia semántica. Las normas promedio de los embeddings de cliente y producto fueron de 0,031 y 0,118 respectivamente, con baja dispersión intra-grupo, lo que indica una adecuada regularización y una representación estable. La relación entre similitudes intra e inter–categoría fue de 1,17, evidenciando que los productos tienden a agruparse coherentemente dentro de sus unidades de negocio, sin perder capacidad de generalización hacia otros segmentos.
+
+Sobre esta base se aplicó un análisis de importancia de atributos, reconstruyendo los embeddings asociados a cada \textit{feature} explícita del modelo. La norma del vector correspondiente a cada atributo fue utilizada como indicador de relevancia latente: las características con mayor norma poseen mayor influencia en la formación del espacio de representación. Este análisis permitió identificar qué variables aportaban mayor poder discriminante y cuáles eran redundantes o marginales.
+
+En el caso de los clientes, los atributos con mayor norma promedio correspondieron a las variables asociadas al tipo de canal comercial, la venta de productos con alcohol, la proporción de bebidas sin alcohol y la participación de cervezas premium dentro del portafolio. Estos resultados reflejan la relevancia de las señales estructurales y de composición del surtido en la caracterización de la afinidad entre puntos de venta y productos. 
+
+Entre los productos, las dimensiones más relevantes fueron la diversidad de clientes, el volumen total vendido, la cantidad de puntos de venta alcanzados y la penetración promedio, lo que evidencia una fuerte relación entre el alcance comercial y la estabilidad de la demanda en la estructura latente aprendida por el modelo.
+
+A partir de este análisis se implementó un proceso de selección automática, conservando únicamente aquellas variables cuya norma superaba el 20\% del valor máximo dentro de su grupo y hasta dos categorías por campo. El resultado fue un conjunto final de 28 atributos de cliente y 4 de producto, conformando una base más parsimoniosa y explicable. Entre los factores retenidos se destacan las dimensiones de estabilidad temporal, diversidad de surtido y volumen de compra, que capturan aspectos complementarios del comportamiento de los puntos de venta y resultan fundamentales para modelar su propensión a interactuar con distintos productos.
+
+La evaluación del modelo sobre el conjunto de validación temporal evidenció un desempeño estable en comparación con las configuraciones previas, con una \textit{Precision@10} de 25{,}8\,\% y un \textit{Recall@10} de 27{,}5\,\%. Si bien las métricas se mantuvieron en niveles similares, la depuración de atributos permitió alcanzar una representación más compacta y explicable sin comprometer la capacidad predictiva del sistema. 
+
+Este refinamiento redujo la complejidad del modelo y mejoró su interpretabilidad, al identificar de forma explícita las señales con mayor contribución a la estructura latente de afinidad. En conjunto, los resultados validan que las representaciones generadas por \texttt{LightFM} capturan de manera coherente los patrones de relación entre clientes y productos, preservando la semántica de las variables originales y estableciendo una base sólida para futuras extensiones y modelos de mayor complejidad.
+
+\subsubsection{Resultados comparativos de los ensayos experimentales}
+
+Los tres experimentos permitieron validar y refinar progresivamente la arquitectura híbrida basada en \texttt{LightFM}. El primer modelo, centrado en atributos estructurales, demostró que la información contextual básica es suficiente para capturar afinidades significativas entre clientes y productos. El segundo ensayo confirmó el valor de incorporar variables discretizadas de comportamiento y desempeño, mejorando la capacidad de segmentación y la precisión de las recomendaciones. Finalmente, el tercer experimento consolidó la robustez del enfoque al identificar, mediante el análisis geométrico de los embeddings, un subconjunto reducido de variables con alta relevancia latente, logrando un equilibrio óptimo entre explicabilidad y rendimiento.
+
+En términos globales, las métricas de desempeño mostraron un comportamiento estable y competitivo entre los distintos ensayos, con valores de \textit{Precision@10} y \textit{Recall@10} cercanos al 26\,\% y 28\,\%, respectivamente, tal como se resume en la Tabla~\ref{tab:lightfm_metrics}. Estos resultados confirman la capacidad del modelo para capturar relaciones no lineales y de alta dimensionalidad en entornos con señales implícitas dispersas, ofreciendo un punto de partida sólido para su ajuste fino y extensión futura.
+
+\begin{table}[h]
+	\centering
+	\caption[Resultados comparativos de los ensayos con LightFM]{Resumen de métricas de desempeño para las tres configuraciones experimentales del modelo \texttt{LightFM}.}
+	\begin{tabular}{l c c}    
+		\toprule
+		\textbf{Configuración} & \textbf{Precision@10} & \textbf{Recall@10} \\
+		\midrule
+		Test 1 – Contexto categórico reducido & 25{,}3 \% & 27{,}1 \% \\
+		Test 2 – Atributos discretizados y explicativos & 26{,}1 \% & 27{,}8 \% \\
+		Test 3 – Depuración y selección de embeddings & 25{,}8 \% & 27{,}5 \% \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:resultados_lightfm}
+\end{table}
+
+\subsubsection{Optimización bayesiana de hiperparámetros}
+
+Con el objetivo de maximizar la precisión del ranking y validar la robustez del modelo frente a diferentes configuraciones, se llevó a cabo un proceso de optimización bayesiana mediante la librería \texttt{Optuna}. La búsqueda se orientó a maximizar la métrica \textit{Precision@5}, priorizando la capacidad del sistema para ubicar los productos más relevantes en las primeras posiciones de recomendación.
+
+El espacio de búsqueda incluyó combinaciones de número de componentes latentes (\texttt{no\_components} $\in \{32, 64, 96, 128, 192\}$), funciones de pérdida \texttt{WARP} y \texttt{BPR}, tasas de aprendizaje en el rango $[5 \times 10^{-4}, 5 \times 10^{-3}]$, y parámetros de regularización \texttt{item\_alpha} y \texttt{user\_alpha} en el intervalo $[10^{-6}, 10^{-4}]$. También se evaluaron valores de \texttt{max\_sampled} entre 5 y 15, buscando un balance adecuado entre exploración y costo computacional.
+
+El proceso permitió identificar la configuración con mejor desempeño general, manteniendo la estabilidad del entrenamiento y optimizando la calidad del ranking en escenarios reales de recomendación. La configuración óptima encontrada se detalla en la tabla \ref{tab:lightfm_best_params}.
+
+\begin{table}[h]
+	\centering
+	\caption[Hiperparámetros óptimos del modelo LightFM]{Configuración óptima del modelo híbrido con \texttt{LightFM} obtenida mediante optimización bayesiana.}
+	\begin{tabular}{l c}
+		\toprule
+		\textbf{Parámetro} & \textbf{Valor óptimo} \\
+		\midrule
+		Función de pérdida (\texttt{loss}) & \texttt{bpr} \\
+		Dimensión latente (\texttt{no\_components}) & 96 \\
+		Tasa de aprendizaje (\texttt{learning\_rate}) & 0{,}00489 \\
+		Regularización de ítems (\texttt{item\_alpha}) & $3{,}48 \times 10^{-5}$ \\
+		Regularización de usuarios (\texttt{user\_alpha}) & $2{,}23 \times 10^{-6}$ \\
+		Muestras negativas máximas (\texttt{max\_sampled}) & 8 \\
+		Algoritmo de optimización (\texttt{learning\_schedule}) & \texttt{adagrad} \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:lightfm_best_params}
+\end{table}
+
+Con esta configuración, el modelo alcanzó una \textit{Precision@10} de \textbf{29{,}2\,\%} y un \textit{Recall@10} de \textbf{31{,}2\,\%}, superando las versiones anteriores tanto en precisión como en cobertura, y consolidándose como la mejor alternativa dentro del conjunto de modelos evaluados. 
+
+Estos resultados confirman que la combinación de la función de pérdida \texttt{BPR} con un número intermedio de componentes latentes ofrece un equilibrio óptimo entre capacidad representacional y generalización, maximizando la recuperación de productos relevantes sin sobreajustar a las interacciones más frecuentes. El modelo resultante constituye la versión final del motor híbrido de afinidad, integrando señales transaccionales y contextuales dentro de un espacio latente de alta coherencia semántica.
 
 \subsection{Modelo de embeddings neuronales}
 
