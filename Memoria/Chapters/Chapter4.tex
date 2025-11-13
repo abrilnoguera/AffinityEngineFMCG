@@ -3,13 +3,136 @@
 \chapter{Ensayos y resultados} % Main chapter title
 
 \label{Chapter4} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
-Todos los capítulos deben comenzar con un breve párrafo introductorio que indique cuál es el contenido que se encontrará al leerlo.  La redacción sobre el contenido de la memoria debe hacerse en presente y todo lo referido al proyecto en pasado, siempre de modo impersonal.
+Este capítulo presenta los ensayos experimentales realizados para evaluar el desempeño de los modelos de recomendación desarrollados.  
+Se analizan los resultados obtenidos a partir de diferentes enfoques, desde baselines simples hasta arquitecturas híbridas y neuronales, con el propósito de comparar su capacidad para modelar afinidades entre clientes y productos en el entorno B2B de consumo masivo.
 
 %----------------------------------------------------------------------------------------
-%	SECTION 1
+\section{Metodología de evaluación}
+
+El proceso de evaluación se diseñó con el objetivo de medir de forma consistente la capacidad predictiva, la estabilidad temporal y la aplicabilidad práctica de los modelos de recomendación. Para ello se adoptó un enfoque experimental reproducible, basado en ventanas móviles y métricas estandarizadas de ranking, que permite comparar distintos algoritmos bajo condiciones equivalentes de información.
+
+Cada modelo se entrenó mediante el uso de la información histórica comprendida entre los meses $N-7$ y $N-2$, y se evalúa de forma prospectiva sobre el mes $N-1$, lo que replica las condiciones reales de operación del sistema de recomendación en producción. Esta estrategia evita el uso de divisiones aleatorias del conjunto de datos y preserva la coherencia temporal entre entrenamiento y validación, aspecto crítico en dominios donde las preferencias y el portafolio evolucionan mes a mes.
+
+Las métricas principales de evaluación fueron \textit{Precision@K} y \textit{Recall@K}, que miden la proporción de productos relevantes correctamente recomendados dentro del conjunto de los $K$ primeros resultados. En particular, se empleó $K=10$, criterio que permite concentrar el análisis en las primeras posiciones del ranking, donde se observan las recomendaciones más relevantes para el usuario final. Además, se registraron métricas complementarias de cobertura, diversidad y área bajo la curva ROC, utilizadas para analizar la robustez y el equilibrio entre exploración y explotación del sistema.
+
+El conjunto de validación se compone de todas las combinaciones cliente–producto que registraron interacciones positivas durante el mes objetivo, mientras que las recomendaciones se generan para el universo completo de clientes activos en la ventana de entrenamiento. De esta forma, cada modelo es evaluado sobre un escenario de predicción realista, en el que se busca maximizar la recuperación de productos efectivamente comprados al tiempo que se mantiene un nivel adecuado de variedad y personalización.
+
+La comparación entre modelos se realizó en dos niveles: mediante métricas agregadas globales, que permiten evaluar la performance general del sistema, y mediante análisis segmentados por canal, subregión y unidad de negocio, que permiten identificar diferencias estructurales en el comportamiento de los algoritmos según las características del mercado.  
+Este esquema integral de evaluación garantiza una lectura equilibrada entre desempeño predictivo, interpretabilidad y aplicabilidad en un entorno productivo de gran escala.  
+
+Además del desempeño en términos de precisión, recuperación y calidad del ranking, la evaluación incorpora métricas diseñadas para analizar la diversidad, la cobertura y el sesgo hacia productos populares, elementos que aportan una visión más completa del comportamiento del sistema más allá de los aciertos directos.
+Estas medidas conforman el conjunto de métricas de performance, cuyo objetivo es cuantificar la calidad del ranking y la utilidad práctica de las recomendaciones generadas. Dichas métricas se detallan en la tabla~\ref{tab:eval_performance}.
+
+\begin{table}[H]
+    \centering
+    \caption[Métricas de performance]{Métricas utilizadas para evaluar la calidad del ranking generado por los modelos.}
+    \begin{tabular}{l p{0.62\textwidth}}
+        \toprule
+        \textbf{Métrica} & \textbf{Descripción} \\
+        \midrule
+        Precision@K & Proporción de productos relevantes dentro del top-$K$ recomendado. \\
+        Recall@K & Porcentaje de productos comprados que aparecen en el top-$K$. \\
+        MAP@K & Promedio de la precisión acumulada, que pondera la posición de cada acierto en el ranking. \\
+        NDCG@K & Mide la calidad de la jerarquía del ranking, al asignar mayor peso a los aciertos en posiciones superiores. \\
+        Coverage@K & Porcentaje de productos distintos que aparecen al menos una vez en las recomendaciones. \\
+        Diversity@K & Disimilitud promedio entre los productos sugeridos dentro del top-$K$. \\
+        Popularity Bias@K & Grado de concentración del ranking en productos de alta frecuencia histórica. \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:eval_performance}
+\end{table}
+
+Complementariamente, se incluyen criterios de eficiencia computacional, fundamentales para estimar la viabilidad real de cada modelo en un entorno distribuido y de gran escala como BEES.
+Este segundo grupo evalúa tiempos de entrenamiento, tiempos de inferencia, uso de memoria y capacidad de escalado, permitiendo determinar qué enfoques son factibles de sostener en producción dadas las restricciones operativas.
+Las métricas asociadas a esta dimensión se presentan en la tabla~\ref{tab:eval_efficiency}.
+
+\begin{table}[H]
+    \centering
+    \caption[Métricas de eficiencia computacional]{Indicadores utilizados para evaluar la eficiencia operativa y escalabilidad de los modelos.}
+    \begin{tabular}{l p{0.62\textwidth}}
+        \toprule
+        \textbf{Métrica} & \textbf{Descripción} \\
+        \midrule
+        Tiempo de entrenamiento & Duración total requerida para ajustar el modelo sobre el conjunto histórico, incluyendo preprocesamiento y construcción de \textit{embeddings}. \\
+        Tiempo de inferencia & Tiempo necesario para generar recomendaciones completas para toda la base de clientes, lo que determina la factibilidad de ejecuciones diarias o semanales. \\
+        Uso de memoria & Cantidad de memoria RAM utilizada durante las fases de entrenamiento e inferencia, con atención al tamaño del modelo y a los datos procesados. \\
+        Escalabilidad & Capacidad del modelo para mantener tiempos razonables al aumentar el volumen de datos o la cantidad de nodos en el clúster distribuido. \\
+        Costo computacional & Estimación del impacto en recursos del clúster asociado a la ejecución del modelo. \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:eval_efficiency}
+\end{table}
+
 %----------------------------------------------------------------------------------------
 
-% \section{Pruebas funcionales del hardware}
-% \label{sec:pruebasHW}
+\section{Modelos \textit{baseline}}
 
-% La idea de esta sección es explicar cómo se hicieron los ensayos, qué resultados se obtuvieron y analizarlos.
+Con el fin de contextualizar el desempeño del sistema de recomendación propuesto, se implementaron tres enfoques \textit{baseline} utilizados como puntos de referencia. Estos modelos establecen límites inferiores e intermedios de desempeño esperado bajo distintos niveles de información y complejidad de modelado.
+
+\subsection{Modelo nulo}
+
+El modelo nulo estima la probabilidad global de compra en todo el universo cliente–producto, sin incorporar ningún tipo de personalización ni información contextual. En términos operativos, calcula la razón entre el número de pares cliente–producto que registran una compra en el mes siguiente y el total de combinaciones posibles. Este \textit{baseline} constituye una cota inferior estadística que refleja la esparsidad intrínseca de la matriz de interacciones.
+
+\subsection{Modelo aleatorio}
+
+El modelo aleatorio establece una referencia no informativa al ordenar aleatoriamente los productos disponibles para cada cliente. Las métricas de desempeño, como \textit{Precision@K} y \textit{Recall@K}, se calculan a partir de estos rankings generados de manera aleatoria. Este enfoque permite cuantificar los resultados esperados en ausencia total de estructura o aprendizaje y sirve como punto de comparación para determinar el rendimiento mínimo aceptable de cualquier modelo de recomendación.
+
+\subsection{Modelo basado en reglas}
+
+El tercer \textit{baseline}, denominado modelo basado en reglas, representa un enfoque heurístico que utiliza reglas simples de agregación y frecuencia para generar recomendaciones.
+El método asigna puntuaciones de recomendación a partir del análisis de compras históricas sobre ventanas temporales predefinidas y segmentos de distribución específicos.
+
+La lógica de este enfoque se estructura a partir de un conjunto de reglas secuenciales. En primer lugar, se realiza un filtrado del universo activo, con la selección únicamente de aquellos clientes y productos que registran actividad de compra entre los últimos 60 y 180 días, con el objetivo de asegurar una población representativa y actualizada.
+Posteriormente, se calculan las frecuencias de compra de cada producto por canal y región de distribución, lo que permite capturar patrones locales de popularidad.
+A continuación, se incorporan señales de preferencia en forma de indicadores binarios que identifican si un punto de venta ha interactuado previamente con productos pertenecientes a la misma unidad de negocio, familia de marca o tipo de empaque.
+Finalmente, todos estos componentes se combinan en un puntaje compuesto que equilibra la fuerza relativa de compra con la similitud del producto. El término base refleja la frecuencia de compra normalizada, mientras que los factores adicionales introducen pequeños ajustes que ponderan la afinidad con marcas o formatos previamente adquiridos.
+
+Este modelo basado en reglas explota patrones observables de coocurrencia sin recurrir a factorizaciones latentes ni representaciones mediante \textit{embeddings}. Por lo tanto, funciona como un \textit{baseline} intermedio e interpretable entre el modelo aleatorio y los enfoques híbridos basados en aprendizaje, y proporciona una referencia significativa para evaluar el valor incremental aportado por las arquitecturas neuronales.
+
+\subsection{Resultados de los modelos \textit{baseline}}
+
+La evaluación inicial se centra en tres modelos de referencia que permiten establecer límites inferiores de desempeño y cuantificar la ganancia relativa obtenida por los enfoques avanzados.
+Estos modelos base sirven para contextualizar el aporte incremental de la personalización y la representación latente frente a estrategias puramente estadísticas o heurísticas.
+
+Los resultados obtenidos se resumen en la tabla~\ref{tab:resultados_baseline}.  
+
+\begin{table}[H]
+	\centering
+	\caption[Resultados comparativos de los modelos \textit{baseline}]{Resumen de métricas de desempeño promedio para los modelos de referencia durante los tres períodos de evaluación.}
+	\begin{tabular}{l c c}    
+		\toprule
+		\textbf{Modelo} & \textbf{Precision@10} & \textbf{Recall@10} \\
+		\midrule
+		Modelo nulo & 11{,}4 \% & 100{,}0 \% \\
+		Modelo aleatorio & 10{,}9 \% & 12{,}5 \% \\
+		Modelo basado en reglas & 16{,}3 \% & 18{,}6 \% \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:resultados_baseline}
+\end{table}
+
+\subsection{Comparación global de desempeño frente a los \textit{baseline}}
+
+La figura~\ref{fig:precision10_comparativo} y la figura~\ref{fig:recall10_comparativo} presentan la comparación directa entre los modelos avanzados y los tres \textit{baseline} evaluados. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{precision_comparison.png}
+    \caption[Comparación de Precision@10 frente a modelos baseline]{Comparación global de \textit{Precision@10} entre los modelos avanzados y los modelos de referencia.}
+    \label{fig:precision10_comparativa}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{recall_comparison.png}
+    \caption[Comparación de Recall@10 frente a modelos baseline]{Comparación global de \textit{Recall@10} entre los modelos avanzados y los modelos de referencia.}
+    \label{fig:recall10_comparativa}
+\end{figure}
+
+
+En términos de \textit{Precision@10}, los modelos basados en aprendizaje superan ampliamente a los enfoques no informados. Mientras que los baseline alcanzan valores entre el 11\% y 17\%, los modelos ALS, LightFM y las arquitecturas neuronales logran precisiones superiores al 29\%, con picos de 32{,}3\,\% en el modelo \textit{Two Towers + ALS} y 32{,}4\,\% en el modelo \textit{NeuCF}.
+
+El comportamiento es consistente en \textit{Recall@10}. Los baseline mantienen valores moderados (12--18\,\%), mientras que los modelos avanzados superan ampliamente este nivel. En particular, ALS alcanza un 33{,}7\,\%, seguido por \textit{Two Towers + ALS} con 34{,}5\,\% y \textit{NeuCF} con 34{,}3\,\%. Estos resultados confirman que las arquitecturas híbridas y neuronales permiten recuperar una mayor proporción de compras efectivas dentro del ranking recomendado.
+
+En conjunto, todos los enfoques evaluados—ALS, LightFM, Two Towers y NeuCF—superan de manera consistente a los modelos \textit{benchmark} en todas las métricas consideradas.
+Esto confirma que incluso los modelos más simples basados en factores latentes ya capturan información estructural que los baseline no pueden modelar, mientras que las arquitecturas híbridas y neuronales continúan mejorando el desempeño al explotar patrones no lineales y relaciones implícitas en los datos.

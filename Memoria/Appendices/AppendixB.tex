@@ -1,0 +1,72 @@
+\chapter{Ensayos experimentales del modelo LightFM}
+\label{AnexoLightFMTests}
+
+Este anexo detalla las tres configuraciones experimentales del modelo \textit{LightFM} desarrolladas con el fin de analizar el aporte incremental de las variables contextuales y la calidad de las representaciones latentes generadas.  
+Cada \textit{test} incorpora progresivamente mayor complejidad en las features de usuario y producto, y conserva la misma arquitectura base y función de pérdida \texttt{WARP}.
+
+\section{\textit{Test} 1 – Modelo base con contexto categórico reducido}
+
+El primer experimento con el modelo \texttt{LightFM} se diseñó como una prueba inicial para evaluar el aporte del contexto estructural más básico sobre la capacidad predictiva del sistema. En esta configuración, se incorporaron únicamente atributos categóricos que describen propiedades intrínsecas de los clientes y productos, sin incluir aún las variables derivadas del comportamiento transaccional historico.
+
+La representación vectorial de cada cliente se construyó a partir de tres campos estructurales: la subregión, el canal de venta y un indicador binario de venta de alcohol. Estas variables permiten capturar diferencias sistemáticas entre tipos de puntos de venta en función de su localización y mix comercial, dos factores que influyen fuertemente en los patrones de compra observados.
+
+Para los productos, se incluyeron seis descriptores fundamentales: la familia de marca, el tipo de empaque, el segmento de marca, la unidad de negocio y el indicador de contenido alcohólico. Estos campos resumen la posición del producto dentro del portafolio y su rol dentro del surtido, aspectos clave para modelar afinidades en un contexto B2B.
+
+Todas las variables se codificaron como entidades categóricas y se proyectaron en el espacio latente del modelo mediante \textit{feature embeddings}. El entrenamiento se realizó con el uso de la función de pérdida \texttt{WARP} (\textit{Weighted Approximate-Rank Pairwise}), orientada a optimizar directamente la posición relativa de los productos relevantes dentro del ranking de recomendaciones. Este criterio, ampliamente adoptado en contextos de \textit{feedback} implícito \cite{ARTICLE:Rendle2009}, penaliza de forma más intensa los errores en las primeras posiciones del ranking, lo que favorece la recuperación de ítems con mayor probabilidad de interacción.
+
+Aun con esta configuración reducida, centrada exclusivamente en variables categóricas estáticas, el modelo alcanzó una \textit{Precision@10} de 25{,}3 \% y \textit{Recall@10} de 27{,}1 \%. Esto evidencia que incluso en ausencia de señales históricas, las relaciones estructurales entre clientes y productos contienen información predictiva relevante, capaz de guiar recomendaciones con un nivel competitivo de precisión. Las recomendaciones generadas mostraron coherencia semántica, ya que agruparon puntos de venta del mismo canal con surtidos de características similares en empaque, segmento o tipo de negocio.
+
+En conjunto, este primer ensayo permitió validar la arquitectura híbrida de \texttt{LightFM} en su forma más simple, y estableció una línea base a partir de la cual se incorporaron progresivamente variables discretizadas y filtros de relevancia en las siguientes configuraciones.
+
+\section{\textit{Test} 2 – Modelo con selección explicativa de atributos discretizados}
+
+El segundo experimento extendió la configuración inicial mediante la incorporación de un conjunto ampliado de atributos categóricos, seleccionados a partir de un proceso sistemático de análisis estadístico y reducción de redundancia. El objetivo fue evaluar si la inclusión de variables discretizadas derivadas del comportamiento histórico y de la estructura de mercado mejoraba la capacidad predictiva del modelo.
+
+Para la selección preliminar de variables se aplicaron pruebas de independencia Chi-cuadrado sobre las variables categóricas y coeficientes de correlación de \textit{Spearman} sobre las numéricas, dando prioridad a aquellas con mayor fuerza de asociación con la variable objetivo de compra. Posteriormente, se eliminó la multicolinealidad mediante un umbral de correlación absoluta de $|r| > 0{,}85$, y se preservaron únicamente las variables más representativas y no redundantes. Este procedimiento permitió conformar un subconjunto interpretativo de atributos explicativos que combinan señales de estabilidad, volumen y diversidad, sin introducir ruido ni sobreajuste.
+
+En el caso de los clientes, se agregaron descriptores de estabilidad temporal y madurez, como la consistencia de ventas y la cantidad de meses consecutivos con actividad; medidas de especialización, como los indicadores binarios de exclusividad por unidad de negocio y variables de estructura del portafolio, entre las que se incluyen la diversidad de marcas, el número de categorías y el ticket promedio. También se incorporaron proporciones asociadas a segmentos específicos, como la participación de cervezas premium y de bebidas sin alcohol dentro del mix de cada cliente.
+
+En el caso de los productos, se sumaron atributos relacionados con su desempeño y alcance, tales como la penetración de clientes, el volumen total vendido, la diversidad de clientes y la proporción de ventas dentro de la unidad de negocio cervecera. Todas las variables numéricas fueron previamente discretizadas en tres cuantiles (\textit{low, medium} y \textit{high}), lo que aseguró comparabilidad y robustez frente a escalas heterogéneas.
+
+El modelo se entrenó bajo la misma configuración general, con el uso de la función de pérdida \texttt{WARP}. La métrica \textit{Precision@10} fue de 26{,}1\% y el \textit{Recall@10} de 27{,}8\%, lo que mejoró significativamente el desempeño del modelo base.
+
+El análisis cualitativo de las recomendaciones reveló una mayor capacidad de segmentación: los clientes con comportamiento estable y surtido diverso recibieron sugerencias más alineadas con su perfil, mientras que los puntos de venta especializados tendieron a recibir productos consistentes con su unidad de negocio principal. Este resultado confirma el valor de las señales discretizadas y explicativas en la construcción de representaciones híbridas, lo que fortalece la capacidad del modelo para capturar patrones de preferencia más finos sin comprometer la generalización.
+
+\section{\textit{Test} 3 – Análisis y depuración de representaciones latentes}
+
+El tercer experimento tuvo como objetivo evaluar la calidad de las representaciones aprendidas por el modelo \texttt{LightFM} y depurar el conjunto de atributos en función de su contribución efectiva al espacio de \textit{embeddings}. A diferencia de los ensayos anteriores, en esta etapa se analizaron directamente las propiedades geométricas de los vectores generados durante el entrenamiento, con el empleo de métricas de norma, cohesión y separación para cuantificar la estructura latente subyacente.
+
+Se diseñó un \textit{pipeline} específico de evaluación de \textit{embeddings}, capaz de extraer los vectores de usuario y producto almacenados en los artefactos del modelo, calcular estadísticas de dispersión y estimar su coherencia semántica. Las normas promedio de los \textit{embeddings} de cliente y producto fueron de 0,031 y 0,118 respectivamente, con baja dispersión intra-grupo, lo que indica una adecuada regularización y una representación estable. La relación entre similitudes intra e inter–categoría fue de 1,17, lo que evidencia que los productos tienden a agruparse coherentemente dentro de sus unidades de negocio, sin perder capacidad de generalización hacia otros segmentos.
+
+Sobre esta base se aplicó un análisis de importancia de atributos, en el cual se reconstruyeron los \textit{embeddings} asociados a cada \textit{feature} explícita del modelo. La norma del vector correspondiente a cada atributo fue utilizada como indicador de relevancia latente: las características con mayor norma poseen mayor influencia en la formación del espacio de representación. Este análisis permitió identificar qué variables aportaban mayor poder discriminante y cuáles eran redundantes o marginales.
+
+En el caso de los clientes, los atributos con mayor norma promedio correspondieron a las variables asociadas al tipo de canal comercial, la venta de productos con alcohol, la proporción de bebidas sin alcohol y la participación de cervezas premium dentro del portafolio. Estos resultados reflejan la relevancia de las señales estructurales y de composición del surtido en la caracterización de la afinidad entre puntos de venta y productos. 
+
+Entre los productos, las dimensiones más relevantes fueron la diversidad de clientes, el volumen total vendido, la cantidad de puntos de venta alcanzados y la penetración promedio, lo que evidencia una fuerte relación entre el alcance comercial y la estabilidad de la demanda en la estructura latente aprendida por el modelo.
+
+A partir de este análisis se implementó un proceso de selección automática, en el cual se conservaron únicamente aquellas variables cuya norma superaba el 20\% del valor máximo dentro de su grupo y hasta dos categorías por campo. El resultado fue un conjunto final de 28 atributos de cliente y 4 de producto, lo que conformó una base más parsimoniosa y explicable. Entre los factores retenidos se destacan las dimensiones de estabilidad temporal, diversidad de surtido y volumen de compra, que capturan aspectos complementarios del comportamiento de los puntos de venta y resultan fundamentales para modelar su propensión a interactuar con distintos productos.
+
+La evaluación del modelo sobre el conjunto de validación temporal evidenció un desempeño estable en comparación con las configuraciones previas, con una \textit{Precision@10} de 25{,}8\,\% y un \textit{Recall@10} de 27{,}5\,\%. Si bien las métricas se mantuvieron en niveles similares, la depuración de atributos permitió alcanzar una representación más compacta y explicable sin comprometer la capacidad predictiva del sistema. 
+
+Este refinamiento redujo la complejidad del modelo y mejoró su interpretabilidad, al identificar de forma explícita las señales con mayor contribución a la estructura latente de afinidad. En conjunto, los resultados validan que las representaciones generadas por \texttt{LightFM} capturan de manera coherente los patrones de relación entre clientes y productos, lo que preserva la semántica de las variables originales y establece una base sólida para futuras extensiones y modelos de mayor complejidad.
+
+\section{Resultados comparativos de los ensayos experimentales}
+
+Los tres experimentos permitieron validar y refinar progresivamente la arquitectura híbrida basada en \texttt{LightFM}. El primer modelo, centrado en atributos estructurales, demostró que la información contextual básica es suficiente para capturar afinidades significativas entre clientes y productos. El segundo ensayo confirmó el valor de incorporar variables discretizadas de comportamiento y desempeño, lo que mejoró la capacidad de segmentación y la precisión de las recomendaciones. Finalmente, el tercer experimento consolidó la robustez del enfoque al identificar, mediante el análisis geométrico de los \textit{embeddings}, un subconjunto reducido de variables con alta relevancia latente, y logró un equilibrio óptimo entre explicabilidad y rendimiento.
+
+En términos globales, las métricas de desempeño mostraron un comportamiento estable y competitivo entre los distintos ensayos, con valores de \textit{Precision@10} y \textit{Recall@10} cercanos al 26\,\% y 28\,\%, respectivamente, tal como se resume en la tabla~\ref{tab:resultados_lightfm}. Estos resultados confirman la capacidad del modelo para capturar relaciones no lineales y de alta dimensionalidad en entornos con señales implícitas dispersas, y ofrecen un punto de partida sólido para su ajuste fino y extensión futura.
+
+\begin{table}[H]
+	\centering
+	\caption[Resultados comparativos de los ensayos con LightFM]{Resumen de métricas de desempeño para las tres configuraciones experimentales del modelo \texttt{LightFM}.}
+	\begin{tabular}{l c c}    
+		\toprule
+		\textbf{Configuración} & \textbf{Precision@10} & \textbf{Recall@10} \\
+		\midrule
+		\textit{Test} 1 – Contexto categórico reducido & 25{,}3 \% & 27{,}1 \% \\
+		\textit{Test} 2 – Atributos discretizados y explicativos & 26{,}1 \% & 27{,}8 \% \\
+		\textit{Test} 3 – Depuración y selección de \textit{embeddings} & 25{,}8 \% & 27{,}5 \% \\
+		\bottomrule
+	\end{tabular}
+	\label{tab:resultados_lightfm}
+\end{table}

@@ -30,13 +30,14 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{tikz}
+\usepackage{subcaption}
 \usetikzlibrary{positioning,arrows.meta,fit,shapes.multipart}
 
 % Redefinición de caracteres problemáticos en marcadores
 \hypersetup{
     pdftitle={Título del Documento},
-    pdfauthor={Autor del Documento},
-    pdfkeywords={Sistemas Embebidos, Internet de las Cosas, Inteligencia Artificial},
+    pdfauthor={Abril Noguera},
+    pdfkeywords={Inteligencia Artificial, Sistemas de Recomendación, Aprendizaje de Maquina},
     pdfstartview={FitH},
     unicode=true,
     colorlinks=true,
@@ -58,8 +59,8 @@
 
 
 % Definir comandos requeridos por la clase
-\newcommand{\degreename}{Maestría en Ciencias} % Cambia según tu título
-\newcommand{\univname}{Universidad Nacional de Ejemplo} % Cambia según tu universidad
+\newcommand{\degreename}{Especialización en Inteligencia Artificial} % Cambia según tu título
+\newcommand{\univname}{Universidad de Buenos Aires} % Cambia según tu universidad
 \newcommand{\keywordnames}{Palabras clave:}
 %----------------------------------------------------------------------------------------
 % Documento Principal
@@ -68,8 +69,8 @@
 \begin{document}
 
 % Configuración de la portada
-\posgrado{Carrera / Maestría}
-\keywords{Sistemas Embebidos, Internet de las Cosas, Inteligencia Artificial}
+\posgrado{Especialización}
+\keywords{Inteligencia Artificial, Sistemas de Recomendación, Aprendizaje de Maquina}
 
 % Incluir la portada desde un archivo separado
 \include{portada}
@@ -93,10 +94,10 @@ Para su desarrollo fueron fundamentales los conocimientos adquiridos en la carre
 % Agradecimientos
 %----------------------------------------------------------------------------------------
 
-\begin{acknowledgements}
-\vspace{1.5cm}
-Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONAL}.
-\end{acknowledgements}
+% \begin{acknowledgements}
+% \vspace{1.5cm}
+% Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONAL}.
+% \end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
 % Índice
@@ -134,6 +135,7 @@ Esta sección es para agradecimientos personales y es totalmente \textbf{OPCIONA
 
 % Incluir apéndices desde archivos separados si es necesario
 \include{Appendices/AppendixA}
+\include{Appendices/AppendixB}
 
 %----------------------------------------------------------------------------------------
 % Bibliografía
