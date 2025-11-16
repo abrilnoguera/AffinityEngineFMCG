@@ -34,7 +34,6 @@ Estas medidas conforman el conjunto de métricas de performance, cuyo objetivo e
         Recall@K & Porcentaje de productos comprados que aparecen en el top-$K$. \\
         MAP@K & Promedio de la precisión acumulada, que pondera la posición de cada acierto en el ranking. \\
         NDCG@K & Mide la calidad de la jerarquía del ranking, al asignar mayor peso a los aciertos en posiciones superiores. \\
-        Coverage@K & Porcentaje de productos distintos que aparecen al menos una vez en las recomendaciones. \\
         Diversity@K & Disimilitud promedio entre los productos sugeridos dentro del top-$K$. \\
         Popularity Bias@K & Grado de concentración del ranking en productos de alta frecuencia histórica. \\
         \bottomrule
@@ -43,7 +42,7 @@ Estas medidas conforman el conjunto de métricas de performance, cuyo objetivo e
 \end{table}
 
 Complementariamente, se incluyen criterios de eficiencia computacional, fundamentales para estimar la viabilidad real de cada modelo en un entorno distribuido y de gran escala como BEES.
-Este segundo grupo evalúa tiempos de entrenamiento, tiempos de inferencia, uso de memoria y capacidad de escalado, permitiendo determinar qué enfoques son factibles de sostener en producción dadas las restricciones operativas.
+Este segundo grupo evalúa tiempos de entrenamiento, tiempos de inferencia, uso de memoria y capacidad de escalado, lo que permite determinar qué enfoques son factibles de sostener en producción dadas las restricciones operativas.
 Las métricas asociadas a esta dimensión se presentan en la tabla~\ref{tab:eval_efficiency}.
 
 \begin{table}[H]
@@ -53,7 +52,7 @@ Las métricas asociadas a esta dimensión se presentan en la tabla~\ref{tab:eval
         \toprule
         \textbf{Métrica} & \textbf{Descripción} \\
         \midrule
-        Tiempo de entrenamiento & Duración total requerida para ajustar el modelo sobre el conjunto histórico, incluyendo preprocesamiento y construcción de \textit{embeddings}. \\
+        Tiempo de entrenamiento & Duración total requerida para ajustar el modelo sobre el conjunto histórico, que incluye preprocesamiento y construcción de \textit{embeddings}. \\
         Tiempo de inferencia & Tiempo necesario para generar recomendaciones completas para toda la base de clientes, lo que determina la factibilidad de ejecuciones diarias o semanales. \\
         Uso de memoria & Cantidad de memoria RAM utilizada durante las fases de entrenamiento e inferencia, con atención al tamaño del modelo y a los datos procesados. \\
         Escalabilidad & Capacidad del modelo para mantener tiempos razonables al aumentar el volumen de datos o la cantidad de nodos en el clúster distribuido. \\
@@ -113,7 +112,7 @@ Los resultados obtenidos se resumen en la tabla~\ref{tab:resultados_baseline}.
 
 \subsection{Comparación global de desempeño frente a los \textit{baseline}}
 
-La figura~\ref{fig:precision10_comparativo} y la figura~\ref{fig:recall10_comparativo} presentan la comparación directa entre los modelos avanzados y los tres \textit{baseline} evaluados. 
+La figura~\ref{fig:precision10_comparativa} y \ref{fig:recall10_comparativa} presentan la comparación directa entre los modelos avanzados y los tres \textit{baseline} evaluados. 
 
 \begin{figure}[H]
     \centering
@@ -130,9 +129,211 @@ La figura~\ref{fig:precision10_comparativo} y la figura~\ref{fig:recall10_compar
 \end{figure}
 
 
-En términos de \textit{Precision@10}, los modelos basados en aprendizaje superan ampliamente a los enfoques no informados. Mientras que los baseline alcanzan valores entre el 11\% y 17\%, los modelos ALS, LightFM y las arquitecturas neuronales logran precisiones superiores al 29\%, con picos de 32{,}3\,\% en el modelo \textit{Two Towers + ALS} y 32{,}4\,\% en el modelo \textit{NeuCF}.
+En términos de \textit{Precision@10}, los modelos basados en aprendizaje superan ampliamente a los enfoques no informados. Mientras que los baseline alcanzan valores entre el 11\% y 17\%, los modelos ALS, \textit{LightFM} y las arquitecturas neuronales logran precisiones superiores al 29\%, con picos de 32{,}3\,\% en el modelo \textit{Two Towers} + ALS y 32{,}4\,\% en el modelo \textit{NeuCF}.
 
-El comportamiento es consistente en \textit{Recall@10}. Los baseline mantienen valores moderados (12--18\,\%), mientras que los modelos avanzados superan ampliamente este nivel. En particular, ALS alcanza un 33{,}7\,\%, seguido por \textit{Two Towers + ALS} con 34{,}5\,\% y \textit{NeuCF} con 34{,}3\,\%. Estos resultados confirman que las arquitecturas híbridas y neuronales permiten recuperar una mayor proporción de compras efectivas dentro del ranking recomendado.
+El comportamiento es consistente en \textit{Recall@10}. Los baseline mantienen valores moderados (12--18\,\%), mientras que los modelos avanzados superan ampliamente este nivel. En particular, ALS alcanza un 33{,}7\,\%, seguido por \textit{Two Towers} + ALS con 34{,}5\,\% y \textit{NeuCF} con 34{,}3\,\%. Estos resultados confirman que las arquitecturas híbridas y neuronales permiten recuperar una mayor proporción de compras efectivas dentro del ranking recomendado.
 
-En conjunto, todos los enfoques evaluados—ALS, LightFM, Two Towers y NeuCF—superan de manera consistente a los modelos \textit{benchmark} en todas las métricas consideradas.
-Esto confirma que incluso los modelos más simples basados en factores latentes ya capturan información estructural que los baseline no pueden modelar, mientras que las arquitecturas híbridas y neuronales continúan mejorando el desempeño al explotar patrones no lineales y relaciones implícitas en los datos.
+En conjunto, todos los enfoques evaluados superan de manera consistente a los modelos \textit{benchmark} en todas las métricas consideradas.
+Esto confirma que incluso los modelos más simples basados en factores latentes ya capturan información estructural que los baseline no pueden modelar, mientras que las arquitecturas híbridas y neuronales logran mejorar el desempeño al explotar patrones no lineales y relaciones implícitas en los datos.
+
+%----------------------------------------------------------------------------------------
+
+\section{Análisis de resultados}
+
+Esta sección presenta una síntesis integrada del comportamiento de los modelos evaluados, y articula tanto métricas de calidad del ranking como indicadores de eficiencia operativa.
+En primer lugar, se analizan los resultados de performance, y se compara la capacidad de cada enfoque para recuperar productos relevantes, ordenar correctamente el ranking y generar recomendaciones diversas y no sesgadas.
+A continuación, se examinan los aspectos de eficiencia computacional, con atención a los tiempos de entrenamiento e inferencia, el uso de memoria y la escalabilidad en el entorno distribuido de Databricks.
+Finalmente, se ofrece una conclusión conjunta que resume los hallazgos y destaca el aporte relativo de cada modelo dentro del ecosistema de recomendaciones evaluado.
+
+\subsection{Resultados de performance}
+
+La tabla~\ref{tab:performance_models} presenta una comparación integral del desempeño de los modelos avanzados evaluados, que considera las métricas de ranking, diversidad y sesgo hacia productos populares. Los resultados permiten observar diferencias estructurales entre los enfoques colaborativos, híbridos y neuronales, así como su mejora sustancial respecto de las líneas base discutidas previamente.
+
+\begin{table}[H]
+    \centering
+    \caption[Desempeño comparado de los modelos avanzados]{Resumen comparativo demétricas de performance promedio para los modelos evaluados.}
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{l c c c c c c}
+        \toprule
+        \textbf{Modelo} &
+        \textbf{Precision@10} &
+        \textbf{Recall@10} &
+        \textbf{MAP@10} &
+        \textbf{NDCG@10} &
+        \textbf{Diversity@10} &
+        \textbf{Popularity Bias@10} \\
+        \midrule
+        ALS & 31{,}5 \% & 33{,}7 \% & 52{,}1 \% & 68{,}0 \% & 90{,}9 \% & 14{,}5 \% \\
+        \textit{LightFM} & 29{,}2 \% & 31{,}2 \% & 54{,}7 \% & 69{,}7 \% & 82{,}1 \% & 26{,}9 \% \\
+        \textit{Two Towers} + ALS & 32{,}3 \% & 34{,}5 \% & 50{,}1 \% & 66{,}5 \% & 89{,}9 \% & 15{,}5 \% \\
+        \textit{NeuCF} & 32{,}4 \% & 34{,}3 \% & 40{,}4 \% & 57{,}3 \% & 88{,}9 \% & 16{,}0 \% \\
+        \bottomrule
+    \end{tabular}
+    }
+    \label{tab:performance_models}
+\end{table}
+
+En términos de precisión y recuperación, los cuatro modelos confirman la relevancia de incorporar representaciones latentes y arquitecturas basadas en \textit{embeddings}. El modelo ALS se destaca por su solidez y alcanza un 31{,}5\,\% de \textit{Precision@10} y un 33{,}7\,\% de \textit{Recall@10}. Los modelos neuronales presentan mejoras marginales: \textit{Two Towers} y \textit{NeuCF} obtienen los valores más altos, con una \textit{Precision@10} cercana al 32{,}3–32{,}4\,\% y una \textit{Recall@10} de hasta 34{,}5\,\%.
+
+Por otro lado, las métricas de ranking fino muestran comportamientos diferenciados. Si bien \textit{LightFM} no alcanza los niveles de precisión global de los modelos profundos, presenta el mejor desempeño en \textit{MAP@10} (54{,}7\,\%) y \textit{NDCG@10} (69{,}7\,\%), lo que indica una mejor jerarquización de los primeros lugares del ranking. Este resultado sugiere que su arquitectura híbrida beneficia especialmente la calidad posicional de las recomendaciones.
+
+La diversidad del top-$10$ se mantiene elevada en todos los enfoques, con valores entre 82\,\% y 91\,\%, lo que evidencia que los modelos no colapsan hacia un conjunto reducido de productos, incluso en un entorno altamente concentrado como el mercado B2B. En cuanto al \textit{popularity bias}, los resultados muestran que los modelos avanzados logran contener el sesgo hacia productos de alta rotación: ALS, \textit{Two Towers} y \textit{NeuCF} mantienen niveles bajos (14–16\,\%), mientras que \textit{LightFM} exhibe mayor inclinación hacia ítems populares (26,9\,\%).
+
+Si bien cada arquitectura presenta fortalezas particulares, la convergencia en métricas muestra que los modelos avanzados son capaces de capturar de manera efectiva las relaciones complejas entre clientes y productos, y ofrecen una mejora sustancial sobre heurísticas tradicionales.
+
+
+\subsection{Resultados de eficiencia computacional}
+
+La comparación entre modelos no se limita al desempeño en las métricas de ranking, sino que también considera su viabilidad operativa dentro del entorno distribuido de Databricks.  
+Todos los experimentos se ejecutaron sobre un clúster \texttt{Standard\_E16a\_v4} (Spark 3.5, 16 núcleos y 128 GB de memoria por nodo), con entre uno y cuatro \textit{workers} asignados según la carga de trabajo requerida por cada arquitectura.
+
+La tabla~\ref{tab:efficiency_metrics} sintetiza estos resultados en términos de tiempo de entrenamiento, tiempo de inferencia, uso de memoria y costo computacional relativo.
+
+\begin{table}[H]
+    \centering
+    \caption[Resumen de eficiencia computacional]{Resumen comparativo de eficiencia computacional para los modelos evaluados.}
+    \begin{tabular}{l c c c c}
+        \toprule
+        \textbf{Modelo} & \textbf{Tiempo de} & \textbf{Tiempo de} & \textbf{Uso de} & \textbf{Costo} \\
+        & \textbf{entrenamiento} & \textbf{inferencia} & \textbf{memoria} & \textbf{relativo} \\
+        \midrule
+        ALS & $\sim$40--60 min & $\sim$10--15 min & Bajo & 1{,}0$\times$ \\
+        \textit{LightFM} & $\sim$1{,}5--2 h & $\sim$15--20 min & Medio & 1{,}3$\times$ \\
+        \textit{Two Towers} + ALS & $\sim$2{,}5--3 h & $\sim$20--30 min & Alto & 1{,}7$\times$ \\
+        \textit{NeuCF} & $\sim$3--4 h & $\sim$20--30 min & Alto & 2{,}0$\times$ \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:efficiency_metrics}
+\end{table}
+
+A partir de los tiempos observados durante los entrenamientos, el modelo \textit{Neural Collaborative Filtering} se posiciona como el enfoque más costoso desde el punto de vista computacional.  
+El ajuste de cinco épocas sobre aproximadamente 39 millones de interacciones demanda entre 3 y 4 horas de procesamiento, que incluye la fase previa de construcción del conjunto de entrenamiento y la serialización del modelo.
+
+El enfoque \textit{Two Towers} combinado con ALS presenta un costo intermedio: el entrenamiento completo, que comprende la factorización implícita con ALS y la posterior optimización de las dos torres neuronales basadas en atributos, requiere entre 2,5 y 3 horas en total.
+
+En contraste, el modelo ALS puro muestra una eficiencia computacional significativamente mayor y completa su entrenamiento en aproximadamente 40–60 minutos gracias a su ejecución nativa y distribuida sobre Spark.  
+
+La variante híbrida \textit{LightFM} se ubica en un punto medio, con tiempos de entrenamiento del orden de 1,5–2 horas, consistentes con la necesidad de mover datos fuera del motor distribuido y optimizar parámetros en un entorno no nativamente paralelo.
+
+En la etapa de inferencia, todos los enfoques resultan operativamente viables para su ejecución mensual a escala completa.  
+ALS y \textit{LightFM} generan el \textit{ranking} completo para toda la base en aproximadamente 10–20 minutos, mientras que \textit{Two Towers} y \textit{NeuCF}, que dependen de componentes en PyTorch y funciones UDF para el cálculo de similitudes, se sitúan entre 20 y 30 minutos, manteniéndose dentro de una ventana razonable para despliegues periódicos en producción.
+
+En conjunto, los resultados muestran que las arquitecturas basadas en Spark (ALS) son significativamente más eficientes en entornos distribuidos, mientras que los modelos neuronales ofrecen mayor capacidad expresiva a costa de mayores recursos y tiempos de cómputo.  
+
+\subsection{Evaluación final del desempeño y eficiencia}
+
+Los resultados indican que las arquitecturas neuronales obtienen las mejores métricas de \textit{Precision@10} y \textit{Recall@10}, lo que confirma su capacidad para modelar relaciones no lineales y capturar interacciones complejas entre clientes y productos. Sin embargo, la magnitud de estas mejoras es relativamente acotada: los incrementos respecto de ALS oscilan típicamente entre 0.5 y 1.0 puntos porcentuales, una ganancia real pero moderada dentro del contexto operativo del negocio.
+
+Este avance marginal se contrapone a un costo computacional claramente superior. Los modelos neuronales requieren varias horas de entrenamiento, un volumen importante de memoria y la ejecución de componentes en PyTorch dentro de un entorno distribuido, lo que introduce mayor complejidad en la orquestación, el mantenimiento y la reproducibilidad. En escenarios donde las recomendaciones deben generarse de forma periódica y estable, estos costos adicionales no se traducen en ganancias lo suficientemente significativas como para justificar su adopción como modelo principal.
+
+En contraste, ALS exhibe el mejor balance global entre desempeño y eficiencia. Aunque sus métricas no alcanzan el máximo absoluto, se mantienen muy competitivas y lo suficientemente cercanas a las variantes neuronales como para que, en la práctica, las diferencias tengan impacto limitado en la calidad final de las recomendaciones. Su entrenamiento nativo en Spark, su bajo uso de memoria y su velocidad lo posicionan como una solución altamente costo–efectiva y confiable para pipelines recurrentes de producción.
+
+En conjunto, estos resultados sugieren que, si bien las arquitecturas más complejas pueden ofrecer pequeñas mejoras incrementales, ALS logra el punto óptimo entre calidad predictiva y costo operativo. En este contexto, la simplicidad, estabilidad y escalabilidad del ALS superan la ventaja marginal de performance de los modelos neuronales, consolidándolo como la opción más adecuada para un entorno productivo de gran escala.
+
+%----------------------------------------------------------------------------------------
+
+\section{Análisis de robustez}
+
+El análisis de robustez evalúa si el desempeño del modelo se mantiene estable bajo diferentes condiciones temporales, segmentos comerciales y niveles de historial disponible. La estabilidad temporal se observa en la tabla~\ref{tab:robustez_mes}, donde las métricas de \textit{Precision@10} y \textit{Recall@10} presentan variaciones mínimas entre los meses 202506 y 202508. Estas fluctuaciones acotadas indican que el modelo no es sensible a cambios estacionales ni a variaciones propias del ciclo comercial mensual.
+
+\begin{table}[H]
+\centering
+\caption[Estabilidad temporal del desempeño]{\textit{Precision@10} y \textit{Recall@10} por mes de evaluación.}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Año-Mes} & \textbf{Precision@10} & \textbf{Recall@10} \\
+\midrule
+202506 & 29.9 \% & 34.1 \% \\
+202507 & 30.1 \% & 33.5 \% \\
+202508 & 31.5 \% & 33.7 \% \\
+\bottomrule
+\end{tabular}
+\label{tab:robustez_mes}
+\end{table}
+
+Esta estabilidad también se refleja en la distribución del \textit{affinity score}, representada en la figura~\ref{fig:affinity_score_dist}. Las curvas correspondientes a los tres meses prácticamente se superponen, lo que confirma la ausencia de \textit{data drift} tanto en la construcción de señales como en el pipeline de entrenamiento.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{drift.png}
+    \caption[Distribución del \textit{affinity score} por mes]{Distribuciones comparadas del \textit{AFFINITY\_SCORE} para los meses 202506, 202507 y 202508.}
+    \label{fig:affinity_score_dist}
+\end{figure}
+
+Al segmentar los resultados por unidad de negocio, se observa un comportamiento igualmente estable. La tabla~\ref{tab:robustez_hb} muestra que CZA y NABS mantienen niveles consistentes de precisión y recall entre meses, mientras que MATCH presenta un recall elevado y una precisión inferior. Lo importante es que estas diferencias permanecen prácticamente constantes en el tiempo, lo que demuestra que el modelo no amplifica variaciones estructurales del negocio.
+
+\begin{table}[H]
+\centering
+\caption[Desempeño por unidad de negocio]{\textit{Precision@10} y \textit{Recall@10} por unidad de negocio.}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Año-Mes} & \textbf{Unidad de negocio} & \textbf{Precision@10} & \textbf{Recall@10} \\
+\midrule
+202506 & CZA   & 24.4 \% & 52.9 \% \\
+202506 & MATCH & 17.8 \% & 83.9 \% \\
+202506 & NABS  & 25.5 \% & 48.7 \% \\
+202507 & CZA   & 25.8 \% & 52.3 \% \\
+202507 & MATCH & 17.3 \% & 82.9 \% \\
+202507 & NABS  & 25.8 \% & 47.5 \% \\
+202508 & CZA   & 26.9 \% & 52.2 \% \\
+202508 & MATCH & 16.9 \% & 82.5 \% \\
+202508 & NABS  & 26.4 \% & 47.4 \% \\
+\bottomrule
+\end{tabular}
+\label{tab:robustez_hb}
+\end{table}
+
+Finalmente, el análisis por tipo de cliente (tabla~\ref{tab:robustez_clasificacion}) revela patrones coherentes con la disponibilidad de historial: los clientes nuevos presentan métricas más bajas debido a la escasez de señales, los inestables alcanzan valores intermedios y los estables obtienen los mejores resultados, con precisiones superiores al 76~\% y \textit{recall} cercanos al 87~\%. Lo relevante es que estas relaciones se mantienen prácticamente inalteradas entre los meses analizados, lo que refuerza la consistencia del modelo.
+
+\begin{table}[H]
+\centering
+\caption[Desempeño por clasificación de cliente]{\textit{Precision@10} y \textit{Recall@10} según tipo de cliente.}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Año-Mes} & \textbf{Clasificación} & \textbf{Precision@10} & \textbf{Recall@10} \\
+\midrule
+202506 & nuevos      & 10.4 \% & 39.2 \% \\
+202506 & estables   & 76.5 \% & 86.5 \% \\
+202506 & inestables & 35.1 \% & 63.9 \% \\
+202507 & nuevos      & 11.6 \% & 37.8 \% \\
+202507 & estables   & 76.2 \% & 87.4 \% \\
+202507 & inestables & 36.8 \% & 63.9 \% \\
+202508 & nuevos      & 12.1 \% & 37.5 \% \\
+202508 & estables   & 76.2 \% & 87.6 \% \\
+202508 & inestables & 38.3 \% & 64.6 \% \\
+\bottomrule
+\end{tabular}
+\label{tab:robustez_clasificacion}
+\end{table}
+
+En conjunto, estos resultados confirman que el modelo es robusto en todas las dimensiones evaluadas: mantiene un desempeño estable en el tiempo, responde de forma consistente entre segmentos comerciales y opera de manera predecible según la disponibilidad de historial del cliente. Esta estabilidad es un requisito clave para su uso en producción y garantiza que el sistema no introduce variabilidad artificial ni deriva comportamientos inesperados en ciclos operativos mensuales.
+
+
+%----------------------------------------------------------------------------------------
+
+% Posibles contenidos para la sección de Análisis cualitativo (a evaluar si se incluye o no)
+% 	•	Coherencia semántica de las recomendaciones
+% 	•	Verificar si las sugerencias son coherentes con el tipo de cliente (canal, tamaño, categoría).
+% 	•	Evaluar si el modelo evita recomendar productos irrelevantes o incompatibles con su perfil.
+% 	•	Casos representativos por tipo de cliente
+% 	•	Analizar 3–4 clientes de perfiles distintos (nuevo, estable, inestable, MATCH).
+% 	•	Comparar top-K recomendado vs. compras reales y explicar por qué las recomendaciones tienen sentido.
+% 	•	Identificar coincidencias, aciertos y patrones interesantes.
+% 	•	Cobertura cualitativa del surtido recomendado
+% 	•	Observar si el modelo diversifica marcas y formatos.
+% 	•	Evaluar dependencia de productos de alta rotación vs. sugerencias de bajo volumen que podrían generar crecimiento.
+% 	•	Revisar complementariedad entre categorías (cross-sell natural).
+% 	•	Consistencia con los hallazgos del EDA
+% 	•	Validar si se mantienen los clusters comerciales observados en PCA.
+% 	•	Verificar si las recomendaciones reflejan el comportamiento segmentado por canal/UB.
+% 	•	Observar si el modelo compensa o amplifica la concentración tipo Pareto.
+% 	•	Identificación de fallas y casos límites
+% 	•	Clientes nuevos → tendencia a recomendaciones genéricas.
+% 	•	Clientes muy volátiles → patrones poco claros en las sugerencias.
+% 	•	Categorías pequeñas → sensibilidad a ruido o escasez de datos.
+% 	•	Ejemplos de recomendaciones erróneas o inesperadas y posible causa.
+% 	•	Potencial impacto comercial cualitativo
+% 	•	ALS como opción más estable y reproducible en producción.
+% 	•	Modelos neuronales útiles para campañas específicas donde se busca captar señales finas.
+% 	•	LightFM como aproximación útil para capturar relaciones semánticas entre atributos.
+% 	•	Posibles aplicaciones por unidad de negocio.
