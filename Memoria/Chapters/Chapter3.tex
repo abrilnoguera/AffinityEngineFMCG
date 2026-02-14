@@ -10,7 +10,7 @@ Este capítulo aborda el proceso de construcción del sistema de recomendación,
 
 El sistema de recomendación se diseñó con el objetivo de estimar la afinidad entre clientes y productos en un entorno caracterizado por alta escala, heterogeneidad de perfiles y rotación constante del portafolio. El diseño de la solución se apoyó en una arquitectura en capas que permite integrar diversas fuentes de datos, transformarlas en estructuras analíticas consistentes, entrenar modelos capaces de capturar relaciones complejas y, finalmente, desplegar las recomendaciones en un flujo operativo estable y reproducible.
 
-La primera capa corresponde a la ingesta de datos, instancia en la que se integran registros transaccionales, interacciones digitales y atributos contextuales. Los datos transaccionales reflejan las compras efectivas realizadas en distintos horizontes temporales, lo que aporta evidencia directa sobre las preferencias observadas. Las interacciones digitales, en cambio, ofrecen señales implícitas de interés a partir de búsquedas, visualizaciones de productos o modificaciones en el carrito. Finalmente, los atributos contextuales caracterizan tanto a los clientes, mediante variables asociadas a su canal de comercialización, localización o tamaño, como a los productos, a partir de propiedades como marca, categoría o segmento.
+La primera capa corresponde a la ingesta de datos, instancia en la que se integran registros transaccionales, interacciones digitales y atributos contextuales. 
 
 La segunda capa se orienta a la preparación de los datos. En esta etapa se construyen las matrices de interacciones cliente–producto y se generan representaciones temporales que permiten capturar la dinámica de la demanda. Asimismo, se aplican técnicas de tratamiento de valores faltantes y de codificación de atributos categóricos, con el fin de asegurar consistencia y compatibilidad entre las distintas fuentes. El resultado de este proceso es un conjunto de estructuras homogéneas que sientan las bases para la etapa de modelado.
 
@@ -41,7 +41,7 @@ El análisis de concentración constituye un paso clave para comprender la distr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.55]{./Figures/concentracion_productos.png}
+	\includegraphics[scale=.45]{./Figures/concentracion_productos.png}
 	\caption{Concentración de productos en el portafolio.}
 	\label{fig:concentracion_productos}
 \end{figure}
@@ -50,7 +50,7 @@ De manera análoga, la figura \ref{fig:concentracion_clientes} refleja la concen
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.55]{./Figures/concentracion_clientes.png}
+	\includegraphics[scale=.45]{./Figures/concentracion_clientes.png}
 	\caption{Concentración de clientes.}
 	\label{fig:concentracion_clientes}
 \end{figure}
@@ -63,7 +63,7 @@ El análisis de la diversidad en el portafolio de productos por cliente permite 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.5]{./Figures/hist_diversidad.png}
+	\includegraphics[scale=.45]{./Figures/hist_diversidad.png}
 	\caption{Histograma de diversidad de portafolio: número de productos distintos por cliente.}
 	\label{fig:hist_diversidad}
 \end{figure}
@@ -92,7 +92,7 @@ El análisis de co-ocurrencia entre los productos más relevantes, presentado en
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.4]{./Figures/heatmap_coocurrencia.png}
+	\includegraphics[scale=.5]{./Figures/heatmap_coocurrencia.png}
 	\caption{Mapa de calor de co-ocurrencia entre los 10 productos más relevantes.}
 	\label{fig:heatmap_coocurrencia}
 \end{figure}
@@ -103,7 +103,7 @@ El análisis de correlaciones busca identificar hasta qué punto las señales di
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.5]{./Figures/heatmap_corr.png}
+	\includegraphics[scale=.55]{./Figures/heatmap_corr.png}
 	\caption{Matriz de correlación entre variables transaccionales y digitales.}
 	\label{fig:heatmap_corr}
 \end{figure}
@@ -250,7 +250,7 @@ La preparación e ingeniería de los datos permitió consolidar una base analít
 
 El desarrollo de los modelos constituye la fase central del sistema de recomendación, donde la matriz cliente–producto construida en etapas previas se transforma en un mecanismo capaz de estimar la afinidad entre ambos. El objetivo es asignar a cada combinación posible un puntaje continuo que refleje la probabilidad relativa de interés, lo que permite ordenar los productos según la relevancia esperada para cada cliente.
 
-Para abordar este desafío se exploraron distintos enfoques de modelado, que combinan estrategias colaborativas, basadas en contenido y de aprendizaje profundo. En primer lugar, se implementó un modelo de filtrado colaborativo mediante el algoritmo \textit{Alternating Least Squares} \cite{ARTICLE:ALS2008, ARTICLE:Hu2008}, que aprende representaciones latentes de clientes y productos a partir de los patrones de interacción observados. En segundo lugar, se desarrolló un modelo híbrido con \textit{LightFM} \cite{ARTICLE:LightFM2015}, capaz de integrar señales colaborativas con atributos explícitos de clientes y productos, lo que mitiga el problema del arranque en frío.
+Para abordar este desafío se exploraron distintos enfoques de modelado, que combinan estrategias colaborativas, basadas en contenido y de aprendizaje profundo. En primer lugar, se implementó un modelo de filtrado colaborativo mediante el algoritmo \textit{Alternating Least Squares} (ALS) \cite{ARTICLE:ALS2008, ARTICLE:Hu2008}, que aprende representaciones latentes de clientes y productos a partir de los patrones de interacción observados. En segundo lugar, se desarrolló un modelo híbrido con \textit{LightFM} \cite{ARTICLE:LightFM2015}, capaz de integrar señales colaborativas con atributos explícitos de clientes y productos, lo que mitiga el problema del arranque en frío.
 
 Complementariamente, se incorporó una variante basada en redes neuronales del tipo \textit{Two Towers} \cite{ARTICLE:Yi2019}, que aprende representaciones de clientes y productos a partir de sus atributos categóricos y numéricos mediante arquitecturas de \textit{embeddings}. Sus representaciones pueden combinarse con las generadas por ALS en un esquema híbrido de ensamble, lo que fortalece la robustez y la capacidad de generalización del sistema. La segunda corresponde al enfoque de \textit{Neural Collaborative Filtering} \cite{ARTICLE:He2017}, que reemplaza la combinación lineal de \textit{embeddings} por un modelo neuronal capaz de capturar relaciones no lineales de afinidad.
 
@@ -268,7 +268,7 @@ El modelo se configuró con un número de factores latentes ajustable (\textit{r
 
 \subsubsection{Optimización de hiperparámetros}
 
-Para la selección de hiperparámetros se implementó un proceso de optimización bayesiana con \texttt{Optuna} \cite{ARTICLE:Akiba2019}, compuesto por veinte iteraciones orientadas a maximizar la métrica \textit{Precision@5} sobre un conjunto de validación temporal. La búsqueda abarcó los principales parámetros del modelo: dimensión latente (\textit{rank} $\in [10, 50]$), número máximo de iteraciones (\texttt{maxIter} $\in [5, 20]$), nivel de regularización (\texttt{regParam} $\in [10^{-4}, 10^{-1}]$) y parámetro de confianza (\texttt{alpha} $\in [10^{-2}, 10]$). 
+Para la selección de hiperparámetros se implementó un proceso de optimización bayesiana con \texttt{Optuna} \cite{ARTICLE:Akiba2019}, compuesto por veinte iteraciones orientadas a maximizar la métrica \textit{Precision@5} sobre un conjunto de validación temporal. La búsqueda abarcó los principales parámetros del modelo: dimensión latente (\texttt{rank} $\in [10, 50]$), número máximo de iteraciones (\texttt{maxIter} $\in [5, 20]$), nivel de regularización (\texttt{regParam} $\in [10^{-4}, 10^{-1}]$) y parámetro de confianza (\texttt{alpha} $\in [10^{-2}, 10]$). 
 
 En cada iteración, el modelo fue entrenado sobre las interacciones comprendidas entre los meses $N-7$ y $N-2$, y evaluado sobre el mes $N-1$, lo que reprodujo el flujo real de generación de recomendaciones.
 
@@ -376,7 +376,7 @@ El espacio de búsqueda incluyó combinaciones de número de componentes latente
 
 El modelo alcanzó una \textit{Precision@10} de 29{,}2\% y un \textit{Recall@10} de 31{,}2\%, superó las versiones anteriores tanto en precisión como en cobertura, y se consolidó como la mejor alternativa dentro del conjunto de modelos evaluados.
 
-Estos resultados confirman que la combinación de la función de pérdida \texttt{BPR} con un número intermedio de componentes latentes ofrece un equilibrio óptimo entre capacidad representacional y generalización, lo que maximiza la recuperación de productos relevantes sin sobreajustar a las interacciones más frecuentes. El modelo resultante constituye la versión final del motor híbrido de afinidad, el cual integra señales transaccionales y contextuales dentro de un espacio latente de alta coherencia semántica.
+Estos resultados confirman que la combinación de la función de pérdida \texttt{BPR} con un número intermedio de componentes latentes ofrece un equilibrio óptimo entre capacidad representacional y generalización, lo que maximiza la recuperación de productos relevantes sin sobreajustar a las interacciones más frecuentes. El modelo resultante constituye la versión final del motor híbrido de afinidad, que integra señales transaccionales y contextuales dentro de un espacio latente de alta coherencia semántica.
 
 \subsection{Modelo basado en contenido con arquitectura Two-Tower}
 
@@ -395,7 +395,7 @@ El modelo se configuró con un tamaño de \textit{embedding} de 128 dimensiones 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.3]{./Figures/two_tower_2.png}
+	\includegraphics[scale=.18]{./Figures/two_tower_es.png}
 	\caption{Arquitectura del modelo \textit{Two Towers}\protect\footnotemark.}
 	\label{fig:two_tower}
 \end{figure}
@@ -447,7 +447,7 @@ La figura~\ref{fig:ncf_hibrido} ilustra la estructura híbrida del modelo, y mue
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.25]{./Figures/ncf_hibrido.png}
+	\includegraphics[scale=.18]{./Figures/ncf_hibrido_es.png}
 	\caption{Arquitectura del modelo \textit{Neural Collaborative Filtering} híbrido\protect\footnotemark.}
 	\label{fig:ncf_hibrido}
 \end{figure}
@@ -473,23 +473,29 @@ En conjunto, el \textit{Neural Collaborative Filtering} representa el paso más 
 
 La implementación del sistema de recomendación requirió articular los distintos componentes desarrollados dentro de un flujo de trabajo unificado, reproducible y escalable. Para ello se diseñó un \textit{pipeline} modular que integra los procesos de ingesta, transformación, modelado y evaluación, con soporte para el versionado y monitoreo de artefactos en producción.
 
-\subsection{Diseño del \textit{pipeline} de procesamiento}
+\subsection{Integración con Databricks y MLflow}
 
-El flujo completo se estructuró en cuatro etapas principales: ingesta, preparación, modelado y predicción.  
-En la fase de ingesta se integraron las fuentes de datos transaccionales, digitales y contextuales en un entorno distribuido, lo que garantizó la consistencia de los identificadores y la alineación temporal entre registros.
+El flujo completo se estructuró en cuatro etapas principales: ingesta, preparación, modelado y predicción. En la fase de ingesta se integraron las fuentes de datos transaccionales, digitales y contextuales en un entorno distribuido, lo que garantizó la consistencia de los identificadores y la alineación temporal entre registros. Durante la preparación, se aplicaron las transformaciones de limpieza, agregación, codificación y normalización para construir la matriz cliente–producto que sirve de insumo a los modelos. En la etapa de modelado, se ejecutaron los distintos enfoques desarrollados, y se almacenaron sus métricas, parámetros y versiones. Finalmente, en la fase de predicción se generaron los puntajes de afinidad y las
+listas Top-K para cada cliente, que constituyen la salida principal del sistema.
 
-Durante la preparación, se aplicaron las transformaciones de limpieza, agregación, codificación y normalización para construir la matriz cliente–producto que sirve de insumo a los modelos.
+Como se puede observar en la figura~\ref{fig:pip_databricks}, la ejecución del \textit{pipeline} se realizó en la plataforma Databricks \cite{ARTICLE:Databricks}, que permitió procesar grandes volúmenes de datos de forma distribuida mediante el uso de PySpark. Este entorno facilitó la orquestación de tareas, la paralelización de los cálculos y la trazabilidad de los resultados. 
 
-En la etapa de modelado, se ejecutaron los distintos enfoques desarrollados, y se almacenaron sus métricas, parámetros y versiones.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.23]{./Figures/pipeline_databricks.png}
+	\caption{\textit{Pipeline} de ejecución.}
+	\label{fig:pip_databricks}
+\end{figure}
 
-Finalmente, en la fase de predicción se generaron los puntajes de afinidad y las listas \textit{Top-$K$} para cada cliente, que constituyen la salida principal del sistema.
+Para la gestión del ciclo de vida de los modelos se empleó MLflow \cite{ARTICLE:MLflow2018}, como se demuestra en la figura~\ref{fig:mlflow}, herramienta que permitió registrar los experimentos, almacenar los parámetros y métricas, y versionar los artefactos generados durante el entrenamiento. Cada ejecución de modelo quedó asociada a un identificador único, lo que posibilita reproducir resultados, comparar configuraciones y recuperar versiones históricas de los modelos entrenados.  
 
-\subsection{Integración con la infraestructura tecnológica}
-
-La ejecución del \textit{pipeline} se realizó en la plataforma Databricks \cite{ARTICLE:Databricks}, que permitió procesar grandes volúmenes de datos de forma distribuida mediante el uso de PySpark. Este entorno facilitó la orquestación de tareas, la paralelización de los cálculos y la trazabilidad de los resultados.  
-
-Para la gestión del ciclo de vida de los modelos se empleó MLflow \cite{ARTICLE:MLflow2018}, herramienta que permitió registrar los experimentos, almacenar los parámetros y métricas, y versionar los artefactos generados durante el entrenamiento. Cada ejecución de modelo quedó asociada a un identificador único, lo que posibilita reproducir resultados, comparar configuraciones y recuperar versiones históricas de los modelos entrenados.  
-
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.18]{./Figures/mlflow.png}
+	\caption{Interfaz de MLflow.}
+	\label{fig:mlflow}
+\end{figure}
+ 
 Esta integración entre Databricks y MLflow conformó una infraestructura robusta y escalable, adecuada tanto para la experimentación iterativa como para la implementación de \textit{pipelines} automatizados.
 
 \subsection{Estrategias de versionado y monitoreo}
@@ -503,93 +509,4 @@ Por otro lado, los modelos registrados en MLflow se acompañaron de sus métrica
 Además, se establecieron controles de consistencia sobre los datos de entrada y validaciones automáticas del formato de salida, lo que aseguró la estabilidad operativa del sistema en cada ejecución.
 
 En conjunto, esta arquitectura permitió implementar un flujo de trabajo integrado, auditable y escalable, lo que garantizó la reproducibilidad de los resultados y sentó las bases para la futura incorporación de componentes en producción.
-
-
-% \definecolor{mygreen}{rgb}{0,0.6,0}
-% \definecolor{mygray}{rgb}{0.5,0.5,0.5}
-% \definecolor{mymauve}{rgb}{0.58,0,0.82}
-
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % parámetros para configurar el formato del código en los entornos lstlisting
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \lstset{ %
-%   backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
-%   basicstyle=\footnotesize,        % the size of the fonts that are used for the code
-%   breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
-%   breaklines=true,                 % sets automatic line breaking
-%   captionpos=b,                    % sets the caption-position to bottom
-%   commentstyle=\color{mygreen},    % comment style
-%   deletekeywords={...},            % if you want to delete keywords from the given language
-%   %escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
-%   %extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
-%   %frame=single,	                % adds a frame around the code
-%   keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
-%   keywordstyle=\color{blue},       % keyword style
-%   language=[ANSI]C,                % the language of the code
-%   %otherkeywords={*,...},           % if you want to add more keywords to the set
-%   numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
-%   numbersep=5pt,                   % how far the line-numbers are from the code
-%   numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
-%   rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
-%   showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
-%   showstringspaces=false,          % underline spaces within strings only
-%   showtabs=false,                  % show tabs within strings adding particular underscores
-%   stepnumber=1,                    % the step between two line-numbers. If it's 1, each line will be numbered
-%   stringstyle=\color{mymauve},     % string literal style
-%   tabsize=2,	                   % sets default tabsize to 2 spaces
-%   title=\lstname,                  % show the filename of files included with \lstinputlisting; also try caption instead of title
-%   morecomment=[s]{/*}{*/}
-% }
-
-
-%----------------------------------------------------------------------------------------
-%	SECTION 1
-%----------------------------------------------------------------------------------------
-% \section{Análisis del software}
- 
-% La idea de esta sección es resaltar los problemas encontrados, los criterios utilizados y la justificación de las decisiones que se hayan tomado.
-
-% Se puede agregar código o pseudocódigo dentro de un entorno lstlisting con el siguiente código:
-
-% \begin{verbatim}
-% \begin{lstlisting}[caption= "un epígrafe descriptivo"]
-% 	las líneas de código irían aquí...
-% \end{lstlisting}
-% \end{verbatim}
-
-% A modo de ejemplo:
-
-% \begin{lstlisting}[label=cod:vControl,caption=Pseudocódigo del lazo principal de control.]  % Start your code-block
-
-% #define MAX_SENSOR_NUMBER 3
-% #define MAX_ALARM_NUMBER  6
-% #define MAX_ACTUATOR_NUMBER 6
-
-% uint32_t sensorValue[MAX_SENSOR_NUMBER];		
-% FunctionalState alarmControl[MAX_ALARM_NUMBER];	//ENABLE or DISABLE
-% state_t alarmState[MAX_ALARM_NUMBER];						//ON or OFF
-% state_t actuatorState[MAX_ACTUATOR_NUMBER];			//ON or OFF
-
-% void vControl() {
-
-% 	initGlobalVariables();
-	
-% 	period = 500 ms;
-		
-% 	while(1) {
-
-% 		ticks = xTaskGetTickCount();
-		
-% 		updateSensors();
-		
-% 		updateAlarms();
-		
-% 		controlActuators();
-		
-% 		vTaskDelayUntil(&ticks, period);
-% 	}
-% }
-% \end{lstlisting}
-
-
 

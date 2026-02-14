@@ -35,7 +35,7 @@ Se observa una clara preferencia hacia las señales más recientes, lo que indic
 \section{Pesos óptimos por tipo de evento}
 
 En la tabla~\ref{tab:event_weights} se muestran los pesos óptimos estimados para cada tipo de evento.  
-Las señales vinculadas a compras efectivas y órdenes generadas (\texttt{BUYER}, \texttt{ordered\_*}) son las más relevantes, seguidas por aquellas relacionadas con interacciones promocionales o de exposición de producto.  
+Las señales vinculadas a compras efectivas y órdenes generadas son las más relevantes, seguidas por aquellas relacionadas con interacciones promocionales o de exposición de producto.  
 Este patrón refuerza la importancia de las señales transaccionales en la predicción de recompra y en la calibración del \textit{score} de afinidad.
 
 \begin{table}[H]
@@ -74,7 +74,7 @@ Las categorías vinculadas a mecanismos de recomendación específicos, como \te
 
 En contraste, los eventos de exploración (\texttt{details\_page\_viewed}) o de fricción (\texttt{removed}) tienen menor peso, lo que confirma que su valor informativo es limitado cuando se los considera de forma aislada.
 
-El conjunto de ponderaciones resultante se utiliza en la construcción del \textit{score} de preferencia compuesto, definido en la ecuación~\ref{eq:preference_score}donde $\alpha_e$ representa el peso por tipo de evento y $\beta_w$ el peso temporal.
+El conjunto de ponderaciones resultante se utiliza en la construcción del \textit{score} de preferencia compuesto, definido en la ecuación ~\ref{eq:preference_score} donde $\alpha_e$ representa el peso por tipo de evento y $\beta_w$ el peso temporal.
 
 \begin{equation}
 \label{eq:preference_score}
