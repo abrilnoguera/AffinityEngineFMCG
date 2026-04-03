@@ -11,7 +11,7 @@ Se analizan los resultados obtenidos a partir de diferentes enfoques, desde \tex
 
 El proceso de evaluación se diseñó con el objetivo de medir de forma consistente la capacidad predictiva, la estabilidad temporal y la aplicabilidad práctica de los modelos de recomendación. Para ello se adoptó un enfoque experimental reproducible, basado en ventanas móviles y métricas estandarizadas de ranking, que permite comparar distintos algoritmos bajo condiciones equivalentes de información.
 
-Cada modelo se entrenó mediante el uso de la información histórica comprendida entre los meses $N-7$ y $N-2$, y se evaluo de forma prospectiva sobre el mes $N-1$, lo que replica las condiciones reales de operación del sistema de recomendación en producción. Esta estrategia evita el uso de divisiones aleatorias del conjunto de datos y preserva la coherencia temporal entre entrenamiento y validación, aspecto crítico en dominios donde las preferencias y el portafolio evolucionan mes a mes.
+Cada modelo se entrenó mediante el uso de la información histórica comprendida entre los meses $N-7$ y $N-2$, y se evaluó de forma prospectiva sobre el mes $N-1$, lo que replica las condiciones reales de operación del sistema de recomendación en producción. Esta estrategia evita el uso de divisiones aleatorias del conjunto de datos y preserva la coherencia temporal entre entrenamiento y validación, aspecto crítico en dominios donde las preferencias y el portafolio evolucionan mes a mes.
 
 Las métricas principales de evaluación fueron \textit{Precision@K} y \textit{Recall@K}, que miden la proporción de productos relevantes correctamente recomendados dentro del conjunto de los $K$ primeros resultados. En particular, se empleó $K=10$, criterio que permite concentrar el análisis en las primeras posiciones del ranking, donde se observan las recomendaciones más relevantes para el usuario final. Además, se registraron métricas complementarias de cobertura, diversidad y área bajo la curva ROC, utilizadas para analizar la robustez y el equilibrio entre exploración y explotación del sistema.
 
@@ -133,7 +133,7 @@ En términos de \textit{Precision@10}, los modelos basados en aprendizaje supera
 
 El comportamiento es consistente en \textit{Recall@10}. Los \textit{baseline} mantienen valores moderados (12--18\,\%), mientras que los modelos avanzados superan ampliamente este nivel. En particular, ALS alcanza un 33{,}7\,\%, seguido por \textit{Two Towers} + ALS con 34{,}5\,\% y \textit{NeuCF} con 34{,}3\,\%. Estos resultados confirman que las arquitecturas híbridas y neuronales permiten recuperar una mayor proporción de compras efectivas dentro del ranking recomendado.
 
-En conjunto, todos los enfoques evaluados superan de manera consistente a los modelos \textit{benchmark} en todas las métricas consideradas.
+Todos los enfoques evaluados superan de manera consistente a los modelos \textit{benchmark} en todas las métricas consideradas.
 Esto confirma que incluso los modelos más simples basados en factores latentes ya capturan información estructural que los \textit{baseline} no pueden modelar, mientras que las arquitecturas híbridas y neuronales logran mejorar el desempeño al explotar patrones no lineales y relaciones implícitas en los datos.
 
 %----------------------------------------------------------------------------------------
@@ -218,7 +218,7 @@ La variante híbrida \textit{LightFM} se ubica en un punto medio, con tiempos de
 En la etapa de inferencia, todos los enfoques resultan operativamente viables para su ejecución mensual a escala completa.  
 ALS y \textit{LightFM} generan el \textit{ranking} completo para toda la base en aproximadamente 10–20 minutos, mientras que \textit{Two Towers} y \textit{NeuCF}, que dependen de componentes en PyTorch y funciones UDF para el cálculo de similitudes, se sitúan entre 20 y 30 minutos, manteniéndose dentro de una ventana razonable para despliegues periódicos en producción.
 
-En conjunto, los resultados muestran que las arquitecturas basadas en Spark (ALS) son significativamente más eficientes en entornos distribuidos, mientras que los modelos neuronales ofrecen mayor capacidad expresiva a costa de mayores recursos y tiempos de cómputo.  
+Los resultados muestran que las arquitecturas basadas en Spark (ALS) son significativamente más eficientes en entornos distribuidos, mientras que los modelos neuronales ofrecen mayor capacidad expresiva a costa de mayores recursos y tiempos de cómputo.  
 
 \subsection{Evaluación final del desempeño y eficiencia}
 
@@ -228,7 +228,7 @@ Este avance marginal se contrapone a un costo computacional claramente superior.
 
 En contraste, ALS exhibe el mejor balance global entre desempeño y eficiencia. Aunque sus métricas no alcanzan el máximo absoluto, se mantienen muy competitivas y lo suficientemente cercanas a las variantes neuronales como para que, en la práctica, las diferencias tengan impacto limitado en la calidad final de las recomendaciones. Su entrenamiento nativo en Spark, su bajo uso de memoria y su velocidad lo posicionan como una solución altamente costo–efectiva y confiable para \textit{pipelines} recurrentes de producción.
 
-En conjunto, estos resultados sugieren que, si bien las arquitecturas más complejas pueden ofrecer pequeñas mejoras incrementales, ALS logra el punto óptimo entre calidad predictiva y costo operativo. En este contexto, la simplicidad, estabilidad y escalabilidad del ALS superan la ventaja marginal de performance de los modelos neuronales, consolidándolo como la opción más adecuada para un entorno productivo de gran escala.
+Estos resultados sugieren que, si bien las arquitecturas más complejas pueden ofrecer pequeñas mejoras incrementales, ALS logra el punto óptimo entre calidad predictiva y costo operativo. En este contexto, la simplicidad, estabilidad y escalabilidad del ALS superan la ventaja marginal de performance de los modelos neuronales, consolidándolo como la opción más adecuada para un entorno productivo de gran escala.
 
 %----------------------------------------------------------------------------------------
 
@@ -260,7 +260,7 @@ Esta estabilidad también se refleja en la distribución del \textit{affinity sc
     \label{fig:affinity_score_dist}
 \end{figure}
 
-Al segmentar los resultados por unidad de negocio, se observa un comportamiento igualmente estable. La tabla~\ref{tab:robustez_hb} muestra que \texttt{CZA} y \texttt{NABS} mantienen niveles consistentes de \textit{Precision} y \textit{Recall} entre meses, mientras que \texttt{MATCH} presenta un \textit{Recall} elevado y una precisión inferior. Lo importante es que estas diferencias permanecen prácticamente constantes en el tiempo, lo que demuestra que el modelo no amplifica variaciones estructurales del negocio.
+Al segmentar los resultados por unidad de negocio, se observa un comportamiento igualmente estable. La tabla~\ref{tab:robustez_hb} muestra que \texttt{CZA} y \texttt{NABS} mantienen niveles consistentes de \textit{precision} y \textit{recall} entre meses, mientras que \texttt{MATCH} presenta un \textit{recall} elevado y una precisión inferior. Lo importante es que estas diferencias permanecen prácticamente constantes en el tiempo, lo que demuestra que el modelo no amplifica variaciones estructurales del negocio.
 
 \begin{table}[H]
 \centering
@@ -306,4 +306,4 @@ Finalmente, el análisis por tipo de cliente (tabla~\ref{tab:robustez_clasificac
 \label{tab:robustez_clasificacion}
 \end{table}
 
-En conjunto, estos resultados confirman que el modelo es robusto en todas las dimensiones evaluadas: mantiene un desempeño estable en el tiempo, responde de forma consistente entre segmentos comerciales y opera de manera predecible según la disponibilidad de historial del cliente. Esta estabilidad es un requisito clave para su uso en producción y garantiza que el sistema no introduce variabilidad artificial ni deriva comportamientos inesperados en ciclos operativos mensuales.
+Estos resultados confirman que el modelo es robusto en todas las dimensiones evaluadas: mantiene un desempeño estable en el tiempo, responde de forma consistente entre segmentos comerciales y opera de manera predecible según la disponibilidad de historial del cliente. Esta estabilidad es un requisito clave para su uso en producción y garantiza que el sistema no introduce variabilidad artificial ni deriva comportamientos inesperados en ciclos operativos mensuales.

@@ -6,7 +6,7 @@ Este capítulo aborda el proceso de construcción del sistema de recomendación,
 
 %----------------------------------------------------------------------------------------
 
-\section{Diseño de solución}
+\section{Diseño de la solución}
 
 El sistema de recomendación se diseñó con el objetivo de estimar la afinidad entre clientes y productos en un entorno caracterizado por alta escala, heterogeneidad de perfiles y rotación constante del portafolio. El diseño de la solución se apoyó en una arquitectura en capas que permite integrar diversas fuentes de datos, transformarlas en estructuras analíticas consistentes, entrenar modelos capaces de capturar relaciones complejas y, finalmente, desplegar las recomendaciones en un flujo operativo estable y reproducible.
 
@@ -147,7 +147,7 @@ En segundo lugar, se observó que la diversidad en los portafolios de compra var
 
 En tercer lugar, el estudio de correlaciones entre variables digitales y transaccionales mostró que, si bien las transacciones pasadas constituyen el predictor más sólido de comportamiento, las señales digitales aportan información incremental y se vuelven especialmente relevantes en escenarios de arranque en frío. La evaluación de tasas de recompra confirmó que la combinación de interacciones y compras pasadas es la fuente más robusta de predicción, mientras que las interacciones aisladas presentan un valor explicativo limitado.  
 
-En conjunto, estos hallazgos proporcionan una primera validación de la hipótesis central: la integración de señales transaccionales y digitales, complementadas con atributos contextuales, resulta clave para capturar la heterogeneidad del consumo y diseñar un motor de recomendación capaz de balancear precisión, diversidad y cobertura.
+Estos hallazgos proporcionan una primera validación de la hipótesis central: la integración de señales transaccionales y digitales, complementadas con atributos contextuales, resulta clave para capturar la heterogeneidad del consumo y diseñar un motor de recomendación capaz de balancear precisión, diversidad y cobertura.
 
 %----------------------------------------------------------------------------------------
 
@@ -250,7 +250,7 @@ La preparación e ingeniería de los datos permitió consolidar una base analít
 
 El desarrollo de los modelos constituye la fase central del sistema de recomendación, donde la matriz cliente–producto construida en etapas previas se transforma en un mecanismo capaz de estimar la afinidad entre ambos. El objetivo es asignar a cada combinación posible un puntaje continuo que refleje la probabilidad relativa de interés, lo que permite ordenar los productos según la relevancia esperada para cada cliente.
 
-Para abordar este desafío se exploraron distintos enfoques de modelado, que combinan estrategias colaborativas, basadas en contenido y de aprendizaje profundo. En primer lugar, se implementó un modelo de filtrado colaborativo mediante el algoritmo \textit{Alternating Least Squares} (ALS) \cite{ARTICLE:ALS2008, ARTICLE:Hu2008}, que aprende representaciones latentes de clientes y productos a partir de los patrones de interacción observados. En segundo lugar, se desarrolló un modelo híbrido con \textit{LightFM} \cite{ARTICLE:LightFM2015}, capaz de integrar señales colaborativas con atributos explícitos de clientes y productos, lo que mitiga el problema del arranque en frío.
+Para abordar este desafío se exploraron distintos enfoques de modelado, que combinan estrategias colaborativas, basadas en contenido y de aprendizaje profundo. En primer lugar, se implementó un modelo de filtrado colaborativo mediante el algoritmo \textit{Alternating Least Squares} \cite{ARTICLE:ALS2008, ARTICLE:Hu2008}, que aprende representaciones latentes de clientes y productos a partir de los patrones de interacción observados. En segundo lugar, se desarrolló un modelo híbrido con \textit{LightFM} \cite{ARTICLE:LightFM2015}, capaz de integrar señales colaborativas con atributos explícitos de clientes y productos, lo que mitiga el problema del arranque en frío.
 
 Complementariamente, se incorporó una variante basada en redes neuronales del tipo \textit{Two Towers} \cite{ARTICLE:Yi2019}, que aprende representaciones de clientes y productos a partir de sus atributos categóricos y numéricos mediante arquitecturas de \textit{embeddings}. Sus representaciones pueden combinarse con las generadas por ALS en un esquema híbrido de ensamble, lo que fortalece la robustez y la capacidad de generalización del sistema. La segunda corresponde al enfoque de \textit{Neural Collaborative Filtering} \cite{ARTICLE:He2017}, que reemplaza la combinación lineal de \textit{embeddings} por un modelo neuronal capaz de capturar relaciones no lineales de afinidad.
 
@@ -311,7 +311,7 @@ El segundo enfoque explorado fue un modelo híbrido basado en la biblioteca \tex
 
 A diferencia del ALS, que aprende representaciones exclusivamente a partir de la matriz de interacciones, LightFM incorpora atributos estructurales de clientes y productos como señales adicionales \cite{ARTICLE:LightFM2015}. En este trabajo, las representaciones de cliente incluyeron variables de frecuencia, estabilidad, volumen, mezcla, comportamiento y contexto, mientras que las de producto comprendieron características de volumen, penetración, composición de canal, segmento, diversidad y desempeño. Cada conjunto de variables fue normalizado, discretizado y codificado antes de su integración al modelo, conforme al \textit{pipeline} de ingeniería descrito previamente.
 
-El modelo \textit{LightFM} combina señales colaborativas y de contenido dentro de un espacio latente común, y representa tanto a los clientes como a los productos mediante vectores que integran información transaccional y contextual. Su entrenamiento parte de una matriz binaria de interacciones, donde cada par cliente–producto indica la existencia o no de contacto en el período de análisis. Estas interacciones positivas constituyen la evidencia de afinidad sobre la que el modelo aprende a distinguir entre ítems relevantes y no relevantes para cada usuario.
+El modelo \textit{LightFM} combina señales colaborativas y de contenido dentro de un espacio latente común, y representa tanto a los clientes como a los productos mediante vectores que integran información transaccional y contextual. Su entrenamiento parte de una matriz binaria de interacciones, donde cada par cliente producto indica la existencia o no de contacto en el período de análisis. Estas interacciones positivas constituyen la evidencia de afinidad sobre la que el modelo aprende a distinguir entre ítems relevantes y no relevantes para cada usuario.
 
 A diferencia del enfoque de ALS, que busca ajustar magnitudes continuas de preferencia implícita, \textit{LightFM} se entrena mediante la optimización de una función de pérdida orientada al ordenamiento relativo de los ítems en el ranking. Este tipo de funciones, ampliamente utilizadas en escenarios de \textit{feedback} implícito, penalizan los errores en las primeras posiciones y favorecen que los productos con mayor probabilidad de interacción ocupen los primeros lugares en las recomendaciones.
 
@@ -480,23 +480,23 @@ listas Top-K para cada cliente, que constituyen la salida principal del sistema.
 
 Como se puede observar en la figura~\ref{fig:pip_databricks}, la ejecución del \textit{pipeline} se realizó en la plataforma Databricks \cite{ARTICLE:Databricks}, que permitió procesar grandes volúmenes de datos de forma distribuida mediante el uso de PySpark. Este entorno facilitó la orquestación de tareas, la paralelización de los cálculos y la trazabilidad de los resultados. 
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=.23]{./Figures/pipeline_databricks.png}
-	\caption{\textit{Pipeline} de ejecución.}
-	\label{fig:pip_databricks}
-\end{figure}
-
 Para la gestión del ciclo de vida de los modelos se empleó MLflow \cite{ARTICLE:MLflow2018}, como se demuestra en la figura~\ref{fig:mlflow}, herramienta que permitió registrar los experimentos, almacenar los parámetros y métricas, y versionar los artefactos generados durante el entrenamiento. Cada ejecución de modelo quedó asociada a un identificador único, lo que posibilita reproducir resultados, comparar configuraciones y recuperar versiones históricas de los modelos entrenados.  
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=.18]{./Figures/mlflow.png}
+	\includegraphics[scale=.25]{./Figures/pipeline_databricks.png}
+	\caption{\textit{Pipeline} de ejecución.}
+	\label{fig:pip_databricks}
+\end{figure}
+
+Esta integración entre Databricks y MLflow conformó una infraestructura robusta y escalable, adecuada tanto para la experimentación iterativa como para la implementación de \textit{pipelines} automatizados.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=.2]{./Figures/mlflow.png}
 	\caption{Interfaz de MLflow.}
 	\label{fig:mlflow}
 \end{figure}
- 
-Esta integración entre Databricks y MLflow conformó una infraestructura robusta y escalable, adecuada tanto para la experimentación iterativa como para la implementación de \textit{pipelines} automatizados.
 
 \subsection{Estrategias de versionado y monitoreo}
 
